@@ -1,7 +1,7 @@
 import re, sys
 p = "Waykin.xcodeproj/project.pbxproj"
 s = open(p).read()
-TEAM, BID = "3MM49AVX9G", "com.waykin.WaykinApp-a"
+TEAM, BID = "7FRK8RHAL5", "com.zer0state.waykin"
 # WaykinApp build configs are the ones carrying the app entitlements.
 blocks = list(re.finditer(r"buildSettings = \{(.*?)\n(\t+)\};", s, re.S))
 patched = 0

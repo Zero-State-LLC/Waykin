@@ -54,7 +54,7 @@ If tip moves after this doc’s baseline, re-run section 2 and rewrite the SHA r
 | ---- | ------------------ | --------- |
 | Display name | Waykin | Keep |
 | Bundle ID (app) | `com.waykin.WaykinApp` | Confirm team ownership in Apple Developer |
-| AR Lab bundle | `com.waykin.arlab` | **Do not** upload Lab as consumer TF unless intentional |
+| AR Lab bundle | `com.zer0state.waykin` | **Do not** upload Lab as consumer TF unless intentional |
 | Marketing version | **`0.9.0`** | Internal TF cut; bump to `1.0.0` only with product ship decision |
 | Build number | **`2`** | Bump for every subsequent TF upload |
 | Deployment target | iOS 17.0 | Confirm tester devices ≥ 17 |
