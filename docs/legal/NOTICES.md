@@ -2,8 +2,8 @@
 
 ```yaml
 document_id: WAYKIN-LEGAL-NOTICES
-version: 2.0
-date: 2026-07-29
+version: 3.0
+date: 2026-08-11
 ```
 
 ## Waykin source (Zero State)
@@ -32,6 +32,19 @@ Those frameworks remain subject to Apple’s software license agreements and App
 Visual candidate packages under `Waykin-Design` (when used) may include brand, icon, and companion materials with their own stage status. Integration into the app does not change third-party font licensing (e.g. if DM Sans or other OFL fonts are bundled later — document the license file beside the font).
 
 Current app typography uses **system fonts** unless otherwise noted.
+
+## Audio cues
+
+The 11 production cues under `App/Resources/Audio/` are **first-party sound design**,
+owner-rendered 2026-07-19 under first-party licensing (see
+[`../AUDIO_ASSET_CONTRACT.md`](../AUDIO_ASSET_CONTRACT.md)).
+
+They are **not AI-generated**, and no third-party generative provider licence applies to them.
+Chain-of-title records are maintained in [`../audio/rights/`](../audio/rights/) and validated by
+`scripts/validate_audio_rights.py` as a release gate. What that gate requires here is an
+authorship or assignment record, not a provider grant.
+
+**Zero State holds all rights necessary to use and distribute this audio.**
 
 ## Generated and artist assets
 
