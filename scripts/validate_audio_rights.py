@@ -30,13 +30,15 @@ SHA256 = re.compile(r"^[a-f0-9]{64}$")
 
 VALID_PRODUCTS = {
     "elevenlabs_sound_effects",
+    "elevenlabs_music",
     "elevenlabs_music_v1",
     "elevenlabs_music_v2",
     "elevenlabs_speech",
+    "derived_from_cleared_master",
 }
 # Products carrying the Eleven Music "Studio Games" carve-out. Cleared for a
 # single monetised platform; a second platform requires an Enterprise agreement.
-MUSIC_PRODUCTS = {"elevenlabs_music_v1", "elevenlabs_music_v2"}
+MUSIC_PRODUCTS = {"elevenlabs_music", "elevenlabs_music_v1", "elevenlabs_music_v2"}
 
 BETA_OK = {"confirmed_not_beta", "beta_separately_cleared"}
 

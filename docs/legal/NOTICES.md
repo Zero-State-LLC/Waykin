@@ -35,16 +35,21 @@ Current app typography uses **system fonts** unless otherwise noted.
 
 ## Audio cues
 
-The 11 production cues under `App/Resources/Audio/` are **first-party sound design**,
-owner-rendered 2026-07-19 under first-party licensing (see
-[`../AUDIO_ASSET_CONTRACT.md`](../AUDIO_ASSET_CONTRACT.md)).
+The 11 production cues under `App/Resources/Audio/` were **generated with ElevenLabs** under a
+paid commercial licence held by Zero State LLC. They ship as static files; the app performs no
+AI processing at runtime and contacts no AI service.
 
-They are **not AI-generated**, and no third-party generative provider licence applies to them.
-Chain-of-title records are maintained in [`../audio/rights/`](../audio/rights/) and validated by
-`scripts/validate_audio_rights.py` as a release gate. What that gate requires here is an
-authorship or assignment record, not a provider grant.
+**Zero State holds all rights necessary to use and distribute this audio.** Chain-of-title
+records are maintained in [`../audio/rights/`](../audio/rights/) and validated by
+`scripts/validate_audio_rights.py` as a release gate.
 
-**Zero State holds all rights necessary to use and distribute this audio.**
+Attribution to ElevenLabs is **not** required under a paid plan — the credit requirement in the
+Eleven Music terms applies to free-tier access only.
+
+> **Open item.** Ten cues are identified as ElevenLabs Sound Effects. `lira_launch_theme.wav`
+> (10 s) is unidentified and fails the gate closed: if it came from Eleven Music, Waykin becomes
+> subject to the "Studio Games" single-platform restriction. See
+> [`../audio/rights/README.md`](../audio/rights/README.md).
 
 ## Generated and artist assets
 

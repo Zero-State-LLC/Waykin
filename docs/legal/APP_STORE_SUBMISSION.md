@@ -105,8 +105,9 @@ and the privacy label answer in §1 must be revisited.
 >
 > Map search and directions use Apple MapKit; those queries go to Apple, not to us.
 >
-> Audio cues are first-party sound design produced by Zero State. The app performs no AI
-> processing at runtime and transmits no data to any third-party service.
+> Audio cues were generated with ElevenLabs during development under a paid commercial licence
+> held by Zero State. They are static files bundled with the app; it performs no AI processing
+> at runtime and transmits no data to any third-party service.
 
 ---
 
@@ -114,15 +115,21 @@ and the privacy label answer in §1 must be revisited.
 
 | Asset class | Basis | Evidence |
 | --- | --- | --- |
-| Audio (11 cues) | **First-party** — owner-rendered sound design, 2026-07-19 | `docs/audio/rights/AUDIO_RIGHTS_LEDGER.json` — gate must PASS |
+| Audio (11 cues) | ElevenLabs paid commercial licence, Zero State account | `docs/audio/rights/AUDIO_RIGHTS_LEDGER.json` — gate must PASS |
 | Companion art / models | Zero State work product | Record in a visual-rights ledger |
 | Code | Zero State, ZSPL-1.0 | `LICENSE` |
 | Third-party code | None bundled | `docs/legal/NOTICES.md` |
 
-Unlike the games, **Waykin's audio is not AI-generated** — the audio contract records it as
-owner-rendered with first-party licensing. The ElevenLabs determination does **not** apply here.
-What is required instead is an authorship/assignment record proving Zero State owns or has been
-assigned the work.
+**Provenance correction (2026-08-11).** `docs/AUDIO_ASSET_CONTRACT.md` previously described these
+cues as owner-rendered with first-party licensing. That was inaccurate — they were **generated
+with ElevenLabs**, and the contract has been corrected. The
+[ElevenLabs determination](../audio/rights/ELEVENLABS_LICENSE_DETERMINATION.md) applies to Waykin
+after all.
+
+Ten cues are identified as ElevenLabs Sound Effects, which carry no games carve-out.
+`lira_launch_theme.wav` (10 s, versus ≤3 s for every other cue) is **unidentified and fails
+closed** — if it came from Eleven Music, Waykin becomes subject to the "Studio Games"
+single-platform restriction. Resolve before planning any non-iOS release.
 
 > **Blocking dependency.** `python3 scripts/validate_audio_rights.py` returns **BLOCKED** until
 > that record is filed. Internal TestFlight can proceed; external distribution should not.

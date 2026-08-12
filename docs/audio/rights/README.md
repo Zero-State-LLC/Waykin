@@ -10,52 +10,61 @@
 python3 scripts/validate_audio_rights.py
 ```
 
-## Waykin's audio is first-party — not AI-generated
+## Provenance correction (2026-08-11)
 
-`docs/AUDIO_ASSET_CONTRACT.md` records the production cues as **owner-rendered sound design
-(2026-07-19), first-party licensing**. They are recorded as `source_class: original_human` with
-Zero State as creator.
+`docs/AUDIO_ASSET_CONTRACT.md` previously described these cues as *"owner-rendered …
+first-party licensing."* **That was inaccurate.** The cues were **generated with ElevenLabs**
+under a paid commercial licence held by Zero State. The contract has been corrected.
 
-**The ElevenLabs licence determination does not apply to this project.** There is no provider
-grant to evidence, no plan or terms version, and no Eleven Music "Studio Games" platform
-constraint. Waykin is therefore *not* subject to the single-platform restriction that binds
-Hexwire and Marigold Market.
+This matters because it changes the obligations entirely. First-party work needs an authorship
+record and carries no provider constraint. AI-generated work needs provider evidence — plan,
+terms version, beta status, generation records — and may carry the Eleven Music **"Studio Games"**
+restriction limiting release to a single platform.
 
-What is required instead is an **authorship and assignment record**: proof that Zero State
-created the cues, or that whoever did assigned the rights. If any cue was produced by a
-contractor without a signed assignment, that is a real gap — flag it rather than clearing it.
+The repo's own generation briefs in `docs/design/LIRA_AUDIO_CUE_FAMILY.md` are the giveaway:
+each cue has a generator prompt. Documentation asserting first-party authorship sat alongside
+prompts proving generation.
 
-## What the gate enforces
+## Product identification
 
-The validator walks `App/Resources/Audio/` and compares it against the ledger. It blocks on:
+| Product | Count | Basis |
+| --- | --- | --- |
+| `elevenlabs_sound_effects` | 10 | Short descriptive sound-design prompts; every cue ≤ 3 s |
+| **unidentified** | 1 | `lira_launch_theme.wav` — **10 s**, far longer than any other cue |
 
-- a cue with **no ledger record**, or a **hash mismatch** (file changed after clearance);
-- `rights_status` other than `cleared`;
-- a missing creator for first-party or commissioned work;
-- missing creation date, or `commercial_use` not `allowed`;
-- evidence missing, unverified, or still a `private://pending/` placeholder;
-- clearance recorded without a **named reviewer and date**.
+`lira_launch_theme.wav` is deliberately left unidentified and **fails closed**. It is the only
+cue long enough to plausibly be an Eleven Music generation, and only Eleven Music carries the
+Studio Games restriction. Guessing it as Sound Effects would understate the constraint; the
+owner must confirm.
 
-Provenance selects the checks — AI-generated assets are additionally required to identify the
-provider product, plan, terms version, and beta status. Waykin's are not AI-generated, so those
-do not apply.
+## Read in this order
+
+| Order | Document |
+| --- | --- |
+| 1 | [`ELEVENLABS_LICENSE_DETERMINATION.md`](ELEVENLABS_LICENSE_DETERMINATION.md) |
+| 2 | [`OWNER_EVIDENCE_PACKET.md`](OWNER_EVIDENCE_PACKET.md) |
+| 3 | [`AUDIO_RIGHTS_POLICY.md`](AUDIO_RIGHTS_POLICY.md) |
+| 4 | [`EVIDENCE_CHECKLIST.md`](EVIDENCE_CHECKLIST.md) |
+
+## ⚠️ Standing condition
+
+If `lira_launch_theme.wav` turns out to be Eleven Music, Waykin becomes subject to the
+**single-platform** restriction: shipping on a second platform while monetised would require an
+ElevenLabs Enterprise agreement. If it is Sound Effects, Waykin is unconstrained on platforms.
+Resolve this before planning any non-iOS release.
 
 ## Rules for agents
 
 - **Never** set `rights_status: cleared`. Only a named human may.
 - **Never** invent an evidence digest or locator.
-- **Never** assume a provider. Waykin's cues are first-party; do not record ElevenLabs or any
-  other vendor without evidence in this repository. The audio skill file explicitly warns:
-  *"do not invent cloud voice unless present."*
+- **Never** trust a provenance claim in prose over evidence in the repository. That is exactly
+  what went wrong here.
 
 ## Regenerating the scaffold
-
-Resets records to `pending_evidence` — do not run after clearance without re-merging.
 
 ```bash
 python3 scripts/build_audio_rights_ledger.py \
   --root . --sounds App/Resources/Audio --project Waykin --prefix WYK \
-  --source-class original_human \
-  --provider "Zero State LLC (owner-rendered sound design, 2026-07-19)" \
+  --source-class ai_generated --provider "ElevenLabs (Zero State owner account)" \
   --out docs/audio/rights/AUDIO_RIGHTS_LEDGER.json
 ```
