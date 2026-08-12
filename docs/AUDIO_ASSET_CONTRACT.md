@@ -31,7 +31,14 @@ Waykin's core emits semantic `AudioCue` values. Only the app target maps those v
 
 ## Current assets (production cues)
 
-Produced sound-design WAVs (owner-rendered 2026-07-19), first-party licensing:
+Produced sound-design WAVs (rendered 2026-07-19):
+
+> **Provenance correction (2026-08-11).** This section previously read "owner-rendered …
+> first-party licensing." That is inaccurate: the cues were **generated with ElevenLabs**
+> under a paid commercial licence held by Zero State. Rights therefore flow from the
+> provider's terms, not from first-party authorship. See
+> [`audio/rights/ELEVENLABS_LICENSE_DETERMINATION.md`](audio/rights/ELEVENLABS_LICENSE_DETERMINATION.md).
+
 
 - Format: stereo 48 kHz 16-bit PCM (adapter is basename-based; mono 22.05 kHz is not required).
 - Engineering placeholder tones (mono 22.05 kHz) are obsolete; regenerate only for local sandbox work via `swift scripts/generate_placeholder_audio.swift`.

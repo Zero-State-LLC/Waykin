@@ -2,79 +2,134 @@
 
 ```yaml
 document_id: WAYKIN-LEGAL-PRIVACY
-version: 1.0
-date: 2026-07-20
-status: DRAFT_FOR_PRODUCT_REVIEW
+version: 2.0
+date: 2026-08-11
+status: READY_FOR_RELEASE
+supersedes: 1.0 (2026-07-20, DRAFT_FOR_PRODUCT_REVIEW)
 ```
 
-**Last updated:** 2026-07-20
+**Last updated:** 11 August 2026
 
-This notice describes how the **Waykin** iOS application handles information in its current solo-MVP form. It applies to Zero State’s Waykin product and local builds of the app. A commercial publisher may replace this with a jurisdiction-specific privacy policy before App Store release.
+This notice describes how the **Waykin** iOS application handles information. It supplements the
+[Zero State Privacy Policy](https://zer0state.com/privacy.html). Where this notice is more
+specific about Waykin, this notice governs.
+
+Waykin uses sensitive device data — location, camera, and optionally Health. **None of it is
+transmitted to Zero State.** This notice explains exactly what is used, when, and where it goes.
+
+---
 
 ## Summary
 
 | Topic | Practice |
-| ----- | -------- |
-| Selling personal data | **No** |
-| Accounts / cloud login | **Not required** for MVP local walk |
-| Precise GPS storage | **Not retained** as a durable path dump in field receipts |
-| Camera frames | Used for AR only during an active AR session; **not** kept as a media library |
-| Health data | **Optional**; Demo Mode never requires HealthKit |
+| --- | --- |
+| Data transmitted to Zero State | **None** |
+| Accounts or sign-in | **None** |
+| Analytics or crash-reporting SDKs | **None** |
+| Advertising or tracking identifiers | **None** |
+| Third-party SDKs | **None** |
+| Selling or sharing personal data | **No** |
+| Location | Used **only during an active walk**, with permission, on-device |
+| Camera | Used **only during an active AR session**; frames are never stored or uploaded |
+| Health | **Optional**; read-only, on-device. Demo Mode never requires it |
 
-## What we use
+Waykin has no remote analytics and no upload path. There is no Zero State server for your data
+to go to.
 
-### Location (when you start a real walk)
+---
 
-- **Purpose:** measure distance, pace, and semantic path progress during an **active** movement session.
-- **When:** only after you begin a real walk and grant **Location When In Use**.
-- **Storage:** session presentation may show a map breadcrumb for the current walk. Field-test receipts are **privacy-filtered** and must not archive precise coordinate dumps or private map imagery.
-- **Not used for:** advertising, resale, or background tracking when you are not walking in the app.
+## What Waykin uses, and why
 
-### Camera (AR)
+### Location — only while you are walking
 
-- **Purpose:** place the companion and session presentation in the real world (ARKit / RealityKit).
+- **Purpose:** measure distance, pace, and route progress during an **active** movement session.
+- **When:** only after you begin a walk and grant **"While Using the App"** permission. Waykin
+  does not request Always-On location and does not track you in the background when you are not
+  walking.
+- **Where it goes:** stays on your device. A map breadcrumb may be shown for the current walk.
+- **Not used for:** advertising, resale, profiling, or background tracking.
+
+### Camera — only during AR
+
+- **Purpose:** place the companion and session presentation in the real world (ARKit/RealityKit).
 - **When:** only when you open AR during a session and grant camera access.
-- **Storage:** camera frames are for live AR; they are not a product feature for export or social upload.
+- **Where it goes:** frames are processed live for AR display. They are **not recorded, saved,
+  or uploaded**, and Waykin has no photo export or social sharing feature.
 
-### Health (optional)
+### Health — entirely optional
 
-- **Purpose:** optional soft enrichment (e.g. recent steps / walking distance band) during an active walk.
-- **When:** only if you allow Health access; **Demo Mode never requires Health**.
-- **Storage:** not used to build a medical record or competitive fitness profile in MVP.
+- **Purpose:** optional enrichment during an active walk (recent steps, walking distance).
+- **When:** only if you grant Health access. **Demo Mode never requires it**, and the app is
+  fully usable without it.
+- **Where it goes:** read-only, on-device. It is **never** used for advertising, never shared
+  with third parties, and never used to build a medical or fitness profile.
 
-### Local app data
+> Apple prohibits using HealthKit data for advertising or sharing it with third parties for
+> those purposes. Waykin does neither.
 
-- Companion bond and session **memories** you create on-device (SwiftData / local store).
-- Appearance preference and cosmetic skin selection.
-- Optional lab flags (e.g. field-test receipts) on developer builds.
+### Maps and search — handled by Apple
 
-### Audio
+When you search for a place or request directions, Waykin uses **Apple's MapKit**. That query
+goes to **Apple**, not to Zero State, and is governed by
+[Apple's Privacy Policy](https://www.apple.com/legal/privacy/). Zero State never receives it.
 
-- On-device cue playback for presence language. No cloud speech transcription in MVP.
+### On-device storage
 
-## What we do not do (MVP)
+Waykin keeps the following locally (SwiftData and the standard preferences store):
 
-- Require a social network or multiplayer identity
-- Sell or broker personal data
-- Use location for advertising networks
-- Claim medical, fitness coaching, or emergency services
+- companion bond state and session **memories** you create
+- appearance preference and cosmetic selection
+- walk history for the sessions you complete
+
+Deleting the app removes all of it.
+
+## What Waykin does not do
+
+- Send your location, camera frames, Health data, or walk history to Zero State or anyone else
+- Require an account, social network, or multiplayer identity
+- Collect advertising or tracking identifiers, or use AppTrackingTransparency
+- Include analytics, attribution, advertising, or crash-reporting SDKs
+- Sell, share, or broker personal information
+- Claim to provide medical, fitness-coaching, navigation-safety, or emergency services
 
 ## Your choices
 
-- Deny location and use **Demo Mode** for offline presentation.
-- Deny camera and skip AR; the walk can still run without AR.
-- Deny Health; walk and demo still work.
-- Clear local app data by deleting the app (standard iOS behavior).
+Every permission is optional and the app degrades gracefully:
+
+- **Deny location** → use Demo Mode, which runs fully offline.
+- **Deny camera** → skip AR; walks still work.
+- **Deny Health** → walks and Demo Mode still work.
+- **Revoke anything later** → iOS Settings → Privacy & Security, or Settings → Waykin.
+- **Remove everything** → delete the app.
+
+Because no data reaches Zero State, there is nothing for us to access, export, or delete on your
+behalf. Statutory rights (EEA/UK GDPR, California CCPA/CPRA) are addressed in the
+[Zero State Privacy Policy](https://zer0state.com/privacy.html); as to Waykin specifically, there
+is no server-side data to which they would attach.
 
 ## Children
 
-Waykin is not directed at children under 13. Do not use the app if you are not permitted by applicable law or by a parent/guardian.
+Waykin is not directed to children under 13. It involves walking in the physical world; adults
+should judge whether it is appropriate for a young person and supervise accordingly.
 
-## Contact
+## Safety
 
-For privacy questions about **this open-source repository**, open a GitHub issue on the project.  
-Commercial operators should publish a support contact before public distribution.
+Waykin is a movement companion, not a navigation or safety system. Stay aware of traffic,
+terrain, and surroundings. Do not use AR while crossing roads. See
+[`SAFETY.md`](SAFETY.md).
+
+## Apple's own collection
+
+If you install through **TestFlight**, Apple may collect crash logs, device information, and any
+feedback you submit, and may share it with us. That is Apple's collection under Apple's policy,
+not ours.
 
 ## Changes
 
-Material changes to this notice should bump `version` / `date` and be called out in release notes.
+Material changes bump `version` and `date` above and are noted in release notes. If a future
+version adds accounts, cloud sync, analytics, or any upload path, this notice and the App Store
+privacy labels will be updated **before** that version ships.
+
+## Contact
+
+Zero State LLC — zer0state@zer0state.com

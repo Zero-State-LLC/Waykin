@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zer0state.com/schemas/audio-rights-v2.json",
+  "title": "Zero State Audio Rights Ledger",
+  "description": "Chain-of-title ledger for shipping audio. v2 is filesystem-anchored: each record carries the repo-relative path of the file it clears, so an asset added without a ledger row is detectable rather than invisible. v2 also adds release_constraints, which encodes the Eleven Music 'Studio Games' platform trigger as machine-checkable state.",
+  "type": "object",
+  "required": ["schema_version", "project", "release_intent", "release_constraints", "evidence", "assets"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "project": {"type": "string", "minLength": 1},
+    "policy": {"type": "string"},
+    "determination": {"type": "string"},
+    "generated_by": {"type": "string"},
+    "release_intent": {
+      "type": "object",
+      "required": ["commercial", "media", "territory", "term"],
+      "properties": {
+        "commercial": {"type": "boolean"},
+        "media": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "territory": {"type": "string", "minLength": 1},
+        "term": {"type": "string", "minLength": 1}
+      }
+    },
+    "release_constraints": {
+      "type": "object",
+      "description": "Standing licence conditions that survive clearance. platforms_cleared is enforced by the validator: more than one platform while Eleven Music assets ship is a 'Studio Game' under the Eleven Music model-specific terms and requires an Enterprise agreement.",
+      "required": ["platforms_cleared", "multi_platform_trigger"],
+      "properties": {
+        "platforms_cleared": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "multi_platform_trigger": {"type": "string", "minLength": 1},
+        "attribution_required": {"type": "boolean"},
+        "attribution_note": {"type": "string"}
+      }
+    },
+    "evidence_archive": {
+      "type": "object",
+      "properties": {
+        "public_repository_contains_private_evidence": {"const": false},
+        "id_format": {"type": "string"},
+        "required_digest": {"const": "sha256"}
+      }
+    },
+    "counts": {"type": "object"},
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["evidence_id", "document_type", "issuer", "effective_date", "captured_date", "sha256", "storage_locator", "verification_status"],
+        "properties": {
+          "evidence_id": {"type": "string", "pattern": "^[A-Z]{2,5}-AUD-EV-[0-9]{4}-[0-9]{4}$"},
+          "document_type": {
+            "enum": [
+              "account_plan_or_license",
+              "terms_or_license_version",
+              "product_beta_status",
+              "generation_or_export_batch_record",
+              "operator_input_rights_attestation",
+              "provider_written_confirmation",
+              "third_party_license",
+              "contributor_agreement"
+            ]
+          },
+          "issuer": {"type": "string"},
+          "effective_date": {"type": "string", "format": "date"},
+          "captured_date": {"type": "string", "format": "date"},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "storage_locator": {
+            "type": "string",
+            "not": {"pattern": "^private://pending/"},
+            "description": "Locator in the private archive. A 'private://pending/' value is an unfilled placeholder and is rejected by the release gate."
+          },
+          "verification_status": {"enum": ["unverified", "verified", "superseded", "rejected"]},
+          "reviewer": {"type": ["string", "null"]},
+          "notes": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["asset_id", "path", "master_sha256", "source_class", "provider_or_creator", "rights_status", "evidence_ids", "third_party_ip_review"],
+        "properties": {
+          "asset_id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1, "description": "Repo-relative path of the shipping file this record clears."},
+          "master_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "bytes": {"type": "integer", "minimum": 0},
+          "source_class": {"enum": ["original_human", "commissioned", "ai_generated", "licensed_library", "field_recording", "public_domain", "open_license", "third_party_custom"]},
+          "provider_or_creator": {"type": "string", "minLength": 1},
+          "category_hint": {
+            "enum": ["music", "sound_effects", "unidentified"],
+            "description": "Directory-derived sorting hint for human review only. Never a rights determination; product_or_model is authoritative."
+          },
+          "product_or_model": {
+            "type": ["string", "null"],
+            "enum": ["elevenlabs_sound_effects", "elevenlabs_music_v1", "elevenlabs_music_v2", "elevenlabs_speech", null],
+            "description": "Authoritative product identification. Music products carry the Studio Games carve-out; Sound Effects do not. Null fails the gate."
+          },
+          "creation_or_acquisition_date": {"type": ["string", "null"], "format": "date"},
+          "plan_or_license": {"type": ["string", "null"]},
+          "terms_version": {"type": ["string", "null"]},
+          "beta_status": {"enum": ["not_applicable", "confirmed_not_beta", "beta_separately_cleared", "unknown"]},
+          "commercial_use": {"enum": ["allowed", "restricted", "not_allowed", "unknown"]},
+          "modification": {"enum": ["allowed", "restricted", "not_allowed", "unknown"]},
+          "sublicensing": {"enum": ["allowed", "restricted", "not_allowed", "unknown"]},
+          "attribution": {"type": ["string", "null"]},
+          "evidence_ids": {"type": "array", "items": {"type": "string"}},
+          "third_party_ip_review": {"enum": ["passed", "review_required", "failed", "unknown"]},
+          "rights_status": {"enum": ["draft", "pending_evidence", "review_required", "cleared", "restricted", "blocked", "retired"]},
+          "reviewer": {"type": ["string", "null"]},
+          "review_date": {"type": ["string", "null"], "format": "date"},
+          "notes": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "migration": {"type": "object"}
+  }
+}
