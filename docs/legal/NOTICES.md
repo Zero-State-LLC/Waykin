@@ -46,10 +46,11 @@ records are maintained in [`../audio/rights/`](../audio/rights/) and validated b
 Attribution to ElevenLabs is **not** required under a paid plan — the credit requirement in the
 Eleven Music terms applies to free-tier access only.
 
-> **Open item.** Ten cues are identified as ElevenLabs Sound Effects. `lira_launch_theme.wav`
-> (10 s) is unidentified and fails the gate closed: if it came from Eleven Music, Waykin becomes
-> subject to the "Studio Games" single-platform restriction. See
-> [`../audio/rights/README.md`](../audio/rights/README.md).
+> **Standing licence condition.** Ten cues are ElevenLabs Sound Effects, which carry no games
+> carve-out. `lira_launch_theme.wav` is **Eleven Music**, which does — and one such asset is
+> enough to constrain the whole app. Waykin is cleared for **iOS App Store only**; shipping on a
+> second platform while monetised requires an ElevenLabs Enterprise agreement. See
+> [`ELEVENLABS_LICENSE_DETERMINATION.md`](../audio/rights/ELEVENLABS_LICENSE_DETERMINATION.md).
 
 ## Generated and artist assets
 

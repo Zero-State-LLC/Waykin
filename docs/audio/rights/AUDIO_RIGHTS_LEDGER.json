@@ -184,7 +184,7 @@
       "source_class": "ai_generated",
       "provider_or_creator": "ElevenLabs (Zero State owner account)",
       "category_hint": "unidentified",
-      "product_or_model": null,
+      "product_or_model": "elevenlabs_music",
       "creation_or_acquisition_date": null,
       "plan_or_license": null,
       "terms_version": null,
@@ -198,7 +198,7 @@
       "rights_status": "pending_evidence",
       "reviewer": null,
       "review_date": null,
-      "notes": "10s cue \u2014 longer than every other cue (all <=3s). Could be an Eleven Music generation rather than Sound Effects. Left unidentified so it fails closed: only Eleven Music carries the Studio Games restriction."
+      "notes": "Confirmed Eleven Music by owner 2026-08-11. 10s theme, the only Eleven Music asset in Waykin. Carries the Studio Games restriction: Waykin is cleared for a single platform only."
     },
     {
       "asset_id": "lira_spawn_theme",
@@ -298,5 +298,5 @@
     "instruction": "Scaffold only. Every asset is pending_evidence with no linked evidence. Owner must archive private evidence, create evidence records, confirm the ElevenLabs product per batch (Sound Effects vs Eleven Music), then set rights_status=cleared. Agents must never set cleared or invent digests.",
     "owner_packet": "docs/audio/rights/OWNER_EVIDENCE_PACKET.md"
   },
-  "provenance_note": "Corrected 2026-08-11 on owner statement: these cues were generated with ElevenLabs, not owner-rendered as docs/AUDIO_ASSET_CONTRACT.md states. Product identification is not clearance."
+  "provenance_note": "Corrected 2026-08-11 on owner statement: cues were generated with ElevenLabs, not owner-rendered as docs/AUDIO_ASSET_CONTRACT.md stated. 10 cues are Sound Effects; lira_launch_theme is Eleven Music and brings Waykin under the Studio Games single-platform restriction. Product identification is not clearance."
 }

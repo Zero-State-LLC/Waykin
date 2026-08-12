@@ -30,12 +30,11 @@ prompts proving generation.
 | Product | Count | Basis |
 | --- | --- | --- |
 | `elevenlabs_sound_effects` | 10 | Short descriptive sound-design prompts; every cue ≤ 3 s |
-| **unidentified** | 1 | `lira_launch_theme.wav` — **10 s**, far longer than any other cue |
+| `elevenlabs_music` | 1 | `lira_launch_theme.wav` (10 s) — **confirmed by owner 2026-08-11** |
 
-`lira_launch_theme.wav` is deliberately left unidentified and **fails closed**. It is the only
-cue long enough to plausibly be an Eleven Music generation, and only Eleven Music carries the
-Studio Games restriction. Guessing it as Sound Effects would understate the constraint; the
-owner must confirm.
+**One Eleven Music asset is enough to constrain the entire app.** The Studio Games carve-out
+attaches to the use of the output, not to how much of it there is, so a single 10-second theme
+brings Waykin under the same single-platform limit as the games.
 
 ## Read in this order
 
@@ -46,12 +45,19 @@ owner must confirm.
 | 3 | [`AUDIO_RIGHTS_POLICY.md`](AUDIO_RIGHTS_POLICY.md) |
 | 4 | [`EVIDENCE_CHECKLIST.md`](EVIDENCE_CHECKLIST.md) |
 
-## ⚠️ Standing condition
+## ⚠️ Standing condition — now active
 
-If `lira_launch_theme.wav` turns out to be Eleven Music, Waykin becomes subject to the
-**single-platform** restriction: shipping on a second platform while monetised would require an
-ElevenLabs Enterprise agreement. If it is Sound Effects, Waykin is unconstrained on platforms.
-Resolve this before planning any non-iOS release.
+Waykin is cleared for **iOS App Store only**. Because `lira_launch_theme.wav` is Eleven Music
+output, shipping Waykin on a **second platform** while monetised makes it a "Studio Game" under
+the Eleven Music terms and requires an **ElevenLabs Enterprise agreement first**.
+
+The validator fails closed if `release_constraints.platforms_cleared` grows beyond one, so this
+is enforced by the gate rather than remembered. Verified: adding a second platform blocks with a
+message naming the cause.
+
+If a future release must ship cross-platform, the cheapest fix is usually to **replace that one
+track** with Sound Effects output or first-party music, rather than negotiating an Enterprise
+agreement for a single 10-second cue.
 
 ## Rules for agents
 

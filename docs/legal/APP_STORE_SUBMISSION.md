@@ -126,10 +126,14 @@ with ElevenLabs**, and the contract has been corrected. The
 [ElevenLabs determination](../audio/rights/ELEVENLABS_LICENSE_DETERMINATION.md) applies to Waykin
 after all.
 
-Ten cues are identified as ElevenLabs Sound Effects, which carry no games carve-out.
-`lira_launch_theme.wav` (10 s, versus ≤3 s for every other cue) is **unidentified and fails
-closed** — if it came from Eleven Music, Waykin becomes subject to the "Studio Games"
-single-platform restriction. Resolve before planning any non-iOS release.
+Ten cues are ElevenLabs Sound Effects, which carry no games carve-out. `lira_launch_theme.wav`
+is **Eleven Music** (confirmed by owner 2026-08-11), which does.
+
+⚠️ **Waykin is therefore cleared for iOS App Store only.** One Eleven Music asset is enough —
+the carve-out attaches to the use of the output, not to how much of it there is. Shipping on a
+second platform while monetised requires an **ElevenLabs Enterprise agreement first**. If a
+cross-platform release is ever planned, replacing that single 10-second track is likely cheaper
+than negotiating an Enterprise licence for it.
 
 > **Blocking dependency.** `python3 scripts/validate_audio_rights.py` returns **BLOCKED** until
 > that record is filed. Internal TestFlight can proceed; external distribution should not.
