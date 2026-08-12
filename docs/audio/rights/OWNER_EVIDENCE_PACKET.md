@@ -2,7 +2,7 @@
 
 ```yaml
 document_id: ZS-AUDIO-OWNER-PACKET
-version: 1.0
+version: 1.1
 date: 2026-08-11
 status: ACTION_REQUIRED
 ```
@@ -80,22 +80,48 @@ you relied on it.
 
 ## Step 3 — Input-rights attestation (you write this, five minutes)
 
-Save as `input-rights-attestation.pdf` in the private archive, signed and dated:
+The Music Service Terms §2(b) set an explicit, contractual list of prohibited inputs. Your
+attestation must track that list, not a paraphrase of it. Save as
+`input-rights-attestation.pdf` in the private archive, signed and dated:
 
 > **Zero State LLC — audio input rights attestation**
 >
 > I attest that for all ElevenLabs audio generations used in Waykin, between [START] and
-> [END], no generation used as input: (a) reference audio, stems, or melodies Zero State did
-> not own or hold a licence to; (b) any real person's voice, or a voice intended to imitate an
-> identifiable person; (c) copyrighted lyrics or prompts naming a known recording artist to
-> induce style imitation; or (d) branded sonic marks belonging to a third party.
+> [END], no generation submitted as Input any of the following: (a) any artist's real or stage
+> name, living or deceased; (b) any songwriter's real or stage name, living or deceased; (c) any
+> song title; (d) any album title; (e) any music publisher company name; (f) any music label
+> name; (g) a substantial or distinct portion of any song's lyrics such that a reasonable person
+> would determine the prompt was intended to reference a particular song; or (h) reference audio,
+> stems, or melodies Zero State did not own or hold a licence to.
+>
+> I further attest that no generation was prompted to produce Output replicating or mimicking
+> the voice, likeness, or identifiable characteristics of any recording artist, and that no
+> Output known or reasonably likely to infringe a third party's rights has been deployed.
+>
+> I confirm Zero State does not operate in any industry excluded by the Music Service Terms
+> §2(a): firearms or weapons, tobacco, prescription pharmaceuticals or controlled substances,
+> adult entertainment, religious organisations, or political advocacy.
 >
 > Signed: ______________________  Date: __________  Title: __________
 
 If any of these *did* occur, do not sign around it — flag the affected assets and route them
-through §12 of the rights policy instead. A false attestation is worse than an open item.
+through §12 of the rights policy instead. A false attestation is worse than an open item, and
+§2(c)(ii) makes **deploying** likely-infringing Output a breach in its own right, independently
+of how it was prompted.
 
----
+## Step 3A — ⚠️ Check the Sound Effects sublicensing toggle (do this first, it is time-sensitive)
+
+Sound Effects Terms §2: SFX Outputs are **sublicensed to third parties by default**, including
+being made available to other ElevenLabs users. Opting out via the **"Disable"** control on the
+Sound Effects product page stops *future* sharing but **does not revoke sublicenses already
+granted**.
+
+1. Open the ElevenLabs Sound Effects product page and check the "Disable" setting.
+2. Record its current state and today's date; screenshot it into the private archive as evidence.
+3. If it was already disabled, note that — it is a materially stronger position.
+
+This does not affect Zero State's own right to use its sound effects. It affects whether anyone
+else may. It is the only item in this packet where **waiting has a cost**.
 
 ## Step 4 — File the evidence into the ledger
 

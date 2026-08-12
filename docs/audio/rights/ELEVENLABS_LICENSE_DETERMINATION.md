@@ -2,9 +2,9 @@
 
 ```yaml
 document_id: ZS-AUDIO-ELEVENLABS-DETERMINATION
-version: 1.0
+version: 1.2
 date: 2026-08-11
-status: DRAFT_FOR_OWNER_CONFIRMATION
+status: REVISED_AGAINST_FULL_SERVICE_TERMS
 applies_to: [Hexwire, Surveillance Survivor, Waykin]
 ```
 
@@ -45,8 +45,60 @@ Under the ElevenLabs Terms of Service, on **any paid plan** (Starter and above):
 - **no attribution is required** (attribution is a free-tier condition only).
 
 **Determination:** assets generated from Sound Effects or speech models on a paid plan are
-cleared for Zero State's intended use, subject only to evidencing that the account was on a
-paid plan **on the generation date** (§5) and to the input-rights attestation (§6).
+cleared for Zero State's intended use, subject to evidencing paid status **on the generation
+date** (§5) and the input-rights attestation (§6).
+
+**But see §2A** — Sound Effects output is sublicensed to third parties by default. Zero State's
+right to *use* its SFX is unaffected; its *exclusivity* is not what one might assume.
+
+---
+
+## 2A. ⚠️ Sound Effects are sublicensed to third parties **by default**
+
+The Sound Effects Terms (last updated **12 February 2026**) §2 provides:
+
+> "You may create Outputs using Sound Effects (the 'SFX Outputs'). You may opt out of the
+> sublicensing of your SFX Outputs to third parties (including making SFX Outputs available to
+> other ElevenLabs users) at any time by using the 'Disable' functionality on the Sound Effects
+> product page. Upon processing of such request, your SFX Outputs will no longer be made
+> available for new third-party use; however, **this will not affect any sublicenses or uses
+> already granted or commenced prior to the effective date of your opt-out**."
+
+Read carefully, this says: **sublicensing is the default state, and opting out is not
+retroactive.**
+
+### What this means for Zero State
+
+- Every sound effect generated on the account **may already be available to other ElevenLabs
+  users**, unless the "Disable" toggle was set before generation.
+- Zero State's SFX are therefore **non-exclusive** — a competitor's game may lawfully ship the
+  same effects.
+- **Opting out now stops future sharing but cannot claw back sublicenses already granted.**
+  Every day the toggle stays on, more irrevocable third-party rights may accrue.
+
+### ✅ Owner action — time-sensitive
+
+1. **Check the "Disable" toggle** on the ElevenLabs Sound Effects product page immediately.
+2. **Record its current state and the date** as evidence. If it was already disabled, that is a
+   materially better position and worth documenting. If it was not, document when it was changed.
+3. Understand that this does **not** affect Zero State's own right to use its SFX. The grant to
+   Zero State is unchanged — what is at stake is whether *others* also get to use them.
+
+This is the one item in this analysis where **delay itself causes loss**. Everything else is
+paperwork that can be filed later at the same cost.
+
+### Effect on the apps
+
+Zero State ships **139 sound effects** across the portfolio (Hexwire 84, Surveillance Survivor
+29, Marigold Market 16, Waykin 10). None of this blocks release — Zero State's own licence to
+use them is intact — but no app should market its audio as exclusive or bespoke, and the
+non-exclusivity should be understood before anyone treats the sound design as a defensible asset.
+
+### Precedence note
+
+The Sound Effects Terms state they **prevail** over other agreed terms with respect to Sound
+Effects. So for SFX assets, this document controls; the Music Service Terms and their Studio
+Games carve-out do **not** apply to Sound Effects output.
 
 ---
 
@@ -101,6 +153,61 @@ the ledger as a legal requirement.
 
 ---
 
+## 3A. The three-layer structure — and which layer wins
+
+Eleven Music is not governed by one document. Per the Music Service Terms, the order of
+precedence is:
+
+| Priority | Layer | What it carries |
+| --- | --- | --- |
+| 1 (highest) | **Model-Specific Terms** | The Music Commercial Rights table and the **"Studio Games"** carve-out (§3) |
+| 2 | **Music Service Terms** (last updated 26 May 2026) | Prohibited industries, prohibited inputs, disclaimers |
+| 3 | Underlying **ElevenLabs Terms of Service** | Base grant, Input/Output definitions |
+
+The Studio Games restriction therefore sits in the **highest-priority layer** — it is not
+softened by anything in the general terms.
+
+Note also that the Service Terms define audio submitted to a Music Model as **"Input"**, and
+model output as **"Output"**, importing the Underlying Agreement's meanings. That is what makes
+§6 below a contractual obligation rather than good practice.
+
+## 3B. No exclusivity — recorded, because it is easy to assume otherwise
+
+Music Service Terms §3 states plainly:
+
+> "You acknowledge that, due to the nature of machine learning, Output you generate using Music
+> may not be unique and may be similar or identical to Output returned to other users.
+> ElevenLabs does not guarantee the exclusivity of Output, and any responses generated for
+> others shall not be considered your Output. You shall have no rights in or to such
+> third-party output."
+
+Two consequences:
+
+1. **Zero State cannot claim exclusive rights in its music tracks.** Another ElevenLabs customer
+   may hold audio that is similar or identical, lawfully. This is independent of the copyright
+   analysis in §7 — even if the output *were* copyrightable, the provider has contractually
+   declined to grant exclusivity.
+2. **A third party using near-identical audio is not necessarily infringing.** Do not send a
+   takedown on the assumption that similarity implies copying.
+
+This is the contractual confirmation of the wording adopted in §7. "Zero State holds all rights
+necessary to use and distribute" is accurate. "Zero State owns this music" is not.
+
+## 3C. No warranty, no indemnity — the residual risk sits with Zero State
+
+Music is provided **"as is" and "as available"**, with all warranties disclaimed **including
+non-infringement**. There is no indemnity for Music Output in these terms.
+
+Practical meaning: if a Music track is later alleged to infringe, ElevenLabs has warranted
+nothing about it, and the exposure sits with Zero State. This is not a reason to avoid the
+product — it is standard for generative audio — but it is a reason to (a) keep §6 input hygiene
+strict, and (b) be able to prove which prompts produced which assets, which is what the
+generation records in §5 are for.
+
+Recorded as risk **R9** below.
+
+---
+
 ## 4. What the owner must obtain — the one item that cannot be automated
 
 **Action: obtain written confirmation from ElevenLabs** (sales or support, email is sufficient)
@@ -142,17 +249,35 @@ invoices, account identifiers, contracts, or payment details.
 ## 6. Input rights — the provider's grant has a floor
 
 An ElevenLabs commercial grant covers *their* model output. It does not cure rights in material
-**you supplied as input**. Zero State must attest, per batch, that no generation used:
+**you supplied as input**, and the Music Service Terms §2(b) set out an explicit, contractual
+list of prohibited inputs. Customer must not submit as part of the Input:
 
-- uploaded reference audio, stems, or melodies it did not own or have license to;
-- a real person's voice, or a voice intended to imitate an identifiable person;
-- copyrighted lyrics, or prompts naming a known artist to induce style imitation;
-- branded sonic marks (startup chimes, sports/broadcast stings, franchise motifs).
+- any **artist's** real or stage name (living or deceased);
+- any **songwriter's** real or stage name (living or deceased);
+- any **song title**;
+- any **album title**;
+- any **music publisher** company name;
+- any **music label** name;
+- a substantial or distinct portion of any song's **lyrics**, such that a reasonable person
+  would determine the prompt was intended to reference a particular song.
 
-The Music terms independently prohibit uploading known artist names or copyrighted lyrics.
-A violation here is not cured by the paid plan.
+Separately, §2(c)–(d) prohibit prompting or inducing Output that is known or reasonably likely
+to infringe, **deploying** such Output, and generating Output that replicates or mimics a
+recording artist's voice, likeness, or identifiable characteristics in a misleading way.
 
----
+Note that §2(c)(ii) is a **deployment** obligation, not just a generation one: shipping Output
+you should have known was likely infringing is itself a breach, regardless of how it was
+prompted.
+
+Zero State must attest, per batch, that none of the above occurred. A violation here is not
+cured by the paid plan.
+
+### Prohibited industries (§2(a))
+
+Music may not be used by customers operating in: firearms or weapons, tobacco, prescription
+pharmaceuticals or controlled substances, adult entertainment, religious organisations, or
+political advocacy or campaigning. **Zero State is a software company and none of these apply** —
+recorded here so the check is documented rather than assumed.
 
 ## 7. Copyright posture — say the true thing
 
@@ -195,6 +320,8 @@ in the audio" and "all audio is original work owned by Zero State."
 | R6 | Uploaded reference inputs unreviewed | Medium | Open | Owner attestation (§6) |
 | R7 | Public legal text overclaims copyright | Low | **Resolved** | §7 wording adopted |
 | R8 | Provider terms change post-release | Low | Accepted | Rights vest at generation; §5.2 captures preserve the record |
+| R10 | SFX Outputs sublicensed to third parties by default; opt-out is not retroactive | **High (time-sensitive)** | **Open** | Check the "Disable" toggle now (§2A); record its state and date |
+| R9 | No warranty of non-infringement and no indemnity for Music Output; exclusivity expressly disclaimed | Medium | **Accepted** | Keep §6 input hygiene strict; retain generation records so prompt-to-asset lineage is provable |
 
 ---
 
