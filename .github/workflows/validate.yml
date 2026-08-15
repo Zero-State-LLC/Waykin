@@ -6,10 +6,27 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  # Set this once your self-hosted Macs are registered, e.g. '16.2'.
+  # Empty = record versions only, enforce nothing.
+  EXPECTED_XCODE: ''
+
 jobs:
   validate:
-    runs-on: macos-latest
+    runs-on: [self-hosted, macOS]
     steps:
+      - name: Toolchain guard (self-hosted drift check)
+        run: |
+          sw_vers
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version || true
+          if [ -n "${EXPECTED_XCODE}" ]; then
+            actual="$(xcodebuild -version | head -1 | awk '{print $2}')"
+            if [ "$actual" != "${EXPECTED_XCODE}" ]; then
+              echo "::error::Xcode drift: this runner has $actual, workflow expects ${EXPECTED_XCODE}. Pin every self-hosted Mac to the same Xcode."
+              exit 1
+            fi
+          fi
       - uses: actions/checkout@v4
 
       - name: Install XcodeGen
