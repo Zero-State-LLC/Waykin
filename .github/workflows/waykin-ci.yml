@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   swift-package:
-    runs-on: macos-latest
+    runs-on: [self-hosted, macOS, ios]
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -31,7 +31,10 @@ jobs:
         run: xcrun swift run WaykinDemo
 
   native-ios:
-    runs-on: macos-latest
+    # One org Mac (air-ios). Run after swift-package so both jobs do not
+    # contend for the same self-hosted runner.
+    needs: swift-package
+    runs-on: [self-hosted, macOS, ios]
     # UI suite + App unit tests need more than build-only budget.
     timeout-minutes: 45
     steps:

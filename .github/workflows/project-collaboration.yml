@@ -20,7 +20,8 @@ env:
 
 jobs:
   add-to-project-and-notify:
-    runs-on: ubuntu-latest
+    # Org hosted minutes are payment-blocked. github-script is not Linux-only.
+    runs-on: [self-hosted, macOS]
     steps:
       - name: Add issue or PR to project and notify team
         uses: actions/github-script@v7
