@@ -12,9 +12,12 @@ permissions:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-latest
+    # Org hosted minutes are payment-blocked. Use the Mac mini
+    # ([self-hosted, macOS]); do not add ios or this steals air-ios.
+    runs-on: [self-hosted, macOS]
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
         language: [javascript, python]
     steps:
