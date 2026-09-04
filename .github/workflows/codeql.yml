@@ -2,9 +2,11 @@ name: CodeQL
 
 on:
   push:
+    branches: [main]
   pull_request:
 
 permissions:
+  actions: read
   contents: read
   security-events: write
   packages: read
@@ -12,17 +14,14 @@ permissions:
 jobs:
   analyze:
     name: Analyze
-    # Org hosted minutes are payment-blocked. Use the Mac mini
-    # ([self-hosted, macOS]); do not add ios or this steals air-ios.
-    runs-on: [self-hosted, macOS]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      max-parallel: 1
       matrix:
         language: [javascript, python]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
