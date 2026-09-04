@@ -69,3 +69,27 @@ For issue-scoped work, read canonical coordination [Issue #47](https://github.co
 - Record branch and base SHA at claim time, then provide the structured handoff defined in `docs/collaboration/GITHUB_PROJECT_COORDINATION.md`.
 - When validation reveals a defect, open a separate bounded defect issue instead of expanding the validating task.
 - Never convert physical-device assumptions into `OBSERVED`; use `NOT_COMPUTABLE` until the named device and build are directly exercised.
+
+## Intent
+
+Non-trivial changes start with an `intent.md` copied from [`intent/_TEMPLATE.md`](intent/_TEMPLATE.md). See [`intent/README.md`](intent/README.md). Next stage is `spec.md` / plan: the approved issue, and an ADR when ownership, persistence, determinism, or approved scope changes. Trivial docs and chore fixes do not need an intent file.
+
+## Escalation
+
+If CI, tests, or validators look wrong — broken coverage, silent skips, green-but-inert checks, or a suite that contradicts the spec:
+
+1. Open a bounded defect issue labeled `bug`. Do not expand the current task to paper over it.
+2. Do **not** weaken, skip, or rewrite assertions to obtain a passing result.
+3. Reward-hacking is forbidden: no silent skips, no fixture forgery, no green-at-any-cost edits.
+
+A red honest check is better than a green lie.
+
+## Team context
+
+Org and partner status is not this repo. When a task needs cross-repo or partner state, load [Zero-State-LLC/agent-context](https://github.com/Zero-State-LLC/agent-context):
+
+1. `HANDOFF.md`
+2. `STATUS.md`
+3. `DECISIONS.md` only if a prior choice affects this task
+
+Clone: `gh repo clone Zero-State-LLC/agent-context ~/agent-context`. Pull `--ff-only` before trusting a local copy.

@@ -242,7 +242,8 @@ Waykin/
 ├── scripts/              Canonical validation harnesses
 ├── WAYKIN_SPEC.md        Binding product contract
 ├── ARCHITECTURE.md       System ownership and dependency direction
-├── AGENTS.md             Coding-agent operating contract
+├── AGENTS.md             Coding-agent operating contract (`CLAUDE.md` is a thin pointer here)
+├── intent/               Intent template for non-trivial work; then spec.md / plan
 ├── CONTRIBUTING.md       Human collaboration workflow
 └── ROADMAP.md            Evidence-gated product progression
 ```
@@ -253,7 +254,7 @@ Waykin/
 2. Read [`ARCHITECTURE.md`](ARCHITECTURE.md).
 3. Open the [`Documentation Portal`](docs/README.md).
 4. Contributors read [`CONTRIBUTING.md`](CONTRIBUTING.md).
-5. Coding agents also read [`AGENTS.md`](AGENTS.md).
+5. Coding agents also read [`AGENTS.md`](AGENTS.md) (`CLAUDE.md` is a thin pointer there). Non-trivial work starts with [`intent/`](intent/README.md).
 
 ## Contributor Flow
 
@@ -270,7 +271,7 @@ Every pull request states its authority context, allowed and frozen systems, val
 | Product | [`WAYKIN_SPEC.md`](WAYKIN_SPEC.md) · [`SOLO_MVP_SCOPE.md`](docs/SOLO_MVP_SCOPE.md) · [`ROADMAP.md`](ROADMAP.md) |
 | Engineering | [`ARCHITECTURE.md`](ARCHITECTURE.md) · [`CURRENT_CAPABILITY_MATRIX.md`](docs/canonical/CURRENT_CAPABILITY_MATRIX.md) |
 | Validation | [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) · [`PHYSICAL_DEVICE_WALK_VALIDATION.md`](docs/PHYSICAL_DEVICE_WALK_VALIDATION.md) · [`FIELD_TEST_PROTOCOL.md`](docs/FIELD_TEST_PROTOCOL.md) |
-| Collaboration | [`CONTRIBUTING.md`](CONTRIBUTING.md) · [`AGENTS.md`](AGENTS.md) |
+| Collaboration | [`CONTRIBUTING.md`](CONTRIBUTING.md) · [`AGENTS.md`](AGENTS.md) · [`intent/`](intent/README.md) |
 | Governance | [`DOCUMENT_AUTHORITY.md`](docs/governance/DOCUMENT_AUTHORITY.md) · [`SPEC_PROMOTION_PROCESS.md`](docs/governance/SPEC_PROMOTION_PROCESS.md) · [`MASTER_PACK_INDEX.md`](docs/governance/MASTER_PACK_INDEX.md) |
 | Visual identity | [`BRAND_GUIDE.md`](docs/assets/BRAND_GUIDE.md) |
 
