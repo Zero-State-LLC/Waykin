@@ -105,7 +105,8 @@ A green build does not validate GPS, device audio, battery, thermal behavior, ou
 | Document or template | Purpose |
 |---|---|
 | [`../CONTRIBUTING.md`](../CONTRIBUTING.md) | Branch, test, review, and merge workflow |
-| [`../AGENTS.md`](../AGENTS.md) | Scope and evidence rules for coding agents |
+| [`../AGENTS.md`](../AGENTS.md) | Scope and evidence rules for coding agents (`CLAUDE.md` is a thin pointer here) |
+| [`../intent/README.md`](../intent/README.md) | Intent template for non-trivial work; then spec.md / plan |
 | [`collaboration/REMOTE_COLLABORATOR_GUIDE.md`](collaboration/REMOTE_COLLABORATOR_GUIDE.md) | Remote setup, issue selection, agent use, validation, and handoff |
 | [`collaboration/AGENT_TASK_PACKET_TEMPLATE.md`](collaboration/AGENT_TASK_PACKET_TEMPLATE.md) | Deterministic task packet for Fable, Claude Code, Codex, Hermes, or other agents |
 | [`collaboration/ACTIVE_WORK.md`](collaboration/ACTIVE_WORK.md) | Human- and agent-readable ownership and dependency ledger |
