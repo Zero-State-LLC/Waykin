@@ -43,6 +43,13 @@ make generate
 
 Do **not** hand-edit `Waykin.xcodeproj` — edit `project.yml` then regenerate.
 
+Run each block in Bash. For logged builds, keep errexit disabled around the
+pipeline (`set +e`) so `PIPESTATUS` can be recorded immediately; the explicit
+checks below fail on either build or log failure. Save build_exit and log_exit
+with the log path and SHA in the receipt; never infer PASS from tee's status.
+macOS, full Xcode (selected with xcode-select), Swift 6, XcodeGen and a matching
+simulator runtime are required; WSL cannot validate these Apple lanes.
+
 ## 3. Build matrix (run what the user asked; default = package + app sim)
 
 ### A. Package (always first for Core changes)
@@ -56,11 +63,16 @@ make test
 
 ```bash
 make generate
+set +e
 xcodebuild -scheme Waykin \
   -destination "platform=iOS Simulator,name=${WAYKIN_SIMULATOR_NAME}" \
   -derivedDataPath /tmp/waykin-dd-build \
   -configuration Debug \
   build 2>&1 | tee /tmp/waykin-build-sim.log
+statuses=("${PIPESTATUS[@]}")
+printf 'build_exit=%s log_exit=%s\n' "${statuses[0]}" "${statuses[1]}"
+(( statuses[0] == 0 )) || exit "${statuses[0]}"
+(( statuses[1] == 0 )) || exit "${statuses[1]}"
 ```
 
 ### C. Device (only if user has a connected iPhone / explicit request)
@@ -68,11 +80,16 @@ xcodebuild -scheme Waykin \
 ```bash
 xcrun xctrace list devices 2>/dev/null | head -40
 # Pick a physical device id, then:
+set +e
 xcodebuild -scheme Waykin \
   -destination 'platform=iOS,id=<DEVICE_ID>' \
   -derivedDataPath /tmp/waykin-dd-device \
   -configuration Debug \
   build 2>&1 | tee /tmp/waykin-build-device.log
+statuses=("${PIPESTATUS[@]}")
+printf 'build_exit=%s log_exit=%s\n' "${statuses[0]}" "${statuses[1]}"
+(( statuses[0] == 0 )) || exit "${statuses[0]}"
+(( statuses[1] == 0 )) || exit "${statuses[1]}"
 ```
 
 If signing fails: report as `NOT_COMPUTABLE` without inventing profiles. Do not force-sign.
@@ -120,4 +137,4 @@ Common Waykin failures and fixes:
 - Suggested next command:
 ```
 
-Never claim device install success without OBSERVED xcodebuild success.
+A successful xcodebuild build is build-only, not installation or launch. Claim those separately only after directly observed device installation and launch.

@@ -30,12 +30,26 @@ Automate **readiness and evidence**, not fake outdoor PASS. Human must hold the 
 cd "$(git rev-parse --show-toplevel)"
 SHA=$(git rev-parse --short HEAD)
 make generate
-# Install Debug to connected device (user-approved destination)
+# Build Debug only (build-only; does not install or launch)
 xcodebuild -scheme Waykin -destination 'platform=iOS,id=<DEVICE_ID>' \
   -derivedDataPath /tmp/waykin-dd-device build
 ```
 
-Record **exact SHA** on every receipt.
+Record **exact SHA** on every receipt. Prerequisites: macOS, full Xcode,
+XcodeGen, a paired/unlocked Developer Mode iPhone, and valid user-owned signing.
+Missing prerequisites/signing are NOT_COMPUTABLE; do not invent profiles.
+Record the build command exit status immediately, and stop if nonzero.
+
+Installation and launch are separate user-approved steps. Use Xcode's Run action
+on the selected device after the build, or the installed Xcode's `xcrun devicectl`
+CLI after checking its `device install app --help` and `device process launch --help`.
+Select the actual built `.app` and read its bundle identifier from Info.plist;
+do not guess either. This build-only recipe does not perform those operations.
+Record `build_exit`, `install_exit`, and `launch_exit` separately (NOT_RUN until
+attempted), the exact device/build identity, command or Xcode action, and evidence
+path. On install failure, launch stays NOT_RUN. On launch failure, field testing
+stops. A successful build cannot supply either install_exit or launch_exit.
+
 
 ## 2. Preflight (sim first)
 
