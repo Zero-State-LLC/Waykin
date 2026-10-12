@@ -464,10 +464,10 @@ Each NC was researched in Snap docs, forums, and published specs. **Resolved** m
 | NC-06 | Eye height above the ground | No published figure. Snap advises accounting for "head heights" varying per user. Ground detection exists via `WorldQueryModule` hit test with `SurfaceClassification.Ground` ([World Query](https://developers.snap.com/spectacles/about-spectacles-features/apis/world-query)), but semantic classification needs **Experimental APIs**, and "Lenses that use Experimental APIs still cannot be published" ([Experimental APIs](https://developers.snap.com/spectacles/permission-privacy/experimental-apis)). | Default + device test | Use an unclassified hit test (no Experimental API) straight down when available. Otherwise use head y − **1.45 m** (CF-02). Never enable Experimental APIs. | T204 (on-device): 3 wearers; Lira's feet are within ±10 cm of the visible ground at 2 m. Feeds TST-052. |
 | NC-07 (dup NC-31, NC-53) | Triangle and bone budget | Snap: keep 3D models under **100,000 triangles** total and **60,000** for skinned meshes; keep rigs under **100 joints**. Textures are recommended at **512×512 or smaller** on Spectacles ([Performance guide](https://developers.snap.com/lens-studio/publishing/optimization/performance-optimization-guide), [Optimizing Lens Performance](https://developers.snap.com/spectacles/best-practices/performance-optimization/optimizing-lens-performance)). Publishing requires 60 FPS ([Publishing](https://developers.snap.com/spectacles/get-started/start-building/publishing-lens)). | **Resolved** (spec is well inside the Snap limits) | Keep Lira ≤ 15k tris, scene ≤ 25k, ≤ 25 bones, ≤ 20 draw calls, and textures ≤ 512² unless PRS lists a larger atlas. | T201 confirms 60 FPS on device. |
 | NC-08 (dup NC-13) | Can the platform clear saved data? | Yes, in three ways: Snapchat "will clear the Lens' persistent storage 60 days after the user does not touch the Lens"; the user can run Settings > Clear Lens Data; and `onStoreFull` fires when capacity is reached ([Persistent Storage](https://developers.snap.com/lens-studio/features/persistent-cloud-storage/persistent-storage)). The persistent storage limit on Spectacles is **125 MB** ([Spectacles FAQ: Scripting](https://developers.snap.com/spectacles/support/spectacles-faq/scripting)). | **Resolved** | Keep BEH-046: missing data resets to defaults silently. The 8 KB profile cap stays far below 125 MB. CF-12 still handles store-full; never call `clear()`. | None. |
-| NC-09 | Lira model license | See "Lira / Ember Fox license" below. | Still open: Danny must confirm | Gate stays: no publish (T073) until Danny confirms. | Not a device question. |
+| NC-09 | Lira model license | Lira is Meshy-derived (Danny, 2026-10-11). See "Lira / Ember Fox license" below. | Open: which Meshy plan was used | Publishing blocked (T073) until T205 is done. Free plan → CC BY credit line required; paid plan → no credit. | Not a device question. |
 
-### D-061 Battery guard (NEW, proposed: not part of the 2026-10-11 approval)
-- **Status**: proposed
+### D-061 Battery guard
+- **Status**: accepted (Danny, 2026-10-11 11:26 PM PT)
 - **Recommended default**: Read `deviceInfoSystem.getBatteryState()` at walk start and subscribe to `onBatteryStateChanged`. When the battery is ≤ 15% and not charging, show HUD line 2 "Battery low. Your walk will end soon." for 4000 ms (D-216). When it is ≤ 8% and not charging, end the walk with reason `power` and show the summary. Skip this in the editor (`isEditor()`).
 - **Why**: The API exists (NC-03), and ending cleanly saves the memory before the OS shuts down.
 - **Danny**: yes / no / change
@@ -479,9 +479,12 @@ Each NC was researched in Snap docs, forums, and published specs. **Resolved** m
   - The iOS runtime "Ember Fox" (`MESHY_EMBER_FOX_WALK_V1`, `App/Resources/Companion/Lira/README.md:4`) and `ArtSource/Companion/Lira/meshy/SOURCE_RECEIPT.md` come from Meshy AI image-to-3D.
   - No file in the repo records the Meshy plan, the attribution, or the rights to the source image. `LICENSE_POLICY.md` says third-party components keep their own licenses.
 - **Meshy terms**: Free-plan generations are licensed **CC BY 4.0**, with attribution required (e.g. "Model created with Meshy – CC BY 4.0"). Paid-plan generations are owned by the user, with no attribution required. Rights follow the plan active at generation time ([Meshy: ownership](https://help.meshy.ai/en/articles/10137554-what-is-the-ownership-of-the-generated-models), [Meshy: commercial use](https://help.meshy.ai/en/articles/16102098-can-i-use-meshy-assets-commercially)).
-- **Needs Danny**:
-  1. Confirm that `lira.blend` is original work and not derived from the Meshy mesh. If it is original, NC-09 closes for the Lens.
-  2. If any Meshy-derived geometry or texture ships, confirm the Meshy plan used at generation time and the rights to the input image. On a free plan, add the CC BY credit to the Lens description.
+- **Danny (2026-10-11 11:26 PM PT)**: Lira **is derived from Meshy**. Danny is checking which Meshy plan was active when the model was generated.
+- **Rule (accepted)**: **Publishing is BLOCKED** (T073) until the plan is confirmed (T205).
+  - **Free plan (CC BY 4.0)**: The Lens description MUST include this credit line verbatim:
+    > Lira 3D model created with Meshy (meshy.ai), licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Modified (rigged and animated) by Zero State LLC.
+  - **Paid plan**: Zero State owns the generated asset, and no credit line is needed. Record the plan and the generation date.
+  - In both cases, confirm the rights to the input image used for image-to-3D.
 - Record the answer in `ArtSource/Companion/Lira/README.md`.
 
 ## Decisions and NCs from companion docs

@@ -164,7 +164,7 @@ All Phase 2b tasks depend on T043 and T044.
 
 - [ ] T200 human (on-device): GPS characterization. Log `horizontalAccuracy`, `locationSource`, and the update interval for 3 outdoor walks and 1 indoor walk. Pass: p50 ≤ 20 m outdoors. Record time to first FUSED fix. Feeds TST-061 (NC-01).
 - [ ] T201 human (on-device): Power and thermal. Over a 15-minute walk, Performance Overlay CPU/GPU stays ≤ 100%, FPS stays at 60, and the D-116 proxy fires 0 times. Feeds TST-060 (NC-02, NC-07).
-- [ ] T202 human (on-device): Battery. Log `getBatteryState()` at start and end of a 15-minute walk. Pass: drain ≤ 40 points (NC-03). Implement D-061 only once Danny accepts it.
+- [ ] T202 human (on-device): Battery. Log `getBatteryState()` at start and end of a 15-minute walk. Pass: drain ≤ 40 points (NC-03). Implement D-061 (accepted).
 - [ ] T203 lens-MCP-agent: Record Lens Studio 5.15.4, SIK, and UI Kit versions in the build receipt (NC-05).
 - [ ] T204 human (on-device): Ground fit. With 3 wearers, Lira's feet are within ±10 cm of the visible ground at 2 m, using the non-experimental hit test or the 1.45 m fallback. Feeds TST-052 (NC-06).
-- [ ] T205 Danny: Confirm the Lira rig license (NC-09). Is `lira.blend` original or Meshy-derived? If Meshy-derived, which plan was used? Gates T073.
+- [ ] T205 Danny: Confirm the Meshy plan used to generate Lira (Lira is Meshy-derived, confirmed 2026-10-11). **Blocks T073 (publish).** Free plan: add the CC BY 4.0 credit line from `decisions.md` § Lira license to the Lens description. Paid plan: no credit needed. Record the plan, the generation date, and the input-image rights in `ArtSource/Companion/Lira/README.md`.
