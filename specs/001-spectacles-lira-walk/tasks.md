@@ -52,6 +52,7 @@ The **core port and vectors** (T002, T005–T017) belong to the core-port worker
 
 - T006 BigInt spike: resolved by NC-04 (no BigInt in Lens code; use 2×uint32).
 - T007–T010 Swift vector exporter and vectors. The movement vectors must include the D-100 ±0.05 m tolerance field.
+- **Vector schemas (per family).** `contracts/seed-event-vectors.schema.json` covers **only** `Tests/Vectors/seed-event/**`. Each other family (movement, companion, pursuit, bond-memory, demo) gets its own `contracts/<family>-vectors.schema.json`, written in the same task that creates its vectors (T009/T010), and lives in `Tests/Vectors/<family>/`. A family cannot be marked done until its schema exists. T016 validates each `Tests/Vectors/<family>/*.json` against its own family schema. A vector file with no matching family schema fails validation.
 - T011–T015 Core modules. **T012** (`WorldEventGenerator` module) is a stateful struct whose RNG advances across `evaluate` calls. The PR #17 vectors exercise it that way (`Sources/WaykinVectorExport/main.swift:158-162` on the port branch), and that is correct for the module. **T013–T015** (the Experience/runtime layer) MUST create a new `WorldEventGenerator(seed: eventSeed)` on every movement update, as shipped iOS gameplay does (`Sources/WaykinCore/Experiences/Experiences.swift:118-126`). Cooldown history arrives through `lastEventElapsed` and `lastEventElapsedByKind`, not through RNG state (GA C4, clarified 2026-10-11). Add an Experience-level vector (multi-tick walk through `Experiences.swift`) so that both layers are pinned. CI: the vector export job runs on `macos-26`; `macos-15` fails Swift 6 concurrency checks in `PersistenceStore.swift`.
 - T016 Parity tests.
 - T017 CI job.
@@ -118,7 +119,7 @@ All Phase 2b tasks depend on T043 and T044.
 ## Phase 5: US3, bounded pursuit (P3)
 
 - [ ] T028 [~] [US3] lens-MCP-agent: Map pursuit events to cues, Lira alert, and the HunterEcho in alert only (CF-19). Render no pursuer entity. Acceptance: TST-005, TST-032.
-- [ ] T029 [~] [US3] lens-MCP-agent: While paused, send no ticks, freeze pursuit, and pause audio (BEH-004). Acceptance: TST-033.
+- [ ] T029 [~] [US3] lens-MCP-agent: While the **session** is user-paused, the `SessionController` sends no ticks to the core and pauses audio (BEH-004). This mirrors iOS, where pausing calls `pauseSession()`, stops location updates, and pauses audio (`App/WaykinApp.swift:1434-1440`). The adapter MUST NOT modify pressure, events, or pursuit state itself; those stay unchanged only because no tick runs. Standing still during an **active** walk is not a pause: those samples are ticked normally, so Swift's `nextPressure` adds `+0.16` for non-moving samples (`Sources/WaykinCore/Experiences/Experiences.swift:199-204`) and `.paused` movement state stays event-eligible (`Sources/WaykinCore/Engines/WorldEventGenerator.swift:36,46`). The TS core reproduces both, bit-exact, from the Swift vectors. Acceptance: TST-033.
 
 ## Phase 6: US4, summary, Bond, memories (P4)
 

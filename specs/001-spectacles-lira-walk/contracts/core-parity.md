@@ -8,11 +8,11 @@
 
 ## Generating vectors (Swift)
 
-- `Sources/WaykinVectorExport` is a Swift executable that depends only on `WaykinCore`. It builds the scenarios in code and writes JSON that conforms to `seed-event-vectors.schema.json`.
+- `Sources/WaykinVectorExport` is a Swift executable that depends only on `WaykinCore`. It builds the scenarios in code and writes JSON. Each vector family has its own schema: `seed-event-vectors.schema.json` covers only `Tests/Vectors/seed-event/**`, and every other family needs a `contracts/<family>-vectors.schema.json` (see `tasks.md` T007–T010).
 - Run it with `swift run waykin-vectors --out Tests/Vectors`, wrapped by `make vectors`. The exact target wiring depends on the existing package and XcodeGen layout (INFERRED).
 - Output must be deterministic:
   - Sort keys.
-  - Use no timestamps. Record the source commit as `source.swiftCommit`.
+  - Use no timestamps. Don't record the containing commit SHA: committing the vectors changes HEAD, so a regenerated `swiftCommit` could never match and `git diff --exit-code Tests/Vectors` would always fail. Instead, record `source.swiftTree` = `git rev-parse HEAD:Sources/WaykinCore`. This is the git tree hash of the Swift core's contents; it changes only when the Swift sources change, not when vectors are committed. The freshness check regenerates the vectors and requires `git diff --exit-code Tests/Vectors` to be clean.
   - Encode each `UInt64` as a decimal string.
   - Encode each double with Swift's shortest round-trip form.
   - Encode non-finite inputs as `"NaN"`, `"Infinity"`, or `"-Infinity"`.

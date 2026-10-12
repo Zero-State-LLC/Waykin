@@ -122,18 +122,29 @@ There are seven semantic cue kinds (OBSERVED count, from PLAN.md). The names are
 
 Bond is the single persistent progression metric. The delta rules come from the Swift vectors.
 
-## SessionMemory (`Engines/MemoryEngine.swift`)
+## SessionMemory (Swift mirror: `Sources/WaykinCore/Domain/Models.swift:400-412`)
 
-| Field | Label |
+| Field | Type | Label |
+|---|---|---|
+| `id` | UUID string | SOURCE |
+| `sessionID` | UUID string | SOURCE |
+| `text` | string | SOURCE: `"\(companion.name) remembers a \(dist)m walk. \(result.memoryText)"` (`Engines/MemoryEngine.swift:10-11`) |
+| `timestamp` | date (ISO 8601) | SOURCE |
+
+The TS core and the vectors mirror exactly these four fields. Nothing else is part of `SessionMemory`.
+
+## LensMemoryEntry (Lens persistence record; not a Swift type)
+
+This is the persisted per-walk entry from D-030 (accepted), stored in `profile.memories` (behavior-spec §6). It is built at finalize (T18, BEH-048) from the Swift `SessionMemory` plus Lens session data:
+
+| Field | Source |
 |---|---|
-| `id` | INFERRED |
-| `endedAt` | INFERRED |
-| `seed` | INFERRED |
-| `activeTime` | INFERRED |
-| `distance` | INFERRED |
-| `eventKinds[]` | INFERRED |
-| `bondDelta` | INFERRED |
-| `line` (concise text) | INFERRED |
+| `id` | `SessionMemory.id` |
+| `endedAt` (ms) | `SessionMemory.timestamp` |
+| `line` | `SessionMemory.text` (truncated to 280 characters per D-113) |
+| `mode`, `activeTime`, `distance`, `eventKinds[]`, `bondDelta`, `endedReason` | Lens session state at finalize (BEH-048); not exported by Swift |
+
+Vectors cover `SessionMemory` only. `LensMemoryEntry` is tested by Lens unit tests (T015), not parity vectors.
 
 **Retention**: The Lens keeps the last five memories and drops the oldest first.
 

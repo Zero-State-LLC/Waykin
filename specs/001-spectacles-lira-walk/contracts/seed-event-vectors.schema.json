@@ -13,10 +13,10 @@
     "source": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["generatedBy", "swiftCommit"],
+      "required": ["generatedBy", "swiftTree"],
       "properties": {
         "generatedBy": { "const": "WaykinVectorExport" },
-        "swiftCommit": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" }
+        "swiftTree": { "type": "string", "pattern": "^[0-9a-f]{40}$", "description": "git rev-parse HEAD:Sources/WaykinCore (tree hash; stable across vector commits)" }
       }
     },
     "seed": { "$ref": "#/$defs/uint64" },

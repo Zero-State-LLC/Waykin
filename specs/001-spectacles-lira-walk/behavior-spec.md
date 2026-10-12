@@ -199,7 +199,7 @@ Gating comes from `Experiences.swift:221-234`, and the transitions come from `Ex
 All non-pursuit kinds are allowed in every state.
 
 - **BEH-003**: Pursuit MUST be expressed only through cues and Lira's AR state. No pursuer entity may appear (`spec.md` FR-009). Discovery and threat placeholder entities from the iOS mapper (`CanonicalARWorldCommandMapper.swift:39-56`) MUST NOT be rendered on the Lens (D-123). The hunter echo is Lira's own silhouette; it renders per PRS-011 in alert state only and is hidden while degraded.
-- **BEH-004**: While the session is paused, the core MUST receive no ticks. As a result, pressure, events, and pursuit are frozen. The Lens MUST stop playing the foreground and ambient channels (`App/AppAudioCuePlayer.swift:385-391` parity).
+- **BEH-004**: While the session is user-paused, the core MUST receive no ticks (iOS parity: `App/WaykinApp.swift:1434-1440` stops location updates). As a result, pressure, events, and pursuit don't advance. No adapter may change gameplay values. Non-moving samples during an active walk are ticked normally and follow Swift's pause pressure (`Experiences.swift:199-204`) and `.paused` eligibility (`WorldEventGenerator.swift:36,46`). The Lens MUST stop playing the foreground and ambient channels (`App/AppAudioCuePlayer.swift:385-391` parity).
 
 ### 2.3 Bond rules (GAP-B-EVT-03)
 
