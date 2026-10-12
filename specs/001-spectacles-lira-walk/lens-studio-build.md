@@ -1,7 +1,5 @@
 # Lens Studio build spec: Lira Walks With You
 
-> **Precedence:** This doc was drafted in parallel with its siblings. Where it conflicts with `decisions.md` § Conflicts (CF-01..CF-32), the CF resolution wins. Task T040 removes the superseded values from this doc.
-
 Doc letter **L**. This is an executable checklist. The primary executor is an agent that drives Lens Studio through its MCP server on Danny's Mac. A human can follow the "Human" path for every step.
 
 Steps are numbered `LSB-NNN`. Run them in order. A step is done only when its **Verify** line passes. Every step ends in one of two ways: PASS, or STOP with a filed defect. Do not skip steps and do not reorder them.
@@ -9,7 +7,7 @@ Steps are numbered `LSB-NNN`. Run them in order. A step is done only when its **
 This doc uses these labels:
 
 - `(platform knowledge, verify)`: a Lens Studio fact that the provided Snap docs don't state.
-- **DECISION (proposed) D-3NN**: a product choice the sources don't settle.
+- **DECISION (accepted) D-3NN**: a product choice the sources don't settle.
 - **NEEDS CLARIFICATION NC-5N**: an unknowable hardware or platform fact, with a safe default.
 
 MCP tool names are not documented in the provided sources. Every step therefore names the *operation* (create object, add component, set property). The agent maps each operation to its MCP tool `(platform knowledge, verify)`.
@@ -22,17 +20,17 @@ The authoritative inputs are `spec.md`, `plan.md`, `data-model.md`, and `contrac
 
 | Id | Item | Value | Source |
 |---|---|---|---|
-| LSB-001 | Lens Studio | 5.x, **≥ 5.7.0**. Exact pin: NC-50 | location doc "Lens Studio v5.7.0 or later" (https://developers.snap.com/spectacles/about-spectacles-features/apis/location) |
+| LSB-001 | Lens Studio | **5.15.4** exactly. 5.15.x is the last series for Spectacles (2024); never use 5.2x, which is for SPECS 27 (NC-05) | https://ar.snap.com/spectacles; location doc minimum is v5.7.0 (https://developers.snap.com/spectacles/about-spectacles-features/apis/location) |
 | LSB-002 | Spectacles OS on the test device | **≥ v5.60.000** | same doc |
-| LSB-003 | Spectacles Interaction Kit (SIK) | Latest in Asset Library at build time. Record the version in the build receipt (NC-51) | https://developers.snap.com/spectacles/spectacles-frameworks/spectacles-interaction-kit/get-started |
-| LSB-004 | Spectacles UI Kit (SUIK) | Latest in Asset Library. Record the version (NC-51) | https://developers.snap.com/spectacles/spectacles-frameworks/spectacles-ui-kit/get-started |
+| LSB-003 | Spectacles Interaction Kit (SIK) | **v0.17.2**. If the Asset Library offers a newer 0.17.x patch, use it and record it in the build receipt (NC-05) | https://developers.snap.com/spectacles/spectacles-frameworks/spectacles-interaction-kit/get-started |
+| LSB-004 | Spectacles UI Kit (SUIK) | **v0.1.4**. If the Asset Library offers a newer 0.1.x patch, use it and record it in the build receipt (NC-05) | https://developers.snap.com/spectacles/spectacles-frameworks/spectacles-ui-kit/get-started |
 | LSB-005 | Blender (for the Lira glTF export) | 4.x (NC-52) | `ArtSource/Companion/Lira/README.md:20-24` |
 | LSB-006 | Node LTS + repo TS core built | `packages/waykin-core-ts` passes `node --test` | `specs/001-spectacles-lira-walk/quickstart.md:24-33` |
 | LSB-007 | Device pairing | Paired Snapchat account, location permission on, internet on | location doc "Overview" |
 
 **Verify LSB-001..007:**
 
-- Lens Studio About dialog shows ≥ 5.7.0.
+- Lens Studio About dialog shows 5.15.4.
 - The Spectacles app shows OS ≥ 5.60.000.
 - `node --test` exits 0 in `packages/waykin-core-ts`.
 
@@ -59,8 +57,8 @@ Write all three into `docs/design/receipts/LENS_BUILD_<UTC>_<sha>.md`, using the
 
 **LSB-014 — Permissions (declared through modules).**
 - Use exactly one sensitive module: `require('LensStudio:RawLocationModule')` in `LocationAdapter.ts` (location doc, "Setup Instructions").
-- Do not reference `InternetModule`, `RemoteServiceModule`, `ConnectedLensModule`, `CameraModule`, `AsrModule`, `MicrophoneAudioProvider`, `BluetoothCentralModule`, or `SupabaseModule`. This matches `spec.md` FR-015.
-- **DECISION D-301:** Do **not** declare an Internet descriptor. This is a **flagged correction** of the `spec.md` FR-014 wording "RawLocation plus Internet".
+- Do not reference `RemoteServiceModule`, `ConnectedLensModule`, `CameraModule`, `AsrModule`, `MicrophoneAudioProvider`, `BluetoothCentralModule`, or `SupabaseModule`. This matches `spec.md` FR-015. Do not reference `InternetModule` unless the D-301 fallback below is triggered.
+- **DECISION D-301:** Do **not** declare an Internet descriptor. Verify in TST-051 and at publish (T073). If GPS fails without Internet, add `InternetModule` and amend D-301. This is a **flagged correction** of the `spec.md` FR-014 wording "RawLocation plus Internet".
   - The location doc requires internet *connectivity* at the system level, but the Lens never performs network I/O.
   - The permission docs list Internet as a module-declared descriptor (`InternetModule` → Internet).
   - A Lens that declares only RawLocation is not an unsupported combination, because the unsupported combination is "Connectivity type + Sensitive Sensor" (Transparent Permission doc).
@@ -77,11 +75,6 @@ Write all three into `docs/design/receipts/LENS_BUILD_<UTC>_<sha>.md`, using the
 ### 2.1 Lira 3D model
 
 **DECISION D-302 — Source rig.** The source is `ArtSource/Companion/Lira/Lira_AR_Base_with_clips.blend`. It is the artist mid-LOD with a 25-bone `LiraArmature` and 6 DCC actions (`ArtSource/Companion/Lira/BUILD_MANIFEST.json:7-13,40-47`, ~5 MB package `:53`).
-
-Do **not** use the iOS Ember Fox USDZ for these reasons:
-- It is a USDZ (Lens Studio imports FBX, glTF, and OBJ per the 3D import overview doc).
-- It is ~20 MB (`App/Resources/Companion/Lira/README.md:6`), against a 25 MB Lens cap.
-- It ships a single walk clip, with no state clips (`docs/design/CONTINUATION_PLAN.md` "Embedded animation" row).
 
 **LSB-020 — Export the glTF.** In Blender, open the blend file. Use File → Export → glTF 2.0 (.glb) with these settings:
 
@@ -100,7 +93,7 @@ Do **not** use the iOS Ember Fox USDZ for these reasons:
 Before you export, apply these prep rules:
 - Downscale every image texture to **512×512**. The perf doc recommends "512px x 512px or smaller" (https://developers.snap.com/spectacles/best-practices/performance-optimization/optimizing-lens-performance).
 - Decimate meshes to ≤ the triangle budget in NC-53 (default **15,000 tris total**).
-- Actions must keep these names exactly: `Lira_Idle`, `Lira_Follow`, `Lira_Investigate`, `Lira_Alert`, `Lira_Celebrate`, `Lira_Spawn` (`BUILD_MANIFEST.json:40-47`).
+- Actions must keep these names exactly: `Lira_Idle`, `Lira_Follow`, `Lira_Investigate`, `Lira_Alert`, `Lira_Celebrate`, `Lira_Spawn` (`BUILD_MANIFEST.json:40-47`). The PRS-005 fallbacks apply to any action that is missing after import. NC-09 gates publishing.
 - Verify:
   - `.glb` size ≤ **4 MB**.
   - Blender Info shows 6 actions exported.
@@ -131,7 +124,7 @@ Before you export, apply these prep rules:
 
 ### 2.2 Audio
 
-**LSB-023 — Copy WAVs.** Copy these files from `App/Resources/Audio/` into `spectacles/WaykinLens/Assets/Audio/`, unchanged (48 kHz / 16-bit / stereo per `App/Resources/Audio/README.md:7-10`; the perf doc prefers WAV over mp3):
+**LSB-023 — Copy WAVs.** Copy these files from `App/Resources/Audio/` into `spectacles/WaykinLens/Assets/Audio/`, unchanged, with formats per D-218 and the PRS-104 manifest (`App/Resources/Audio/README.md:7-10`; the perf doc prefers WAV over mp3):
 
 `companion_near.wav, companion_ahead.wav, distant_presence.wav, pursuit_pressure.wav, pursuit_release.wav, bond_motif.wav, quiet_shift.wav, lira_spawn_theme.wav, lira_bond_milestone.wav`
 
@@ -179,18 +172,23 @@ All files live under `spectacles/WaykinLens/Assets/Scripts/`. Each is a `@compon
 
 | Path | Class | Responsibility | `@input` declarations |
 |---|---|---|---|
-| `SessionController.ts` | `SessionController` | Owns the lifecycle state machine (§7). Runs the tick loop: movement → experience → runtime → audio → presentation. Owns the seed. The only writer to Storage. | `liraController: LiraController`, `audioAdapter: AudioAdapter`, `locationAdapter: LocationAdapter`, `storageAdapter: StorageAdapter`, `receiptAdapter: ReceiptAdapter`, `demoDriver: DemoDriver`, `introPanel: IntroPanel`, `hudPanel: HudPanel`, `summaryPanel: SummaryPanel`, `noticePanel: NoticePanel`, `versionLabel: Text` |
-| `adapters/LocationAdapter.ts` | `LocationAdapter` | `require('LensStudio:RawLocationModule')`. Calls `GeoLocation.createLocationService()` with accuracy `GeoLocationAccuracy.Navigation`. Polls `getCurrentPosition` every 1.0 s through `DelayedCallbackEvent.reset(1.0)` (location doc example). Drops duplicate timestamps. Emits `LocationSample` with `horizontalAccuracy` and `reportedSpeedMetersPerSecond = -1` (unknown; the core falls back to distance/time per `MovementIntegrity.swift:186-194`). Counts consecutive errors. **Never** reads heading. | none |
-| `adapters/AudioAdapter.ts` | `AudioAdapter` | Ports the App planner `AudioCuePlaybackPlanner` and the catalog (`App/AppAudioCuePlayer.swift:31-115`): three channels, priority, duplicate suppression, pause. Volume = `catalogVolume × max(0.25, intensity)` (`:352`). Ignores pan (D-306). | `foreground: AudioComponent`, `ambient: AudioComponent`, `moment: AudioComponent`, 9 tracks (`trackCompanionNear: AudioTrackAsset`, `trackCompanionAhead`, `trackDistantPresence`, `trackPursuitPressure`, `trackPursuitRelease`, `trackBondMotif`, `trackQuietShift`, `trackSpawnTheme`, `trackBondMilestone`) |
+| `SessionController.ts` | `SessionController` | Owns the lifecycle state machine (§7). Runs the tick loop: movement → experience → runtime → audio → presentation. Owns the seed. The only writer to Storage. | `liraController: LiraController`, `audioAdapter: AudioAdapter`, `locationAdapter: LocationAdapter`, `storageAdapter: StorageAdapter`, `receiptAdapter: ReceiptAdapter`, `demoDriver: DemoDriver`, `introPanel: IntroPanel`, `permissionsPanel: PermissionsPanel`, `safetyPanel: SafetyPanel`, `hudPanel: HudPanel`, `summaryPanel: SummaryPanel`, `memoriesPanel: MemoriesPanel`, `recoveryPanel: RecoveryPanel`, `errorPanel: ErrorPanel`, `debugPanel: DebugPanel`, `versionLabel: Text` |
+| `adapters/LocationAdapter.ts` | `LocationAdapter` | `require('LensStudio:RawLocationModule')`. Calls `GeoLocation.createLocationService()` with accuracy `GeoLocationAccuracy.Navigation`. Polls `getCurrentPosition` every 1.0 s through `DelayedCallbackEvent.reset(1.0)` (location doc example). Drops duplicate timestamps. Emits `LocationSample` with `horizontalAccuracy` and `reportedSpeedMetersPerSecond = NaN` (unknown; the core falls back to distance/time per `MovementIntegrity.swift:186-194`). Counts consecutive errors. **Never** reads heading. | none |
+| `adapters/AudioAdapter.ts` | `AudioAdapter` | Ports the App planner `AudioCuePlaybackPlanner` and the catalog (`App/AppAudioCuePlayer.swift:31-115`): three channels, priority, duplicate suppression, pause. Volume = `catalogVolume × max(0.25, intensity)` (`:352`). Uses spatial audio per D-209; if the spatial AudioComponent setting is unavailable (verify in T047/T050), falls back to non-spatial D-306 and logs it in the build receipt. | `foreground: AudioComponent`, `ambient: AudioComponent`, `moment: AudioComponent`, 9 tracks (`trackCompanionNear: AudioTrackAsset`, `trackCompanionAhead`, `trackDistantPresence`, `trackPursuitPressure`, `trackPursuitRelease`, `trackBondMotif`, `trackQuietShift`, `trackSpawnTheme`, `trackBondMilestone`) |
 | `adapters/StorageAdapter.ts` | `StorageAdapter` | `global.persistentStorageSystem.store`. Keys are listed in §6. Handles `onStoreFull` (persistent storage doc). | none |
 | `adapters/ReceiptAdapter.ts` | `ReceiptAdapter` | Builds the privacy-filtered receipt (counts and labels only, no coordinates; `ARCHITECTURE.md:94`). Prints it once to the Logger at session end as one line prefixed `WAYKIN_RECEIPT ` (D-310). | none |
 | `presentation/LiraController.ts` | `LiraController` | Places and animates Lira (§5.2). Maps the AR behavior string to a clip. Runs the spawn coalesce. | `cameraObject: SceneObject`, `liraAnchor: SceneObject`, `liraModel: SceneObject`, `liraFallback: SceneObject`, `animationPlayer: AnimationPlayer` `(platform knowledge, verify component type name)` |
 | `presentation/PresencePhrase.ts` | (module, no class) | A line-for-line port of `CompanionPresencePresentation.phrase` and `elapsedText` and `distanceText` (`App/CompanionPresenceView.swift:24-69,119-124`). It is pure, which makes it an App-copy port, not core. | n/a |
-| `presentation/IntroPanel.ts` | `IntroPanel` | Shows the Begin Walk and Demo Walk buttons. Calls `SessionController.beginWalk()` and `beginDemo()`. | `root: SceneObject`, `beginButton: RectangleButton`, `demoButton: RectangleButton`, `title: Text`, `safetyLine: Text` |
-| `presentation/HudPanel.ts` | `HudPanel` | Peripheral walk HUD: phrase, time, distance, Pause/Resume, End. Lazy-follows the head (§5.3). | `root: SceneObject`, `cameraObject: SceneObject`, `phraseText: Text`, `metricsText: Text`, `pauseButton: RectangleButton`, `pauseLabel: Text`, `endButton: RectangleButton` |
-| `presentation/SummaryPanel.ts` | `SummaryPanel` | Shows the end-of-walk card. Done → idle. | `root: SceneObject`, `titleText: Text`, `bondText: Text`, `metricsText: Text`, `memoryText: Text`, `doneButton: RectangleButton` |
-| `presentation/NoticePanel.ts` | `NoticePanel` | One-line modal notice with a "Demo Walk" button and a "Close" button. | `root: SceneObject`, `messageText: Text`, `demoButton: RectangleButton`, `closeButton: RectangleButton` |
-| `demo/DemoDriver.ts` | `DemoDriver` | Wraps `DemoSessionController`. Advances one tick every **6.0 s** of real time (D-307). Logs the RNG self-test. | none |
+| `presentation/IntroPanel.ts` | `IntroPanel` | Shows the PRS-070 Intro step. Calls `SessionController.showPermissions()`. | `root: SceneObject`, `title: Text`, `introText: Text`, `understandButton: RectangleButton` |
+| `presentation/PermissionsPanel.ts` | `PermissionsPanel` | Shows the PRS-070 Permissions step. Calls `SessionController.showSafety()`. | `root: SceneObject`, `title: Text`, `bodyText: Text`, `continueButton: RectangleButton` |
+| `presentation/SafetyPanel.ts` | `SafetyPanel` | Shows the PRS-070 Safety step with the 5 bullets. Calls `SessionController.beginWalk()` and `beginDemo()`. | `root: SceneObject`, `title: Text`, `safetyText: Text`, `beginButton: RectangleButton`, `demoButton: RectangleButton` |
+| `presentation/HudPanel.ts` | `HudPanel` | Peripheral walk HUD: 3 lines, no chip (PRS-056); phrase, prompt, metrics, Pause/Resume, End. Follows PRS-056 with D-212 follow. | `root: SceneObject`, `cameraObject: SceneObject`, `phraseText: Text`, `promptText: Text`, `metricsText: Text`, `pauseButton: RectangleButton`, `pauseLabel: Text`, `endButton: RectangleButton` |
+| `presentation/SummaryPanel.ts` | `SummaryPanel` | Shows the end-of-walk card per PRS-058. Done → idle. | `root: SceneObject`, `titleText: Text`, `bondText: Text`, `metricsText: Text`, `memoryText: Text`, `doneButton: RectangleButton` |
+| `presentation/MemoriesPanel.ts` | `MemoriesPanel` | Shows memories and replays from Memories per PRS-073. | `root: SceneObject`, `listText: Text`, `replayButton: RectangleButton`, `closeButton: RectangleButton` |
+| `presentation/RecoveryPanel.ts` | `RecoveryPanel` | Offers recovery at ≤ 24 h (D-108, BEH-042). | `root: SceneObject`, `messageText: Text`, `resumeButton: RectangleButton`, `discardButton: RectangleButton` |
+| `presentation/ErrorPanel.ts` | `ErrorPanel` | Shows ERR-GPS-02 with "Try again" and "Demo Walk" (D-110). | `root: SceneObject`, `messageText: Text`, `tryAgainButton: RectangleButton`, `demoButton: RectangleButton` |
+| `presentation/DebugPanel.ts` | `DebugPanel` | Debug panel (D-055). | `root: SceneObject`, `debugText: Text`, `closeButton: RectangleButton` |
+| `demo/DemoDriver.ts` | `DemoDriver` | Wraps `DemoSessionController`. Advances one tick every **5.0 s** of real time (D-104); ends at 40 s. Logs the RNG self-test. | none |
 
 `RectangleButton` is imported from `'SpectaclesUIKit.lspkg/Scripts/Components/Button/RectangleButton'`. Subscribe with `onTriggerUp.add(...)` (UI Kit Button doc, "Code Example").
 
@@ -246,33 +244,64 @@ WaykinRoot                               on  pos(0,0,0)  [SessionController]
    ├─ IntroPanel                         on  pos(0,-5,-110)  [IntroPanel]
    │  ├─ Intro_Title                     on  pos(0,9,0)   [Text "Lira Walks With You" size 48]
    │  ├─ Intro_Glyph                     on  pos(0,3,0)   [Image Lira_Glyph_Dawn 6x6]
-   │  ├─ Intro_Safety                    on  pos(0,-1.5,0)[Text size 24]
-   │  ├─ Btn_BeginWalk                   on  pos(0,-6,0)  [RectangleButton size(16,4,1) style=Primary]
-   │  │  └─ Label                        on  [Text "Begin Walk" size 28]
-   │  └─ Btn_DemoWalk                    on  pos(0,-11,0) [RectangleButton size(16,4,1) style=Secondary]
-   │     └─ Label                        on  [Text "Demo Walk" size 28]
-   ├─ HudPanel                           off pos(0,-30,-110) [HudPanel]
-   │  ├─ Hud_Phrase                      on  pos(0,3,0)   [Text size 24]
-   │  ├─ Hud_Metrics                     on  pos(0,0,0)   [Text size 20]
-   │  ├─ Btn_Pause                       on  pos(-5,-4,0) [RectangleButton size(8,3.5,1) style=Secondary]
+   │  ├─ Intro_Text                      on  pos(0,-1.5,0)[Text size 24]
+   │  └─ Btn_Understand                  on  pos(0,-6,0)  [RectangleButton size(6,4,1) style=Primary]
+   │     └─ Label                        on  [Text "I understand" size 24]
+   ├─ PermissionsPanel                   off pos(0,-5,-110)  [PermissionsPanel]
+   │  ├─ Perm_Title                      on  pos(0,8,0)   [Text size 40]
+   │  ├─ Perm_Body                       on  pos(0,0,0)   [Text size 24 wrap 30]
+   │  └─ Btn_PermContinue                on  pos(0,-8,0)  [RectangleButton size(6,4,1) style=Primary]
+   │     └─ Label                        on  [Text "Continue" size 24]
+   ├─ SafetyPanel                        off pos(0,-5,-110)  [SafetyPanel]
+   │  ├─ Safety_Title                    on  pos(0,9,0)   [Text size 40]
+   │  ├─ Safety_Body                     on  pos(0,0,0)   [Text size 24 wrap 30]
+   │  ├─ Btn_BeginWalk                   on  pos(0,-8,0)  [RectangleButton size(6,4,1) style=Primary]
+   │  │  └─ Label                        on  [Text "Begin Walk" size 24]
+   │  └─ Btn_DemoWalk                    on  pos(0,-13,0) [RectangleButton size(6,4,1) style=Secondary]
+   │     └─ Label                        on  [Text "Demo Walk" size 24]
+   ├─ HudPanel                           off pos(0,-30,-110) rot(-11,-8,0) [HudPanel]
+   │  ├─ Hud_Phrase                      on  pos(0,4,0)   [Text size 24]
+   │  ├─ Hud_Prompt                      on  pos(0,1,0)   [Text size 20]
+   │  ├─ Hud_Metrics                     on  pos(0,-2,0)  [Text size 20]
+   │  ├─ Btn_Pause                       on  pos(-4,-6,0) [RectangleButton size(6,4,1) style=Secondary]
    │  │  └─ Label                        on  [Text "Pause" size 24]
-   │  └─ Btn_End                         on  pos(5,-4,0)  [RectangleButton size(8,3.5,1) style=Secondary]
+   │  └─ Btn_End                         on  pos(4,-6,0)  [RectangleButton size(6,4,1) style=Secondary]
    │     └─ Label                        on  [Text "End" size 24]
    ├─ SummaryPanel                       off pos(0,-5,-110) [SummaryPanel]
    │  ├─ Sum_Title                       on  pos(0,10,0)  [Text "Session Summary" size 40]
    │  ├─ Sum_Bond                        on  pos(0,5,0)   [Text size 32 color #D4A45A]
    │  ├─ Sum_Metrics                     on  pos(0,1,0)   [Text size 26]
    │  ├─ Sum_Memory                      on  pos(0,-4,0)  [Text size 22 wrap width 30]
-   │  └─ Btn_Done                        on  pos(0,-11,0) [RectangleButton size(14,4,1) style=Primary]
-   │     └─ Label                        on  [Text "Done" size 28]
-   ├─ NoticePanel                        off pos(0,-5,-100) [NoticePanel]
-   │  ├─ Notice_Text                     on  pos(0,4,0)   [Text size 24 wrap 30, color #E0B040]
-   │  ├─ Btn_NoticeDemo                  on  pos(-6,-3,0) [RectangleButton size(10,3.5,1)] └─ Label "Demo Walk"
-   │  └─ Btn_NoticeClose                 on  pos(6,-3,0)  [RectangleButton size(10,3.5,1)] └─ Label "Close"
+   │  └─ Btn_Done                        on  pos(0,-11,0) [RectangleButton size(6,4,1) style=Primary]
+   │     └─ Label                        on  [Text "Done" size 24]
+   ├─ MemoriesPanel                      off pos(0,-5,-110) [MemoriesPanel]
+   │  ├─ Mem_Title                       on  pos(0,8,0)   [Text size 40]
+   │  ├─ Mem_List                        on  pos(0,0,0)   [Text size 24 wrap 30]
+   │  ├─ Btn_Replay                      on  pos(-4,-8,0) [RectangleButton size(6,4,1) style=Primary]
+   │  │  └─ Label                        on  [Text "Replay" size 24]
+   │  └─ Btn_MemClose                    on  pos(4,-8,0)  [RectangleButton size(6,4,1) style=Secondary]
+   │     └─ Label                        on  [Text "Close" size 24]
+   ├─ RecoveryPanel                      off pos(0,-5,-110) [RecoveryPanel]
+   │  ├─ Rec_Title                       on  pos(0,8,0)   [Text size 40]
+   │  ├─ Rec_Message                     on  pos(0,0,0)   [Text size 24 wrap 30]
+   │  ├─ Btn_Resume                      on  pos(-4,-8,0) [RectangleButton size(6,4,1) style=Primary]
+   │  │  └─ Label                        on  [Text "Resume" size 24]
+   │  └─ Btn_Discard                     on  pos(4,-8,0)  [RectangleButton size(6,4,1) style=Secondary]
+   │     └─ Label                        on  [Text "Discard" size 24]
+   ├─ ErrorPanel                         off pos(0,-5,-100) [ErrorPanel]
+   │  ├─ Error_Text                      on  pos(0,4,0)   [Text size 24 wrap 30, color #E0B040]
+   │  ├─ Btn_TryAgain                    on  pos(-4,-3,0) [RectangleButton size(6,4,1) style=Secondary]
+   │  │  └─ Label                        on  [Text "Try again" size 24]
+   │  └─ Btn_ErrorDemo                   on  pos(4,-3,0)  [RectangleButton size(6,4,1) style=Primary]
+   │     └─ Label                        on  [Text "Demo Walk" size 24]
+   ├─ DebugPanel                         off pos(0,-5,-110) [DebugPanel]
+   │  ├─ Debug_Text                      on  pos(0,0,0)   [Text size 24]
+   │  └─ Btn_DebugClose                  on  pos(0,-8,0)  [RectangleButton size(6,4,1) style=Secondary]
+   │     └─ Label                        on  [Text "Close" size 24]
    └─ VersionLabel                       on  pos(0,-16,-110) [Text "v0.1.0" size 16 color #9AA3B0]
 ```
 
-Rationale for the panel distance: the panels sit at z = −110 cm because the displays reach full binocular overlap at 1.1 m, and the visible area there is ~53×77 cm (https://developers.snap.com/spectacles/best-practices/design-for-spectacles/introduction-to-spatial-design). All panels fit inside a 34 × 24 cm box. **DECISION D-305.**
+Rationale for the panel distance: the panels sit at z = −110 cm because the displays reach full binocular overlap at 1.1 m, and the visible area there is ~53×77 cm (https://developers.snap.com/spectacles/best-practices/design-for-spectacles/introduction-to-spatial-design). All panels fit inside a 34 × 24 cm box. Panels use pitch −5°, except HudPanel, which uses PRS-056 rot(-11,-8,0). **DECISION D-305.**
 
 All SUIK buttons use these settings: Has Shadow = off, Toggleable = off, Play Audio = **on**, Add Callbacks = off (the script subscribes instead).
 
@@ -286,29 +315,31 @@ All SUIK buttons use these settings: Has Shadow = off, Toggleable = off, Play Au
 | | storageAdapter | Adapters/StorageAdapter |
 | | receiptAdapter | Adapters/ReceiptAdapter |
 | | demoDriver | Adapters/DemoDriver |
-| | introPanel / hudPanel / summaryPanel / noticePanel | UI/IntroPanel, UI/HudPanel, UI/SummaryPanel, UI/NoticePanel |
+| | introPanel / permissionsPanel / safetyPanel / hudPanel / summaryPanel / memoriesPanel / recoveryPanel / errorPanel / debugPanel | UI/IntroPanel, UI/PermissionsPanel, UI/SafetyPanel, UI/HudPanel, UI/SummaryPanel, UI/MemoriesPanel, UI/RecoveryPanel, UI/ErrorPanel, UI/DebugPanel |
 | | versionLabel | UI/VersionLabel.Text |
 | AudioAdapter | foreground / ambient / moment | Audio_Foreground / Audio_Ambient / Audio_Moment |
 | | track* (9) | `Assets/Audio/<basename>.wav` matching name |
 | LiraController | cameraObject | Camera |
 | | liraAnchor / liraModel / liraFallback | LiraAnchor / LiraModel / LiraFallback |
 | | animationPlayer | LiraModel.AnimationPlayer |
-| IntroPanel | root, title, safetyLine, beginButton, demoButton | IntroPanel, Intro_Title, Intro_Safety, Btn_BeginWalk, Btn_DemoWalk |
-| HudPanel | root, cameraObject, phraseText, metricsText, pauseButton, pauseLabel, endButton | HudPanel, Camera, Hud_Phrase, Hud_Metrics, Btn_Pause, Btn_Pause/Label, Btn_End |
+| IntroPanel | root, title, introText, understandButton | IntroPanel, Intro_Title, Intro_Text, Btn_Understand |
+| PermissionsPanel | root, title, bodyText, continueButton | PermissionsPanel, Perm_Title, Perm_Body, Btn_PermContinue |
+| SafetyPanel | root, title, safetyText, beginButton, demoButton | SafetyPanel, Safety_Title, Safety_Body, Btn_BeginWalk, Btn_DemoWalk |
+| HudPanel | root, cameraObject, phraseText, promptText, metricsText, pauseButton, pauseLabel, endButton | HudPanel, Camera, Hud_Phrase, Hud_Prompt, Hud_Metrics, Btn_Pause, Btn_Pause/Label, Btn_End |
 | SummaryPanel | root, titleText, bondText, metricsText, memoryText, doneButton | SummaryPanel, Sum_Title, Sum_Bond, Sum_Metrics, Sum_Memory, Btn_Done |
-| NoticePanel | root, messageText, demoButton, closeButton | NoticePanel, Notice_Text, Btn_NoticeDemo, Btn_NoticeClose |
+| MemoriesPanel | root, listText, replayButton, closeButton | MemoriesPanel, Mem_List, Btn_Replay, Btn_MemClose |
+| RecoveryPanel | root, messageText, resumeButton, discardButton | RecoveryPanel, Rec_Message, Btn_Resume, Btn_Discard |
+| ErrorPanel | root, messageText, tryAgainButton, demoButton | ErrorPanel, Error_Text, Btn_TryAgain, Btn_ErrorDemo |
+| DebugPanel | root, debugText, closeButton | DebugPanel, Debug_Text, Btn_DebugClose |
 
 - Verify: with WaykinRoot selected, the Inspector shows no empty input field. On Preview start, the Logger shows no "undefined input" errors.
 
 ### 5.2 Lira placement and animation (LiraController)
 
-This section uses Lens Studio cm units and the Camera world transform. These defaults mirror the iOS follow constants. presentation-spec overrides them per D-324.
+This section uses Lens Studio cm units and the Camera world transform. presentation-spec overrides them per D-324.
 
-- **Ground height:** `anchor.y = camera.y − 145`. This is the assumed eye height of 1.45 m (`App/AR/ARPlacementResolver.swift:136`).
-- **Target position** = `camera.flatPos + flatForward × fwd + flatRight × side`. The values come from bearing and distance:
-  - `beside` (states idle, follow, celebrate, drawNear, rest; mapper `App/AR/CanonicalARWorldCommandMapper.swift:194-203`): fwd = `min(relativeDistance,2.0)×100×0.5`, side = **+80** (`App/AR/ARWorldCommandRenderer.swift:428`).
-  - `ahead` (lead): fwd = **200** (`:430`), side = 0.
-  - `contextual` (observe): fwd = 120, side = −60 (**D-308**).
+- **Ground height:** hit test if available, else `anchor.y = camera.y − 145` (head y − 1.45 m; `App/AR/ARPlacementResolver.swift:136`).
+- **Target position** = `camera.flatPos + flatForward × fwd + flatRight × side`. `fwd` comes from the D-202/D-203 band table (1.3/1.6/2.0/3.0 m); `side` = +60 cm on Lira's current side (default right). The "lead" behavior also uses the band distance.
 - **Motion:** Move toward the target at speed `min(500, max(135, walkerSpeed×1.35))` cm/s (`:414-419`). Stop when within **45 cm** (`:432`). Yaw faces the direction of travel. When stopped, yaw faces the camera.
 - **Clip map:** the behavior string comes from `arBehaviorString`, then the clip plays. Loops use `repeat`. The one-shot clips are Celebrate and Spawn.
 
@@ -323,58 +354,64 @@ This section uses Lens Studio cm units and the Camera world transform. These def
 
 - **Spawn:** On session start, enable LiraAnchor, play `Lira_Spawn` once, and scale from 0.92 to 1.0 over **700 ms** with ease-out. The scale factor follows `0.92 + 0.08·(1−(1−p)^3)` (`App/AR/Companion/LiraARMotion.swift:210-223`).
 - **Fallback:** If `Prefab_LiraModel` failed to instantiate or `animationPlayer` is null, set LiraModel off and LiraFallback on.
-- **Degrade (FR-018):** Set LiraModel and LiraFallback off, and keep audio running (§8).
+- **Degrade (PRS-093):** loop clips off (static pose), hunter echo hidden, HUD lazy-follow frozen, audio kept (§8).
 
 ### 5.3 HUD follow
 
-On `UpdateEvent`, move HudPanel toward `camera.pos + flatForward×110 + (0,−30,0)`. Use a 0.1 lerp per frame, and only when the angle from the current position exceeds **20°** (**D-309**, lazy follow). HudPanel faces the camera. It stays at 34 × 12 cm, so it is never full-screen (FR-011).
+HUD placement follows PRS-056: 1.1 m, −8° yaw, −11° pitch, 18×10 cm. Follow uses D-212. It is never full-screen (FR-011).
 
 ---
 
 ## 6. Persistence (StorageAdapter)
 
-The API is `global.persistentStorageSystem.store` with `getInt`/`putInt` and `onStoreFull` (https://developers.snap.com/lens-studio/features/persistent-cloud-storage/persistent-storage). The doc defers to the GeneralDataStore API for the full type list, so `getString`/`putString` are `(platform knowledge, verify)`.
+The API is `global.persistentStorageSystem.store` with `getInt`/`putInt` and `onStoreFull` (https://developers.snap.com/lens-studio/features/persistent-cloud-storage/persistent-storage). The doc defers to the GeneralDataStore API for the full type list, so `getString`/`putString` are `(platform knowledge, verify)`. Use D-112.
 
 | Key | Type | Default | Written when |
 |---|---|---|---|
-| `waykin.schema` | int | 1 | first launch |
-| `waykin.bond.level` | int | **12** (`PersistenceStore.swift:41`) | session end |
-| `waykin.memories.v1` | string (JSON array, max **5**, newest first; `data-model.md:138`) | `"[]"` | session end |
-| `waykin.session.count` | int | 0 | session end (also the seed salt; D-311) |
+| `waykin.profile.v1` | string (JSON) | `{}` | first launch, session end, setting change |
+| `profile.bondLevel` | int | **12** (`PersistenceStore.swift:41`) | session end |
+| `profile.memories` | array (max **5**, newest first; `data-model.md:138`) | `[]` | session end |
+| `profile.onboardingDone` | bool | false | onboarding complete |
+| `profile.reduceMotion` | bool | false | Reduce Motion setting change |
+| `waykin.receipt.last.v1` | string | none | session end |
 
 - Memory JSON element: `{"endedAtSec":number,"activeTime":number,"distance":number,"eventKinds":[string],"bondDelta":int,"line":string}`. It contains **no coordinates**.
-- `onStoreFull`: **do not** `clear()`. This is a deliberate deviation from the doc sample, because clearing would erase Bond. Instead, drop the oldest memory, retry once, and if the retry fails, write only `waykin.bond.level` (**D-312**).
-- **Seed (D-311):** `seed = (sessionCount × 2654435761 + 42) mod 2^64`. The value is passed to the core as a decimal string and logged at start as `WAYKIN_SEED <n>`. Demo always uses the core Demo scenario (no seed dependence; `DemoSessionController.swift:34-43`).
+- On a write failure: (1) delete `waykin.receipt.last.v1` and retry; (2) drop the oldest memory and retry; (3) show ERR-PERSIST-04. Never call `clear()`.
+- **Seed (GAP-CONST-04):** 42 for every walk (iOS parity; the vectors are authoritative). Logged at start as `WAYKIN_SEED 42`. Demo always uses the core Demo scenario (no seed dependence; `DemoSessionController.swift:34-43`).
 
 ---
 
 ## 7. Session state machine (SessionController)
 
-The states are `idle → intro → (demo | walk) active ⇄ paused → ending → summary → idle` (`data-model.md:155`). Stop is legal from every non-idle state.
+The states are `idle → intro → permissions → safety → (demo | walk) active ⇄ paused → ending → summary → idle` (`data-model.md:155`). Stop is legal from every non-idle state.
 
 | From | Trigger | To | Actions |
 |---|---|---|---|
-| boot | OnStart | intro | Load storage. Print `Lens Opened: v0.1.0` (publish checklist). Show IntroPanel. |
-| intro | Btn_BeginWalk | walk-acquiring | Start LocationAdapter. Start a 10 s first-fix timer (NC-55). |
+| boot | OnStart | intro | Load storage. If a checkpoint exists, show RecoveryPanel at ≤ 24 h, else silent finalize (D-108). Print `Lens Opened: v0.1.0` (publish checklist). Show IntroPanel. |
+| intro | Btn_Understand | permissions | Show PermissionsPanel (PRS-070). |
+| permissions | Btn_PermContinue | safety | Show SafetyPanel (PRS-070). |
+| safety | Btn_BeginWalk | walk-acquiring | Start LocationAdapter. Start a 30 s first-fix timer (D-110). |
+| safety | Btn_DemoWalk | demo-active | Start DemoDriver. Lira spawns. No spawn theme (iOS parity, `App/WaykinApp.swift:643-645`). |
 | walk-acquiring | first accepted sample | walk-active | Call `MovementEngine.startSession` + `resumeSession`, then `CompanionWalkExperience.start`. Lira spawns and `spawnTheme` plays. HUD shows. |
-| walk-acquiring | timeout or 3 consecutive errors | intro + notice | Notice: "Location access is required for a real walk. Demo Walk is still available." (`App/WaykinApp.swift:958`) |
-| intro | Btn_DemoWalk / Btn_NoticeDemo | demo-active | Start DemoDriver. Lira spawns. No spawn theme (iOS parity, `App/WaykinApp.swift:643-645`). |
+| walk-acquiring | timeout or 3 consecutive errors | error | Show ErrorPanel with ERR-GPS-02 "No GPS fix yet. Try outside, or start Demo Walk." and buttons "Try again" and "Demo Walk". |
 | *-active | Btn_Pause | paused | `pauseSession`. Audio pauses. Label → "Resume" (`App/AR/CanonicalARSessionView.swift:339`). |
 | paused | Btn_Pause | *-active | `resumeSession`. Label → "Pause" (`:349`). |
 | active/paused | Btn_End | ending | `endSession`, then `finish`, then bond update and storage write. Audio stops. Lira off. |
-| walk-active | 5 consecutive location errors (5 s) | ending (reason locationLost) | Notice: "Location became unavailable. The walk was stopped safely." (`App/WaykinApp.swift:1413`). A partial summary persists (`tasks.md:61`). |
-| active | degrade trigger (§8) held 30 s | active (degraded) | Lira hidden; the walk continues with audio. |
+| walk-active | 3 consecutive location errors (15 s) | active (degraded) | HUD line 2 shows ERR-GPS-03. No auto-pause (D-111). |
+| walk-active | lost location for 120 s | ending (reason locationLost) | Summary (D-111). |
+| active | degrade trigger per D-116 | active (degraded) | PRS-093: loop clips off (static pose), hunter echo hidden, HUD lazy-follow frozen, audio kept. |
 | ending | done | summary | Fill SummaryPanel. If `bondDelta > 0`, `bondMilestone` plays. |
 | summary | Btn_Done | intro | |
+| summary | Btn_Replay | memories | Show MemoriesPanel; replay from Memories (PRS-073). |
 
-Bond delta rules: a walk gives `+1` (iOS physical, `App/WaykinApp.swift:1097`). Demo uses `result.bondDelta` (`:817`). Behavior-spec overrides this per D-324.
+Bond delta rules: userStop always gives `+1`; non-user ends follow D-109 (≥ 60 s). Demo uses `result.bondDelta` (`:817`). Behavior-spec overrides this per D-324.
 
-At 15:00 of active time, the HUD phrase shows for 8 s: "Lira is ready to rest when you are." (**D-313**; `spec.md` edge-case threshold.) Walking continues.
+At 15:00 and 20:00 of active time, HUD line 2 shows the BEH-031 copy for 4000 ms (D-107; rendered per D-216). At 30:00 the walk auto-ends and leads to the summary.
 
-Intro safety line: "Pause or end anytime. Stopping is never a failure." (`App/Onboarding/OnboardingFlowView.swift:230`).
+Onboarding copy follows PRS-070 verbatim.
 
-Summary copy:
-- Bond: `Bond +N` / `Bond N` / `Bond held` (`App/WaykinApp.swift:3017-3022`).
+Summary copy per PRS-058 (`3017-3022`), with the `Done` button.
+- Bond: `Bond +N` / `Bond N` / `Bond held`.
 - Metrics: `M:SS · N m` (`:3024-3034`).
 - Memory: `memoryText` with the `WalkPathCopy` suffix applied.
 
@@ -385,9 +422,10 @@ HUD metrics use the same `M:SS · N m` format through `PresencePhrase.elapsedTex
 ## 8. Performance guardrails
 
 - Targets: 60 FPS and power < 100% (Lens Performance Overlay doc).
-- **Degrade trigger (NC-56):** the mean `deltaTime` over a rolling 5 s window is > **20 ms** (< 50 FPS), sustained 30 s. The provided docs expose no thermal or power API to scripts. On trigger, hide Lira (§5.2) and stop HUD lerp updates (the panel is frozen in place). Recovery: mean < 17 ms sustained for 60 s.
+- **Degrade trigger (D-116):** enter at a 10 s rolling mean frame delta > **20 ms**; exit at < **17 ms** for 30 s; end with reason `power` after 180 s continuous. The provided docs expose no thermal or power API to scripts. The effect follows **PRS-093**: loop clips off (static pose), hunter echo hidden, HUD lazy-follow frozen, audio kept.
 - Simultaneous sounds ≤ 3 (one per channel; perf doc "limit the number of simultaneous sounds").
-- AudioComponent `playbackMode` = `Audio.PlaybackMode.LowPower` on all three channels, set in `AudioAdapter.onAwake`. Spectacles defaults to LowPower, and the cues tolerate latency (https://developers.snap.com/spectacles/about-spectacles-features/audio). Button feedback uses the SUIK built-in audio. **D-306** also states that pan (±0.2 on iOS, `App/AppAudioCuePlayer.swift:536-541`) is dropped.
+- Draw calls ≤ 20; bones ≤ 25 (the `.blend` rig).
+- AudioComponent `playbackMode` = `Audio.PlaybackMode.LowPower` on all three channels, set in `AudioAdapter.onAwake`. Spectacles defaults to LowPower, and the cues tolerate latency (https://developers.snap.com/spectacles/about-spectacles-features/audio). Button feedback uses the SUIK built-in audio. Spatial audio follows D-209; if the spatial AudioComponent setting is unavailable (verify in T047/T050), fall back to non-spatial D-306 and log it in the build receipt.
 
 ---
 
@@ -401,7 +439,7 @@ HUD metrics use the same `M:SS · N m` format through `PresencePhrase.elapsedTex
 | LSB-063 | Build tree §5.1 (top-down creation order) | Hierarchy names match §5.1 character-for-character (agent: dump the hierarchy and diff it against §5.1) |
 | LSB-064 | Materials LSB-040..044 | No PBR material in the scene |
 | LSB-065 | Wiring LSB-050 | No empty inputs |
-| LSB-066 | Enabled states per §5.1 | LiraAnchor, HudPanel, SummaryPanel, NoticePanel off at start |
+| LSB-066 | Enabled states per §5.1 | LiraAnchor, HudPanel, SummaryPanel, MemoriesPanel, RecoveryPanel, ErrorPanel, DebugPanel off at start |
 | LSB-067 | Save; size check | Project Info Lens size ≤ **15 MB** (D-314; hard cap 25 MB per the publish doc) |
 
 ---
@@ -410,14 +448,14 @@ HUD metrics use the same `M:SS · N m` format through `PresencePhrase.elapsedTex
 
 | Step | Test | Pass |
 |---|---|---|
-| LSB-070 | Launch | Logger: `Lens Opened: v0.1.0` and `WAYKIN_SEED`. IntroPanel visible at ~110 cm. |
-| LSB-071 | RNG self-test | DemoDriver logs the first 4 `next()` values for the reference seed. They equal `rngStream[0..3]` in the reference vector under `Tests/Vectors/seed-event/` (`quickstart.md:48`). |
-| LSB-072 | Demo Walk | Logger event order: `companionObserves, companionDrawsNear, distantPresence, pursuitBegins, pursuitIntensifies, pursuitFades, bondMoment` (`DemoSessionController.swift:6-14`), one every 6 s. Each logged cue matches `AudioExperienceLayer.map` (`AudioExperienceLayer.swift:110-127`). |
+| LSB-070 | Launch | Logger: `Lens Opened: v0.1.0` and `WAYKIN_SEED`. IntroPanel visible at 1.1 m, −5° pitch. |
+| LSB-071 | RNG self-test | DemoDriver logs the first 4 `next()` values for seed 42. They equal `rngStream[0..3]` in the reference vector under `Tests/Vectors/seed-event/` (`quickstart.md:48`). |
+| LSB-072 | Demo Walk | Logger event order: `companionObserves, companionDrawsNear, distantPresence, pursuitBegins, pursuitIntensifies, pursuitFades, bondMoment` (`DemoSessionController.swift:6-14`), one every 5 s; end at 40 s. Each logged cue matches `AudioExperienceLayer.map` (`AudioExperienceLayer.swift:110-127`). |
 | LSB-073 | Pause mid-demo | Ticks stop. Label shows "Resume". After resume, no event is duplicated (`Tests/WaykinCoreTests/DemoAndPhysicsTests.swift:74-89`). |
 | LSB-074 | End | SummaryPanel shows "Session Summary", a Bond line, metrics, and memory. Done returns to intro. |
-| LSB-075 | Persistence | Preview `... → Print Persistent Storage` shows `waykin.bond.level` and `waykin.memories.v1` (storage doc). Restart Preview and the Bond value is unchanged. |
-| LSB-076 | Six demos | `waykin.memories.v1` length = 5. |
-| LSB-077 | Begin Walk in Preview | No fix arrives, so after 10 s the notice copy from §7 appears. Btn_NoticeDemo starts the demo. |
+| LSB-075 | Persistence | Preview `... → Print Persistent Storage` shows `waykin.profile.v1` (storage doc). Restart Preview and the Bond value is unchanged. |
+| LSB-076 | Six demos | memories in `waykin.profile.v1` length = 5. |
+| LSB-077 | Begin Walk in Preview | No fix arrives, so after 30 s the ERR-GPS-02 copy from §7 appears. Btn_ErrorDemo starts the demo. |
 | LSB-078 | Clear storage | Preview `... → Clear Persistent Storage`. Restart and Bond = 12. |
 
 ## 11. On-device tests
@@ -432,7 +470,7 @@ HUD metrics use the same `M:SS · N m` format through `PresencePhrase.elapsedTex
 | LSB-081 | Outdoor 15 min walk | Record FPS, CPU%, and GPU% at 0, 5, 10, and 15 min. No thermal standby. |
 | LSB-082 | Stop reachability | Btn_End works within 1 pinch from active and from paused (SC-007). |
 | LSB-083 | Relaunch × 3 | Bond and memories unchanged (SC-006). |
-| LSB-084 | Location off | Notice shows. Demo works. |
+| LSB-084 | Location off | ErrorPanel shows. Demo works. |
 
 Every device row stays `NOT_COMPUTABLE` until you observe it (`WAYKIN_SPEC.md:39`).
 
@@ -447,8 +485,8 @@ Source for every row: https://developers.snap.com/spectacles/get-started/start-b
 | LSB-092 | No experimental API | LSB-012 |
 | LSB-093 | Version visible + logged | VersionLabel + `Lens Opened: v0.1.0` |
 | LSB-094 | Custom icon + 3:4 preview | LSB-025 assets set in the publish dialog |
-| LSB-095 | Defined objective / onboarding | IntroPanel title + safety line |
-| LSB-096 | Permissions publishable | Only GPS - Precise (LSB-014) |
+| LSB-095 | Defined objective / onboarding | PRS-070 Intro/Permissions/Safety |
+| LSB-096 | Permissions publishable | Only GPS - Precise (LSB-014); verified in TST-051 and T073 |
 | LSB-097 | Capturable | One capture taken; Lira visible in the capture |
 | LSB-098 | Metadata | Description: "Walk with Lira, a companion who reacts to how you move." Release notes listing version and changes. Test steps = §10/§11 IDs. |
 | LSB-099 | Submit | Moderation review takes 2–3 business days |
@@ -461,9 +499,9 @@ Receipt template (`docs/design/receipts/LENS_BUILD_<UTC>_<sha>.md`): YAML fields
 
 | Id | Gap | Resolution | Citation |
 |---|---|---|---|
-| GAP-L-CONST-01 | No Lens Studio minimum version | Source | location doc (≥ 5.7.0) |
-| GAP-L-PUB-01 | Permission set ambiguous (FR-014 "plus Internet") | DECISION D-301 (flagged correction) | permission overview + Transparent Permission docs |
-| GAP-L-ASSET-01 | iOS USDZ not importable; 20 MB | DECISION D-302 | glTF import doc; `BUILD_MANIFEST.json:40-53` |
+| GAP-L-CONST-01 | No Lens Studio minimum version | Source | 5.15.4 pin (NC-05, https://ar.snap.com/spectacles) |
+| GAP-L-PUB-01 | Permission set ambiguous (FR-014 "plus Internet") | DECISION D-301 (verify TST-051/T073) | permission overview + Transparent Permission docs |
+| GAP-L-ASSET-01 | Lira source rig and size | DECISION D-302 | glTF import doc; `BUILD_MANIFEST.json:40-53` |
 | GAP-L-ASSET-02 | Import settings unspecified | Source + platform | glTF import doc |
 | GAP-L-ASSET-03 | Texture size unspecified | Source | perf doc (≤ 512 px) |
 | GAP-L-ASSET-04 | Poly budget unknown | NC-53 | `tasks.md:37` |
@@ -471,22 +509,22 @@ Receipt template (`docs/design/receipts/LENS_BUILD_<UTC>_<sha>.md`): YAML fields
 | GAP-L-AUDIO-02 | Channel/volume model | Source port | `App/AppAudioCuePlayer.swift:13-115,352` |
 | GAP-L-AUDIO-03 | Playback mode | Source | Spectacles audio doc |
 | GAP-L-LIRA-01 | Skin set | DECISION D-304 | publish doc (black transparent) |
-| GAP-L-LIRA-02 | Placement constants | Source mirror + D-308 | `ARWorldCommandRenderer.swift:414-432`, `ARPlacementResolver.swift:136` |
+| GAP-L-LIRA-02 | Placement constants | D-202/D-203 | `ARPlacementResolver.swift:136` |
 | GAP-L-LIRA-03 | Clip mapping | Source | `CompanionPresentationState.swift:39,109-120`; manifest clips |
-| GAP-L-UI-01 | Panel distance/size | DECISION D-305 | spatial design doc |
-| GAP-L-UI-02 | HUD follow behavior | DECISION D-309 | FR-011 |
-| GAP-L-UI-03 | Copy strings | Source reuse + D-313 | `WaykinApp.swift:958,1413,2896,3017-3034` |
+| GAP-L-UI-01 | Panel distance/size | DECISION D-305 (1.1 m, −5° pitch) | spatial design doc |
+| GAP-L-UI-02 | HUD follow behavior | DECISION D-212 / PRS-056 | FR-011 |
+| GAP-L-UI-03 | Copy strings | Source reuse + D-107/D-216 | `WaykinApp.swift:958,1413,2896,3017-3034` |
 | GAP-L-SCENE-01 | Scene graph undefined | §5.1 | `plan.md:78-84` |
 | GAP-L-PERSIST-01 | Keys/defaults | §6 | storage doc; `PersistenceStore.swift:41` |
-| GAP-L-PERSIST-02 | Store-full policy | DECISION D-312 | storage doc |
-| GAP-L-SM-01 | Session seed source | DECISION D-311 | `contracts/core-parity.md` |
+| GAP-L-PERSIST-02 | Store-full policy | BEH-045 | storage doc |
+| GAP-L-SM-01 | Session seed source | GAP-CONST-04 (42) | `contracts/core-parity.md` |
 | GAP-L-SM-02 | Lifecycle transitions | §7 | `data-model.md:155` |
-| GAP-L-DEMO-01 | Demo real-time pacing | DECISION D-307 | `DemoSessionController.swift:40` |
+| GAP-L-DEMO-01 | Demo real-time pacing | DECISION D-104 | `DemoSessionController.swift:40` |
 | GAP-L-GPS-01 | Poll rate/accuracy | Source | location doc |
-| GAP-L-GPS-02 | First-fix timeout | NC-55 | — |
+| GAP-L-GPS-02 | First-fix timeout | D-110 (30 s) | — |
 | GAP-L-GPS-03 | GPS accuracy vs 30 m gate | NC-54 | `MovementIntegrity.swift:17` |
 | GAP-L-ERR-01 | Location lost mid-walk | Source (partial summary) | `tasks.md:61` |
-| GAP-L-PERF-01 | Thermal trigger | NC-56 | overlay doc |
+| GAP-L-PERF-01 | Thermal trigger | D-116 | overlay doc |
 | GAP-L-PERF-02 | Size target | DECISION D-314 | publish doc |
 | GAP-L-TEST-01 | Receipt output channel | DECISION D-310 | `ARCHITECTURE.md:94` |
 | GAP-L-PUB-02 | Version visibility | Source | publish checklist |
@@ -496,25 +534,18 @@ Receipt template (`docs/design/receipts/LENS_BUILD_<UTC>_<sha>.md`): YAML fields
 
 | Id | Title | Default | Alternatives | Why |
 |---|---|---|---|---|
-| D-301 | Permissions | RawLocationModule only; no Internet descriptor | Add InternetModule | No network I/O; avoids a needless prompt. Flagged correction of FR-014. |
-| D-302 | Lira source rig | `Lira_AR_Base_with_clips.blend` → `.glb` | Ember Fox re-export; procedural | 6 state clips, ~5 MB vs 20 MB |
-| D-303 | Audio set | 7 walk cues + spawn + bond milestone | All 11 | No launch/reveal moment in the Lens; size |
-| D-304 | Skins | Dawn only | All 3 | Dark Veil is invisible on the additive display |
-| D-305 | Panel placement | z = −110 cm, ≤ 34×24 cm | 100 cm, 150 cm | Full overlap at 1.1 m |
-| D-306 | Audio pan | Ignored | Spatial audio | iOS pan only ±0.2; cost |
-| D-307 | Demo pacing | 1 tick / 6 s | 3 s, 10 s | 42 s demo, readable |
-| D-308 | Contextual bearing | fwd 120, side −60 cm | Same as beside | Distinguishes observe |
-| D-309 | HUD follow | Lazy, 20° threshold, lerp 0.1 | Head-locked; world-fixed | Peripheral, not full-screen |
-| D-310 | Receipt output | One Logger line `WAYKIN_RECEIPT` | File export | No file API in the excerpts |
-| D-311 | Seed | `count×2654435761+42` mod 2^64 | Fixed 42; time | Deterministic, varies per walk |
-| D-312 | Store full | Drop oldest memory, never clear Bond | `clear()` | Protects progression |
-| D-313 | 15-min hint | Phrase "Lira is ready to rest when you are." for 8 s | Panel; none | Non-blocking per spec edge case |
-| D-314 | Size target | ≤ 15 MB | ≤ 25 MB | Headroom under the cap |
-| D-324 | Doc precedence | presentation-/behavior-spec values win | This doc wins | Single owner per domain |
-| NC-50 | Lens Studio exact version | ≥ 5.7.0, record actual | — | Pin at first build |
-| NC-51 | SIK/SUIK versions | Latest; record | — | Not in sources |
+| D-301 | Permissions | RawLocationModule only; no Internet descriptor | Add InternetModule if GPS fails without Internet | Verify in TST-051 and at publish (T073); amend D-301 if fallback triggered. |
+| D-302 | Lira source rig | `Lira_AR_Base_with_clips.blend` → `.glb` | — | 6 state clips, ~5 MB vs 20 MB |
+| D-303 | Audio set | 7 walk cues + spawn + bond milestone | — | No launch/reveal moment in the Lens; size |
+| D-304 | Skins | Dawn only | — | Dark Veil is invisible on the additive display |
+| D-305 | Panel placement | z = −110 cm, pitch −5°, ≤ 34×24 cm | — | Full overlap at 1.1 m |
+| D-306 | Audio pan fallback | Non-spatial fallback if D-209 unavailable | — | CF-07 fallback; log in build receipt |
+| D-310 | Receipt output | One Logger line `WAYKIN_RECEIPT` | — | No file API in the excerpts |
+| D-314 | Size target | ≤ 15 MB | — | Headroom under the cap |
+| D-324 | Doc precedence | presentation-/behavior-spec values win | — | Single owner per domain |
+| NC-50 | Lens Studio exact version | Resolved: 5.15.4 (NC-05) | https://ar.snap.com/spectacles | — |
+| NC-51 | SIK/SUIK versions | Resolved: SIK 0.17.2, UI Kit 0.1.4 (NC-05) | SIK release notes; eng.snap.com/spatial_interaction | — |
 | NC-52 | Blender version | 4.x | — | Toolchain |
 | NC-53 | Tri budget | 15,000 tris | — | Measure on device; reduce if > 100% GPU |
 | NC-54 | Spectacles GPS accuracy | Keep the 30 m gate | — | Log the accepted/rejected ratio on a walk |
-| NC-55 | Time to first fix | 10 s timeout | — | Measure cold-start fixes ×5 |
-| NC-56 | Thermal signal | Frame-time proxy (>20 ms mean, 30 s) | — | No script thermal API in the docs |
+| NC-55 | Time to first fix | 30 s timeout | — | Measure cold-start fixes ×5 |

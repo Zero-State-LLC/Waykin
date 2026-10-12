@@ -146,7 +146,7 @@ Bond is the single persistent progression metric. The delta rules come from the 
 | `distance` | INFERRED |
 | `eventCount` | INFERRED |
 | `bondDelta` | INFERRED |
-| `endedReason` (user stop, thermal/power, location lost) | INFERRED |
+| `endedReason` (`userStop`, `power`, `locationLost`) | INFERRED |
 
 **Lifecycle**: A summary is derived once at session end and is then immutable.
 

@@ -3,13 +3,13 @@
 Status values:
 
 - **proposed**: The recommended default. Implementers use it until Danny decides.
-- **accepted**: Danny approved it; it is binding for the spec set.
-- **rejected**: Replaced. The entry links its replacement.
+- **accepted**: Danny approved it; it is binding for the spec set. On 2026-10-11 at 11:03 PM PT, Danny approved every decision not marked superseded, including the companion-doc decisions in the table below.
+- **superseded by CF-xx**: Overruled by the Conflicts table, which links the winning value.
 
 Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 
 ### D-001 Time context fed to core
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Context**: iOS real walks pass `"day"`, which isn't a `TimeContext`, so the core falls back to `.midday` (`WaykinApp.swift:170`, `Experiences.swift:83`).
 - **Recommended default**: Always pass `"day"`.
 - **Alternatives**: Map the local hour to `"night"` for 20:00–05:59.
@@ -18,7 +18,7 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-002 Core tick trigger
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Context**: iOS ticks on each sample. iOS uses a 2 m distance filter (`RealLocationProvider.swift:32`); the Lens has none.
 - **Recommended default**: Tick once for each fix with a new timestamp (polled every 1 s). No distance filter.
 - **Alternatives**: Add a 2 m software filter.
@@ -27,7 +27,7 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-003 Activity energy hint
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Context**: The Lens has no HealthKit (FR-015).
 - **Recommended default**: `activityEnergyHint = 0`.
 - **Alternatives**: None.
@@ -36,35 +36,23 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-004 Lira clip mapping
-- **Status**: proposed
+- **Status**: superseded by CF-03
 - **Context**: FR-007 allows 3–4 behaviors. The source has 5 presentation states.
-- **Recommended default**: Map the states to 4 clips:
-
-  | State | Clip |
-  |---|---|
-  | idle | `Lira_Idle` (loop) |
-  | follow | `Lira_Walk` (loop, plays only while closing) |
-  | investigate | `Lira_Alert` at 0.6× speed |
-  | alert | `Lira_Alert` (loop) |
-  | celebrate | `Lira_Celebrate` (one-shot, 1.5 s), then idle |
-
-  Crossfade 0.25 s.
-- **Alternatives**: 5 clips.
+- **Recommended default**: Superseded: see CF-03 (winner: D-302 rig with `Lira_Idle`, `Lira_Follow`, `Lira_Investigate`, `Lira_Alert`, `Lira_Celebrate`, `Lira_Spawn`; PRS-004 IDs map to these; PRS-005 fallbacks for missing actions)
 - **Why**: Smallest bone and animation budget.
 - **Affects**: GAP-LIRA-01, ASSET-04, FR-007.
 - **Danny**: yes / no / change
 
 ### D-005 Follow target ahead of the walker (correction to iOS)
-- **Status**: proposed
+- **Status**: superseded by CF-01
 - **Context**: iOS settles 0.25 m behind and 0.8 m right (`ARWorldCommandRenderer.swift:523`). On glasses, that spot is out of view.
-- **Recommended default**: Target = head position + flatForward×1.8 m + flatRight×0.6 m, at ground height.
-- **Alternatives**: Beside the walker at 1.0 m to the right (often outside the FOV).
+- **Recommended default**: Superseded: see CF-01 (winner: D-202/D-203 band table forward distance, lateral +0.6 m on Lira's current side (default right))
 - **Why**: Content is fully overlapped at ≥ 1.1 m (SNAP spatial-design).
 - **Affects**: GAP-LIRA-03.
 - **Danny**: yes / no / change
 
 ### D-006 Follow hysteresis for the ahead target
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**:
   - Start moving when the distance to the target is > 1.8 m.
   - Stop at ≤ 0.45 m.
@@ -76,7 +64,7 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-007 Lead mode deferred
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**: Follow only. There is no escort toggle.
 - **Alternatives**: Port lead mode (2.0 m, 0.45 m deadband).
 - **Why**: D-005 already keeps Lira ahead of the walker.
@@ -84,58 +72,55 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-008 Re-plant rule
-- **Status**: proposed
-- **Recommended default**: Check every 1 s. If Lira is > 6 m away and either behind the view or out of the FOV for > 5 s, teleport her to the D-005 target and replay the 0.70 s spawn scale. Also teleport when tracking resumes after a loss.
+- **Status**: superseded by CF-18
+- **Recommended default**: Superseded: see CF-18 (winner: PRS-018 (> 6 m and behind, checked every 1 s) plus PRS-021 (8 s outside ±25°))
 - **Why**: Avoids visible jumps (`ARPlacementResolver.swift:306-311`).
 - **Affects**: GAP-LIRA-06, LIRA-07.
 - **Danny**: yes / no / change
 
 ### D-009 No occlusion
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**: Use no world mesh and no depth occlusion.
 - **Why**: Saves power (SNAP optimizing doc).
 - **Affects**: GAP-LIRA-08.
 - **Danny**: yes / no / change
 
 ### D-010 Omit hunter echo and status orb
-- **Status**: proposed
-- **Recommended default**: Don't render either node. The state color shows on the HUD chip instead.
+- **Status**: superseded by CF-19
+- **Recommended default**: Superseded: see CF-19 (winner: render hunter echo per PRS-011, alert state only, hidden while degraded)
 - **Why**: Fewer draw calls.
 - **Affects**: GAP-LIRA-12.
 - **Danny**: yes / no / change
 
 ### D-011 Dawn skin only
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**: One material, using the Dawn palette (`CompanionEntityFactory.swift:43-50`).
 - **Affects**: GAP-LIRA-14.
 - **Danny**: yes / no / change
 
 ### D-012 Discovery and threat visuals
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**: No entities. On a discovery event (presence, familiar, observes), play a 0.6 s scale pulse of 1.0→1.08→1.0 on the Lira root. Threat is shown by the alert clip plus audio only.
 - **Why**: FR-009.
 - **Affects**: GAP-EVT-15, LIRA-16.
 - **Danny**: yes / no / change
 
 ### D-013 Spatial audio sources
-- **Status**: proposed
-- **Recommended default**:
-  - companionNear, companionAhead, bondMotif: AudioComponent on Lira with spatial audio on.
-  - distantFootsteps, pursuitPressure, pursuitRelease: an emitter 2 m behind the head (head-locked).
-  - quietShift and moments: non-spatial.
+- **Status**: superseded by CF-07
+- **Recommended default**: Superseded: see CF-07 (winner: D-209 spatial emitters; fallback D-306 all non-spatial if AudioComponent spatial unavailable)
 - **Spatial audio support**: (PK, verify).
 - **Affects**: GAP-AUDIO-04.
 - **Danny**: yes / no / change
 
 ### D-014 Playback modes
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**: All cues use LowPower. UI clicks use LowLatency.
 - **Why**: SNAP audio doc.
 - **Affects**: GAP-AUDIO-05.
 - **Danny**: yes / no / change
 
 ### D-015 Moment cues
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**:
   - `spawnTheme` at the first accepted real-walk start (not in Demo).
   - `bondMilestone` on the summary when delta > 0, once per sessionId.
@@ -145,53 +130,46 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-016 No ducking
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**: Three channels play concurrently: foreground, ambient, and moment. There is no ducking.
 - **Affects**: GAP-AUDIO-07.
 - **Danny**: yes / no / change
 
 ### D-017 Audio format
-- **Status**: proposed
-- **Recommended default**: Mono 48 kHz 16-bit WAV, keeping the same basenames.
+- **Status**: superseded by CF-20
+- **Recommended default**: Superseded: see CF-20 (winner: D-218: 48 kHz/16-bit; mono for spatial, stereo for head-locked; ≤ 4 MB, per PRS-104 manifest)
 - **Why**: Mono suits spatial sources and halves file size.
 - **Affects**: GAP-AUDIO-08.
 - **Danny**: yes / no / change
 
 ### D-018 Panels and placement
-- **Status**: proposed
-- **Recommended default**:
-  - Panels: Intro, Safety, Home, Pause card, Summary, and Notice toast.
-  - Panels are world-placed at open, 1.0 m along gaze, 5° below eye level, 40×30 cm.
-  - Toast: head-locked, 1.0 m, 10° above center, 30×8 cm, lasts 4 s.
+- **Status**: superseded by CF-23 and CF-24
+- **Recommended default**: Superseded: see CF-23 (winner: 1.1 m, −5° pitch) and CF-24 (winner: union panel inventory: Intro(Home), Permissions, Safety, HUD, Summary, Memories, Recovery, Error (replaces Notice), Debug (D-055))
 - **Affects**: GAP-UI-01, UI-02.
 - **Danny**: yes / no / change
 
 ### D-019 Walk HUD placement
-- **Status**: proposed
-- **Recommended default**:
-  - Head-locked with lazy follow (0.3 s lag), 1.0 m away, 20° below and 12° right of center.
-  - At most 4 lines: state chip, phrase, `m:ss · N m`, pressure label.
+- **Status**: superseded by CF-11 and CF-21
+- **Recommended default**: Superseded: see CF-11 (winner: PRS-056 with D-212 follow; 1.1 m, −8° yaw, −11° pitch, 18×10 cm) and CF-21 (winner: PRS-056 3 lines, no chip)
 - **Why**: FR-011 requires glanceable, peripheral content.
 - **Affects**: GAP-UI-06.
 - **Danny**: yes / no / change
 
 ### D-020 Pause and End controls
-- **Status**: proposed
-- **Recommended default**:
-  - Two UI Kit CapsuleButtons ("Pause"/"Resume" and "End"), each 4×2.5 cm, placed 3 cm below the HUD, triggered by pinch.
-  - While paused, the Pause card also shows "Resume" and "End".
+- **Status**: superseded by CF-22
+- **Recommended default**: Superseded: see CF-22 (winner: PRS-053 and PRS-057: 6×4 cm controls, 4×4 cm minimum)
 - **Affects**: GAP-UI-10, SCENE-03, A11Y-05.
 - **Danny**: yes / no / change
 
 ### D-021 No End confirmation
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**: End goes directly to the summary.
 - **Why**: Satisfies SC-007 and matches iOS.
 - **Affects**: GAP-UI-12, TEST-04.
 - **Danny**: yes / no / change
 
 ### D-022 Additive-display colors
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**:
   - Text #E6EAF0 and accent #4A9E98.
   - Chip colors from GAP-LIRA-13.
@@ -201,138 +179,117 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-023 Fifteen-minute suggestion
-- **Status**: proposed
-- **Recommended default**: At 15:00 of active time, show the toast "Lira can rest whenever you're ready." once. The walk continues.
+- **Status**: superseded by CF-05
+- **Recommended default**: Superseded: see CF-05 (winner: D-107 timings (15:00, 20:00, 30:00 hard end), BEH-031 copy, rendered per D-216 as HUD line 2 for 4000 ms)
 - **Affects**: GAP-UI-16.
 - **Danny**: yes / no / change
 
 ### D-024 Typography
-- **Status**: proposed
-- **Recommended default**: At 1 m:
-  - Body cap height ≥ 2.0 cm.
-  - Title 3.0 cm.
-  - System font for body text.
-  - The display font only for the "WAYKIN" title.
+- **Status**: superseded by CF-22
+- **Recommended default**: Superseded: see CF-22 (winner: PRS-053 and PRS-057: controls 6×4 cm, text 1.2 / 2.0 cm, 4×4 cm minimum)
 - **Affects**: GAP-UI-17, A11Y-04.
 - **Danny**: yes / no / change
 
 ### D-025 Onboarding flow
-- **Status**: proposed
-- **Recommended default**: Intro card ("Continue"), then the Safety card ("I understand"), then Home. Snap's system shows the permission prompt.
+- **Status**: superseded by CF-14
+- **Recommended default**: Superseded: see CF-14 (winner: PRS-070 flow and verbatim copy; PRS-073 replay from Memories)
 - **Affects**: GAP-ONB-01.
 - **Danny**: yes / no / change
 
 ### D-026 Safety bullets
-- **Status**: proposed
-- **Recommended default**:
-  1. "Keep your eyes on your path. Lira can wait."
-  2. "Stay aware of traffic, terrain, and other people."
-  3. "Pause or end anytime. Stopping is never a failure."
-  4. "Hunt pressure is controlled fiction — not real danger."
-  5. "Do not use while driving or operating machinery."
+- **Status**: superseded by CF-14
+- **Recommended default**: Superseded: see CF-14 (winner: PRS-070 flow and verbatim copy)
 - **Source**: Adapted from `OnboardingFlowView.swift:227-235`.
 - **Affects**: GAP-ONB-03.
 - **Danny**: yes / no / change
 
 ### D-027 Disclosure copy
-- **Status**: proposed
-- **Recommended default**: "During a walk, Waykin uses your location to measure distance. It never saves where you went."
+- **Status**: superseded by CF-14
+- **Recommended default**: Superseded: see CF-14 (winner: PRS-070 flow and verbatim copy)
 - **Affects**: GAP-ONB-05.
 - **Danny**: yes / no / change
 
 ### D-028 Onboarding flag and replay
-- **Status**: proposed
-- **Recommended default**: Store `wk.onb.v1` = 1 after "I understand". A "Safety" button on Home reopens the Safety card.
+- **Status**: superseded by CF-14
+- **Recommended default**: Superseded: see CF-14 (winner: PRS-070 flow and verbatim copy; PRS-073 replay from Memories)
 - **Affects**: GAP-ONB-06, ONB-07.
 - **Danny**: yes / no / change
 
 ### D-029 Storage keys
-- **Status**: proposed
-- **Recommended default**:
-
-  | Key | Type | Content |
-  |---|---|---|
-  | `wk.schema` | int | 1 |
-  | `wk.bond` | int | Bond level |
-  | `wk.mem` | string | JSON memory array |
-  | `wk.onb.v1` | int | Onboarding complete flag |
-  | `wk.ckpt` | string | JSON checkpoint or "" |
-  | `wk.lastSession` | string | Last written sessionId |
-  | `wk.receipt` | string | JSON field receipt |
+- **Status**: superseded by CF-10
+- **Recommended default**: Superseded: see CF-10 (winner: D-112 `waykin.profile.v1` JSON; onboarding key `profile.onboardingDone`; Reduce Motion `profile.reduceMotion` bool default false; LSB §6 keys and `waykin.session.count` removed)
 - **Affects**: GAP-PERSIST-02.
 - **Danny**: yes / no / change
 
 ### D-030 Memory format
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**: Each entry is `{id, endedAt(ms), mode, activeTime(s), distance(m, int), eventKinds[], bondDelta, line, endedReason}`. Keep the newest 5.
 - **Affects**: GAP-PERSIST-03.
 - **Danny**: yes / no / change
 
 ### D-031 Migration policy
-- **Status**: proposed
-- **Recommended default**: If `wk.schema` ≠ 1, keep `wk.bond` when it is an int ≥ 0, clear the other keys, and write schema 1.
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
+- **Recommended default**: If the `waykin.profile.v1` version ≠ 1, keep Bond when it is an int ≥ 0, clear the other profile fields, and write version 1.
 - **Affects**: GAP-PERSIST-04.
 - **Danny**: yes / no / change
 
 ### D-032 Store-full and write-fail policy
-- **Status**: proposed
-- **Recommended default**: Clear `wk.receipt`, drop the oldest memory, and retry once. If the retry fails, show the toast "Couldn't save this memory." Never clear Bond.
+- **Status**: superseded by CF-12
+- **Recommended default**: Superseded: see CF-12 (winner: on write failure: (1) delete `waykin.receipt.last.v1` and retry; (2) drop the oldest memory and retry; (3) show ERR-PERSIST-04; never call `clear()`)
 - **Affects**: GAP-PERSIST-05, ERR-05.
 - **Danny**: yes / no / change
 
 ### D-033 Single idempotent write
-- **Status**: proposed
-- **Recommended default**: When the summary opens, if `wk.lastSession` ≠ sessionId, write Bond and the memory, then set `wk.lastSession`.
+- **Status**: superseded by CF-13
+- **Recommended default**: Superseded: see CF-13 (winner: BEH-042 idempotency key = checkpoint `startedAt`; D-108 RecoveryPanel at ≤ 24 h, silent finalize at > 24 h)
 - **Affects**: GAP-PERSIST-06.
 - **Danny**: yes / no / change
 
 ### D-034 Checkpoint and crash recovery
-- **Status**: proposed
-- **Recommended default**: Write `wk.ckpt` (sessionId, mode, activeTime, distance, eventKinds, accumulatedBondProgress) every 30 s of active time. On launch, if a checkpoint exists, finalize it once with endedReason `closed` (Bond +1 for a walk; demo uses the finish rule), then clear it.
+- **Status**: superseded by CF-13
+- **Recommended default**: Superseded: see CF-13 (winner: BEH-042 idempotency key = checkpoint `startedAt`; D-108 RecoveryPanel at ≤ 24 h, silent finalize at > 24 h)
 - **Affects**: GAP-LIFE-03, LIFE-04, TEST-03.
 - **Danny**: yes / no / change
 
 ### D-035 First-fix timeout
-- **Status**: proposed
-- **Recommended default**: If no accepted sample arrives within 30 s, show the toast "Can't find your location yet. Try Demo Walk." and return to Home. No session is recorded.
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
+- **Recommended default**: If no accepted sample arrives within 30 s, show ERR-GPS-02 "No GPS fix yet. Try outside, or start Demo Walk." with the buttons "Try again" and "Demo Walk" on ErrorPanel. No session is recorded.
 - **Affects**: GAP-LIFE-02.
 - **Danny**: yes / no / change
 
 ### D-036 Lens OS pause
-- **Status**: proposed
-- **Recommended default**: On the Lens pause/blur event (PK, verify the event name), call `pause()`. Don't auto-resume.
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
+- **Recommended default**: On the Lens pause/blur event if T069 finds one (PK, verify the event name), call `pause()`. Otherwise use the BEH-029 > 5 s frame-gap proxy. Don't auto-resume. Both lead to an implicit pause and ERR-LIFE-02 with no auto-resume.
 - **Why**: Mirrors iOS lifecycle suspend (`WaykinApp.swift:1434-1452`).
 - **Affects**: GAP-SM-07, LIFE-10.
 - **Danny**: yes / no / change
 
 ### D-037 Stale location
-- **Status**: proposed
-- **Recommended default**:
-  - 20 s without an accepted sample: HUD pressure line shows "GPS weak".
-  - 60 s without an accepted sample: auto-pause with the toast "Location is weak. Your walk is paused."
+- **Status**: superseded by CF-09
+- **Recommended default**: Superseded: see CF-09 (winner: D-111; degraded shows ERR-GPS-03 in HUD line 2; lost ends with reason `locationLost` and summary; no auto-pause)
 - **Affects**: GAP-LIFE-08, ERR-03.
 - **Danny**: yes / no / change
 
 ### D-038 Distance formula
-- **Status**: proposed
-- **Recommended default**: Haversine with R = 6 371 008.8 m. Movement vectors must match within 1e-6 m (the vectors record Swift distances).
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
+- **Recommended default**: Haversine with R = 6 371 008.8 m. Movement vectors must match within ±0.05 m (D-100).
 - **Affects**: GAP-GPS-05.
 - **Danny**: yes / no / change
 
 ### D-039 Reported speed
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**: Pass `NaN`, which triggers the displacement/time fallback. Pass altitude through.
 - **Affects**: GAP-GPS-07.
 - **Danny**: yes / no / change
 
 ### D-040 Core exception handling
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**: Wrap each tick in try/catch. On error, end the walk with reason `error` and show the toast "Something went wrong. Your walk was saved."
 - **Affects**: GAP-ERR-04.
 - **Danny**: yes / no / change
 
 ### D-041 Motion comfort
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Context**: Walking while wearing additive displays creates vestibular risk (`App/Theme/WKTokens.swift:157-165`).
 - **Recommended default**:
   - No camera shake, no full-view flashes, and no screen pulses.
@@ -345,7 +302,7 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-042 Audio captions via HUD phrase
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**:
   - Every played cue coincides with an update to HUD line 1, the phrase (`CompanionPresenceView.swift:24-69`).
   - The cue and the phrase come from the same tick result.
@@ -357,8 +314,8 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-043 Draw-call budget
-- **Status**: rejected. Replaced by PRS-091 (≤ 20 draw calls, NC-31).
-- **Recommended default**: ≤ 20 draw calls for the whole Lens.
+- **Status**: superseded by CF-31
+- **Recommended default**: Superseded: see CF-31 (winner: ≤ 20 draw calls; ≤ 25 bones (the `.blend` rig))
 - **Affects**: GAP-PERF-05.
 - **Danny**: yes / no / change
 
@@ -380,7 +337,7 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-046 Scene hierarchy and core copy
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**:
   - The hierarchy is exactly `lens-studio-build.md` §5.1, plus the CF-24 additions: `PermissionsPanel`, `SafetyPanel`, `MemoriesPanel`, `RecoveryPanel`, and `ErrorPanel`.
   - `Assets/Scripts/core/` is generated by `scripts/sync_core_ts.sh` and is read-only. CI fails on drift (`--check`).
@@ -388,7 +345,7 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-047 Script ownership and update loop
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**:
   - One `SessionController` owns the core instances and all storage writes.
   - The core advances only on an accepted location sample (D-103, 1 Hz poll) or on a Demo tick.
@@ -398,15 +355,13 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-048 Demo pacing
-- **Status**: rejected. Replaced by D-104.
-- **Recommended default**:
-  - One tick every 5000 ms. Tick *i* fires at 5000 × (i+1) ms.
-  - The Demo auto-ends 5000 ms after tick 6, which is 40 s total.
+- **Status**: superseded by CF-04
+- **Recommended default**: Superseded: see CF-04 (winner: D-104: ticks at 5, 10, …, 35 s; end at 40 s)
 - **Affects**: GAP-SM-09, DEMO-03, TEST-02.
 - **Danny**: yes / no / change
 
 ### D-049 Demo label
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**:
   - During a Demo, HUD line 3 is prefixed with `Demo · `, for example `Demo · 1:20 · 112 m`.
   - The summary shows `Demo Walk — not saved to your walks count.` (BEH-049).
@@ -415,7 +370,7 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-050 Summary moments and reason line
-- **Status**: proposed (merged with D-126 and PRS-058)
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT) (merged with PRS-058)
 - **Recommended default**:
   - The metric reads `Moments` / `{n}`, where n is the eventHistory count (cap 32).
   - The end-reason line follows the BEH-048 table. It is placed under the path line and omitted for `userStop` and `demoComplete`.
@@ -423,13 +378,13 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-051 Summary dismiss
-- **Status**: rejected. Replaced by BEH-049 and PRS-058.
-- **Recommended default**: One button, `Done`, which leads to Intro/Home (T19).
+- **Status**: superseded by CF-25
+- **Recommended default**: Superseded: see CF-25 (winner: PRS-058 (iOS `3017-3022`) and the button `Done`)
 - **Affects**: GAP-SUMMARY-07.
 - **Danny**: yes / no / change
 
 ### D-052 Version visibility
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**:
   - The Intro footer shows `v0.1.0` (1.0 cm, `#9AA3B0`).
   - On start, the Lens logs `Lens Opened: v0.1.0`.
@@ -441,15 +396,13 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Status**: rejected. No audit row references it, and the ID is reserved.
 
 ### D-054 Minimum walk for Bond
-- **Status**: rejected. Amended by D-109.
-- **Recommended default**:
-  - A walk ended by user Stop gets +1 regardless of length (iOS parity).
-  - Early ends (power, locationLost, interrupted, timeLimit) get +1 only if activeTime ≥ 60 s.
+- **Status**: superseded by CF-33
+- **Recommended default**: Superseded: see CF-33 (winner: D-109 for non-user ends; userStop is always +1)
 - **Affects**: GAP-LIFE-09.
 - **Danny**: yes / no / change
 
 ### D-055 Hidden debug panel
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**:
   - Five pinches on the version label within 3000 ms toggle `DebugPanel`. It is a world panel at 1.1 m showing the last 20 log lines, the seed, the FPS EMA, and the last disposition.
   - The panel is not reachable during `walkActive`.
@@ -466,7 +419,7 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-057 Language
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**:
   - English only.
   - Every string lives in `Assets/Scripts/logic/copy.ts` as a verbatim constant.
@@ -487,7 +440,7 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Danny**: yes / no / change
 
 ### D-060 Phrase dwell
-- **Status**: proposed
+- **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Recommended default**:
   - HUD line 1 changes at most once every 4000 ms.
   - A newer phrase replaces a queued one; the queue depth is 1.
@@ -496,21 +449,40 @@ Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 - **Affects**: GAP-UI-07.
 - **Danny**: yes / no / change
 
-## Needs Clarification
+## Needs Clarification: research results (2026-10-11)
 
-Each NC has a safe default that ships until someone measures the real value. The companion specs added duplicate NCs, which are listed under "Duplicates".
+Each NC was researched in Snap docs, forums, and published specs. **Resolved** means a source answers the question and the spec uses the sourced value. **Default + device test** means no published source exists; the conservative default ships, and the listed task measures the real value on hardware. Duplicate companion NCs (NC-10..NC-56) follow the NC they duplicate.
 
-| NC | Question | Safe default | How to measure | Duplicates |
-|---|---|---|---|---|
-| NC-01 | On-device `horizontalAccuracy` distribution | Keep the 30 m gate | Receipt accuracy buckets (≤10, ≤30, >30 m) over 3 walks (TST-061) | NC-12, NC-54 |
-| NC-02 | Thermal or power API readable by a Lens | FPS proxy D-116 (> 20 ms mean for 10 s → degrade; 180 s → end) | Compare the overlay CPU/GPU % with proxy trips over a 15-minute walk (TST-060) | NC-11, NC-32, NC-56 |
-| NC-03 | Battery life and battery API | Hard end at 30:00 (D-107); no battery read | Log battery % at the start and end of TST-060 | NC-10 |
-| NC-04 | `BigInt` in the Lens runtime | Have the 2×uint32 fallback ready | Spike T006 | NC-14 |
-| NC-05 | Lens Studio version pin | ≥ 5.7.0; record the actual version | About dialog captured in the build receipt (T042) | NC-50 |
-| NC-06 | Eye height above the ground | **1.45 m** fallback (source; replaces the audit's 1.60, see CF-02) and a hit test when available | Measure the floor offset with 3 wearers in TST-052 | — |
-| NC-07 | Triangle and bone budget | ≤ 15k tris for Lira, ≤ 25k for the scene, ≤ 25 bones, 1 body material | Overlay GPU % during TST-050 | NC-31, NC-53 |
-| NC-08 | OS or Snapchat clears storage | Reset to defaults (Bond 12, onboarding shown) with no error copy (BEH-046) | Observe TST-053 | NC-13 |
-| NC-09 | Meshy/Ember Fox and Lira rig redistribution rights in a published Lens | Assume they are needed. Use the `.blend` rig (D-302), keep the license note in `ArtSource/Companion/Lira/README.md`, and do not submit (T073) until Danny confirms | Danny confirms the license (T041) | — |
+| NC | Question | Finding (source) | Outcome | Spec value now | Device test |
+|---|---|---|---|---|---|
+| NC-01 (dup NC-12, NC-54) | GPS accuracy on Spectacles | On Spectacles, `GeoLocationAccuracy.Navigation` is "generally accurate up to 20 meters". It uses `FUSED_LOCATION` at rendering rate when reception is good; otherwise one update every 10 s. `High` is ≤ 30 m at 1 Hz; `GNSS_RECEIVER` is "not expected to work indoors"; `WIFI_POSITIONING_SYSTEM` gives rough indoor location ([GeoLocationAccuracy](https://developers.snap.com/lens-studio/api/lens-scripting/enums/Built-In.GeoLocationAccuracy.html), [GeoPosition](https://developers.snap.com/lens-studio/api/lens-scripting/classes/Built-In.GeoPosition)). Location requires a paired Snapchat account, location permission, and an internet-connected device. The first fix can be slow without internet ([Location](https://developers.snap.com/spectacles/about-spectacles-features/apis/location)). A developer report says FUSED can take "a few minutes" to activate ([SnapOSLocationTools](https://github.com/siekermantechnology/SnapOSLocationTools/)). | Partly resolved: the published bound is known; the real distribution needs hardware | Use `Navigation` accuracy; keep the 30 m gate; keep the 30 s no-fix timeout (CF-06). The 10 s fallback cadence fits D-111 (degraded at 15 s). | **T200** (on-device): log `horizontalAccuracy`, `locationSource`, and the update interval for 3 outdoor walks and 1 indoor walk. Pass: p50 ≤ 20 m outdoors; record time to first FUSED fix. Feeds TST-061. |
+| NC-02 (dup NC-11, NC-32, NC-56) | Can a Lens read thermal or power state? | No Lens Scripting API for device temperature or thermal state is documented. Thermal state appears only in the Performance Overlay and Spectacles Monitor. Over 100% CPU/GPU, a Lens is "thermally runtime constrained"; over 125%, thermal standby or shutdown is very likely ([Performance Overlay](https://developers.snap.com/spectacles/best-practices/profiling/lens-performance-overlay); [DeviceInfoSystem](https://developers.snap.com/lens-studio/api/lens-scripting/classes/Built-In.DeviceInfoSystem) lists no thermal member). | **Resolved**: no API | Keep the FPS proxy D-116 (> 20 ms mean for 10 s → degrade; 180 s → end with reason `power`). | T201 (on-device): over a 15-minute walk, Overlay CPU/GPU stays ≤ 100% (publishing target) and the proxy fires 0 times. Feeds TST-060. |
+| NC-03 (dup NC-10) | Battery life and battery API | Snap documents "up to 45 minutes of continuous standalone runtime" ([Snap newsroom](https://newsroom.snap.com/sps-2024-spectacles-snapos)). A battery API exists: `global.deviceInfoSystem.getBatteryState()` returns `batteryLevel` (0–100) and `isCharging`, and `onBatteryStateChanged` fires on change. The doc has a Snap OS example ([DeviceInfoSystem](https://developers.snap.com/lens-studio/api/lens-scripting/classes/Built-In.DeviceInfoSystem)). | **Resolved** | The 30:00 hard end (D-107) fits within 45 min. New **D-061 (proposed)**: battery guard (below). | T202 (on-device): log battery % at start and end of a 15-minute walk. Pass: drain ≤ 40 percentage points. |
+| NC-04 (dup NC-14) | `BigInt` in the Lens runtime | Lens Studio's TypeScript config is fixed at `"target": "es2019"` and `"lib": ["es2019"]`; the template must not be modified, only extended ([Custom TypeScript Configuration](https://developers.snap.com/lens-studio/features/scripting/custom-typescript-config)). `BigInt` is ES2020, so it isn't typed for Lens code. | **Resolved**: don't use BigInt | The core TS port uses the 2×uint32 RNG implementation as the **only** implementation (no BigInt path). The parity vectors are the acceptance check. | None (resolved by the vectors). |
+| NC-05 (dup NC-50, NC-51) | Tool versions to pin | Spectacles (2024) uses **Lens Studio 5.15.x**. 5.15.4 (released 2026-02-24) is "the last anticipated Lens Studio update series for Spectacles (2024)" ([ar.snap.com/spectacles](https://ar.snap.com/spectacles)). 5.24.x targets SPECS 27, and current Spectacles firmware doesn't support it ([v5.24.1](https://ar.snap.com/download/v5-24-1)). Latest SIK: **v0.17.2** ([SIK release notes](https://developers.snap.com/spectacles/spectacles-frameworks/spectacles-interaction-kit/release-notes)). UI Kit **v0.1.4** is the latest cited by Snap engineering ([eng.snap.com](https://eng.snap.com/spatial_interaction)). | **Resolved** | Pin Lens Studio **5.15.4**, SIK **0.17.2**, and Spectacles UI Kit **0.1.4**. If the MCP agent's Asset Library shows a newer 0.x patch, record it in the build receipt. Never install 5.2x for this Lens. | T203 (lens-MCP-agent): the build receipt records the About-dialog version and the package versions. |
+| NC-52 | Blender version | No Snap requirement found. | Default | Blender 4.x; record the version in the asset receipt. | Recorded in T042. |
+| NC-06 | Eye height above the ground | No published figure. Snap advises accounting for "head heights" varying per user. Ground detection exists via `WorldQueryModule` hit test with `SurfaceClassification.Ground` ([World Query](https://developers.snap.com/spectacles/about-spectacles-features/apis/world-query)), but semantic classification needs **Experimental APIs**, and "Lenses that use Experimental APIs still cannot be published" ([Experimental APIs](https://developers.snap.com/spectacles/permission-privacy/experimental-apis)). | Default + device test | Use an unclassified hit test (no Experimental API) straight down when available. Otherwise use head y − **1.45 m** (CF-02). Never enable Experimental APIs. | T204 (on-device): 3 wearers; Lira's feet are within ±10 cm of the visible ground at 2 m. Feeds TST-052. |
+| NC-07 (dup NC-31, NC-53) | Triangle and bone budget | Snap: keep 3D models under **100,000 triangles** total and **60,000** for skinned meshes; keep rigs under **100 joints**. Textures are recommended at **512×512 or smaller** on Spectacles ([Performance guide](https://developers.snap.com/lens-studio/publishing/optimization/performance-optimization-guide), [Optimizing Lens Performance](https://developers.snap.com/spectacles/best-practices/performance-optimization/optimizing-lens-performance)). Publishing requires 60 FPS ([Publishing](https://developers.snap.com/spectacles/get-started/start-building/publishing-lens)). | **Resolved** (spec is well inside the Snap limits) | Keep Lira ≤ 15k tris, scene ≤ 25k, ≤ 25 bones, ≤ 20 draw calls, and textures ≤ 512² unless PRS lists a larger atlas. | T201 confirms 60 FPS on device. |
+| NC-08 (dup NC-13) | Can the platform clear saved data? | Yes, in three ways: Snapchat "will clear the Lens' persistent storage 60 days after the user does not touch the Lens"; the user can run Settings > Clear Lens Data; and `onStoreFull` fires when capacity is reached ([Persistent Storage](https://developers.snap.com/lens-studio/features/persistent-cloud-storage/persistent-storage)). The persistent storage limit on Spectacles is **125 MB** ([Spectacles FAQ: Scripting](https://developers.snap.com/spectacles/support/spectacles-faq/scripting)). | **Resolved** | Keep BEH-046: missing data resets to defaults silently. The 8 KB profile cap stays far below 125 MB. CF-12 still handles store-full; never call `clear()`. | None. |
+| NC-09 | Lira model license | See "Lira / Ember Fox license" below. | Still open: Danny must confirm | Gate stays: no publish (T073) until Danny confirms. | Not a device question. |
+
+### D-061 Battery guard (NEW, proposed: not part of the 2026-10-11 approval)
+- **Status**: proposed
+- **Recommended default**: Read `deviceInfoSystem.getBatteryState()` at walk start and subscribe to `onBatteryStateChanged`. When the battery is ≤ 15% and not charging, show HUD line 2 "Battery low. Your walk will end soon." for 4000 ms (D-216). When it is ≤ 8% and not charging, end the walk with reason `power` and show the summary. Skip this in the editor (`isEditor()`).
+- **Why**: The API exists (NC-03), and ending cleanly saves the memory before the OS shuts down.
+- **Danny**: yes / no / change
+
+### Lira / Ember Fox license (NC-09)
+
+- **Repo evidence**:
+  - The Spectacles rig is `ArtSource/Companion/Lira/lira.blend` (D-302). Its receipt calls it a hand-sculpted artist blend (`ArtSource/Companion/Lira/SOURCE_RECEIPT.md`, evidence class `ARTIST_BLEND_HERO_DCC_MID_LOD`), committed by Daniel Meyer in #162.
+  - The iOS runtime "Ember Fox" (`MESHY_EMBER_FOX_WALK_V1`, `App/Resources/Companion/Lira/README.md:4`) and `ArtSource/Companion/Lira/meshy/SOURCE_RECEIPT.md` come from Meshy AI image-to-3D.
+  - No file in the repo records the Meshy plan, the attribution, or the rights to the source image. `LICENSE_POLICY.md` says third-party components keep their own licenses.
+- **Meshy terms**: Free-plan generations are licensed **CC BY 4.0**, with attribution required (e.g. "Model created with Meshy – CC BY 4.0"). Paid-plan generations are owned by the user, with no attribution required. Rights follow the plan active at generation time ([Meshy: ownership](https://help.meshy.ai/en/articles/10137554-what-is-the-ownership-of-the-generated-models), [Meshy: commercial use](https://help.meshy.ai/en/articles/16102098-can-i-use-meshy-assets-commercially)).
+- **Needs Danny**:
+  1. Confirm that `lira.blend` is original work and not derived from the Meshy mesh. If it is original, NC-09 closes for the Lens.
+  2. If any Meshy-derived geometry or texture ships, confirm the Meshy plan used at generation time and the rights to the input image. On a free plan, add the CC BY credit to the Lens description.
+- Record the answer in `ArtSource/Companion/Lira/README.md`.
 
 ## Decisions and NCs from companion docs
 
@@ -522,8 +494,8 @@ Doc keys: B = behavior-spec, P = presentation-spec, L = lens-studio-build. A "CF
 | D-101 | No GPS speed | `reportedSpeed = NaN` | B |
 | D-102 | Duplicate fixes | Dropped in the adapter | B |
 | D-103 | Tick cadence | One core update per accepted sample | B |
-| D-104 | Demo pacing | 5000 ms per tick; auto-end 5 s after tick 6 | B |
-| D-105 | Lira placement | Forward 1.1–3.0 m, +0.5 m right (CF-01: replaced by D-202) | B |
+| D-104 | Demo pacing | Ticks at 5, 10, …, 35 s; end at 40 s | B |
+| D-105 | Lira placement | superseded (CF-01) | B |
 | D-106 | Lira states | 5 AR strings; celebrate is a 1500 ms one-shot | B |
 | D-107 | Walk length | Prompts at 15:00 and 20:00; hard end at 30:00 | B |
 | D-108 | Crash recovery | 30 s checkpoint; offer within 24 h | B |
@@ -535,13 +507,13 @@ Doc keys: B = behavior-spec, P = presentation-spec, L = lens-studio-build. A "CF
 | D-115 | Playback mode | LowPower | B |
 | D-116 | Degrade trigger | > 20 ms mean for 10 s; exit < 17 ms for 30 s; end at 180 s | B |
 | D-118 | Bond bounds | Start 12, no cap, never decreases | B |
-| D-120 | Onboarding replay | "How it works" (CF-14: replaced by PRS-073) | B |
-| D-121 | Tracking hysteresis | Hide at 500 ms; restore at 1000 ms (CF-17: replaced by D-206) | B |
+| D-120 | Onboarding replay | superseded (CF-14) | B |
+| D-121 | Tracking hysteresis | superseded (CF-17) | B |
 | D-122 | Time context | Always midday | B |
 | D-123 | Discovery and threat entities | Not rendered | B |
 | D-124 | Launch and reveal cues | Excluded | B |
-| D-125 | Lens copy | §3.5 and §7 strings (CF-14 for safety) | B |
-| D-126 | Events label | "{n} moments" (CF-26) | B |
+| D-125 | Lens copy | superseded (CF-14) | B |
+| D-126 | Events label | superseded (CF-26) | B |
 | D-200 | Behavior count | 4 loops + 2 one-shots | P |
 | D-201 | Missing-clip fallback | Walk, paused walk, or walk at 1.25× | P |
 | D-202 | Follow target | 2.0 m ahead, 0.6 m lateral | P |
@@ -570,35 +542,35 @@ Doc keys: B = behavior-spec, P = presentation-spec, L = lens-studio-build. A "CF
 | D-303 | Audio set | 9 files; launch and reveal excluded | L |
 | D-304 | Skins | Dawn only | L |
 | D-305 | Panel placement | z −110 cm, ≤ 34×24 cm | L |
-| D-306 | Audio pan | Ignored (CF-07: fallback only) | L |
-| D-307 | Demo pacing | 6 s (CF-04: replaced by D-104) | L |
-| D-308 | Contextual bearing | fwd 120, side −60 cm (CF-01: rejected) | L |
-| D-309 | HUD follow | 20° threshold, lerp 0.1 (CF-11: replaced by D-212) | L |
+| D-306 | Audio pan | superseded (CF-07) | L |
+| D-307 | Demo pacing | superseded (CF-04) | L |
+| D-308 | Contextual bearing | superseded (CF-01) | L |
+| D-309 | HUD follow | superseded (CF-11) | L |
 | D-310 | Receipt output | One `WAYKIN_RECEIPT` Logger line, plus the stored key (BEH-050) | L |
-| D-311 | Seed | Per-session salt (CF-15: rejected; seed 42) | L |
-| D-312 | Store full | Never clear Bond (merged in CF-12) | L |
-| D-313 | 15-minute hint | 8 s phrase (CF-05: replaced) | L |
+| D-311 | Seed | superseded (CF-15) | L |
+| D-312 | Store full | superseded (CF-12) | L |
+| D-313 | 15-minute hint | superseded (CF-05) | L |
 | D-314 | Size target | ≤ 15 MB | L |
 | D-324 | Precedence | B and P win over L | L |
 | NC-10 | Battery life | Hard end at 30:00 | B |
 | NC-11 | Thermal API | FPS proxy | B |
 | NC-12 | Accuracy distribution | 30 m gate | B |
 | NC-13 | Storage capacity | 8 KB profile cap | B |
-| NC-14 | BigInt | 2×uint32 fallback | B |
+| NC-14 | BigInt | Resolved: 2×uint32 only (NC-04) | B |
 | NC-15 | Tracking API | Non-finite pose or > 2 m jump proxy | B |
 | NC-16 | Sleep and focus events | > 5 s frame gap means implicit pause | B |
 | NC-17 | Internet-loss signal | Covered by the GPS rows | B |
 | NC-30 | Reduce Motion OS setting | In-Lens toggle | P |
 | NC-31 | Tris, draw calls, legibility | 15k/25k tris, 20 draw calls, 4 cm targets | P |
-| NC-32 | Thermal signal | FPS < 50 for 5 s (CF-08: replaced by D-116) | P |
+| NC-32 | Thermal signal | superseded (CF-08) | P |
 | NC-33 | Fox clip author | Ship with fallbacks | P |
-| NC-50 | Lens Studio version | ≥ 5.7.0 | L |
-| NC-51 | SIK and SUIK versions | Latest; record them | L |
+| NC-50 | Lens Studio version | Resolved: 5.15.4 (NC-05) | L |
+| NC-51 | SIK and SUIK versions | Resolved: SIK 0.17.2, UI Kit 0.1.4 (NC-05) | L |
 | NC-52 | Blender version | 4.x | L |
 | NC-53 | Tri budget | 15k | L |
 | NC-54 | GPS accuracy | 30 m gate | L |
-| NC-55 | First-fix timeout | 10 s (CF-06: replaced by 30 s) | L |
-| NC-56 | Thermal signal | > 20 ms for 30 s (CF-08: replaced) | L |
+| NC-55 | First-fix timeout | superseded (CF-06) | L |
+| NC-56 | Thermal signal | superseded (CF-08) | L |
 
 ## Conflicts
 

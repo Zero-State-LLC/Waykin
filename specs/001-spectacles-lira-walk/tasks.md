@@ -1,6 +1,6 @@
 # Tasks: Lira Walks With You
 
-**Inputs**: `spec.md`, `plan.md`, `data-model.md`, `contracts/`, `research.md`, `gap-audit.md`, `decisions.md` + `decisions-tail.md` (Conflicts CF-nn), `behavior-spec.md` (B), `presentation-spec.md` (P), `lens-studio-build.md` (L), `traceability.md` (TST ids).
+**Inputs**: `spec.md`, `plan.md`, `data-model.md`, `contracts/`, `research.md`, `gap-audit.md`, `decisions.md` (Conflicts CF-nn), `behavior-spec.md` (B), `presentation-spec.md` (P), `lens-studio-build.md` (L), `traceability.md` (TST ids).
 
 **Workflow**:
 
@@ -29,13 +29,13 @@ The **core port and vectors** (T002, T005–T017) belong to the core-port worker
 
 ## Phase 0: Spec closure
 
-- [ ] T038 [+] Danny: Rule on CF-01..CF-33 and on D-041..D-060. Set each status in `decisions.md` / `decisions-tail.md`. Gates T040.
+- [x] T038 Danny: approved all proposed decisions (2026-10-11 11:03 PM PT). Statuses are set in `decisions.md`. Decisions overruled by the CF table are marked superseded.
 - [ ] T039 [+] human (SCRIBE): Amend `spec.md` and `data-model.md`.
-  - FR-014 per D-301/CF-29. FR-007 per D-200. FR-018, SC-003, and SC-004 linked to D-116, NC-02, NC-03.
+  - FR-014 per D-301/CF-29. FR-007 per D-200. FR-018, SC-003, and SC-004 linked to D-116, NC-03.
   - Edge cases linked to D-107 and D-108.
   - Data-model corrections C1, C2, and C4 (GA).
   - Acceptance: no `[NEEDS CLARIFICATION]` remains without an NC or D link.
-- [ ] T040 [+] human (SCRIBE): Edit the losing values out of B, P, and L per the CF table (for example L §5.2/5.3/6/7, D-307, NC-55; P appLaunchTheme). Acceptance: a grep for each superseded value returns 0 hits outside `decisions*`. Depends on T038.
+- [x] T040 SCRIBE: Applied the CF-01..CF-32 winners across every doc in this folder. A grep for each overruled value returns 0 hits outside `decisions.md` (done 2026-10-11).
 - [ ] T041 [+] Danny: Confirm the NC-09 asset rights for the Lira rig and textures. Gates T073.
 
 ## Phase 1: Setup
@@ -50,9 +50,9 @@ The **core port and vectors** (T002, T005–T017) belong to the core-port worker
 
 ## Phase 2: Foundational (core-port worker; reference only)
 
-- T006 BigInt spike (NC-04).
+- T006 BigInt spike: resolved by NC-04 (no BigInt in Lens code; use 2×uint32).
 - T007–T010 Swift vector exporter and vectors. The movement vectors must include the D-100 ±0.05 m tolerance field.
-- T011–T015 Core modules. T012 must keep a fresh generator per tick (GA C4).
+- T011–T015 Core modules. **T012** (`WorldEventGenerator` module) is a stateful struct whose RNG advances across `evaluate` calls. The PR #17 vectors exercise it that way (`Sources/WaykinVectorExport/main.swift:158-162` on the port branch), and that is correct for the module. **T013–T015** (the Experience/runtime layer) MUST create a new `WorldEventGenerator(seed: eventSeed)` on every movement update, as shipped iOS gameplay does (`Sources/WaykinCore/Experiences/Experiences.swift:118-126`). Cooldown history arrives through `lastEventElapsed` and `lastEventElapsedByKind`, not through RNG state (GA C4, clarified 2026-10-11). Add an Experience-level vector (multi-tick walk through `Experiences.swift`) so that both layers are pinned. CI: the vector export job runs on `macos-26`; `macos-15` fails Swift 6 concurrency checks in `PersistenceStore.swift`.
 - T016 Parity tests.
 - T017 CI job.
 - Acceptance owned by that PR: TST-001..TST-011.
@@ -160,3 +160,11 @@ All Phase 2b tasks depend on T043 and T044.
 - T054 alongside T051
 
 **Hardware**: T036, T072, and T073 require hardware. Every device claim stays `NOT_COMPUTABLE` until those receipts exist.
+## Phase NC: on-device measurements (from the NC research, 2026-10-11)
+
+- [ ] T200 human (on-device): GPS characterization. Log `horizontalAccuracy`, `locationSource`, and the update interval for 3 outdoor walks and 1 indoor walk. Pass: p50 ≤ 20 m outdoors. Record time to first FUSED fix. Feeds TST-061 (NC-01).
+- [ ] T201 human (on-device): Power and thermal. Over a 15-minute walk, Performance Overlay CPU/GPU stays ≤ 100%, FPS stays at 60, and the D-116 proxy fires 0 times. Feeds TST-060 (NC-02, NC-07).
+- [ ] T202 human (on-device): Battery. Log `getBatteryState()` at start and end of a 15-minute walk. Pass: drain ≤ 40 points (NC-03). Implement D-061 only once Danny accepts it.
+- [ ] T203 lens-MCP-agent: Record Lens Studio 5.15.4, SIK, and UI Kit versions in the build receipt (NC-05).
+- [ ] T204 human (on-device): Ground fit. With 3 wearers, Lira's feet are within ±10 cm of the visible ground at 2 m, using the non-experimental hit test or the 1.45 m fallback. Feeds TST-052 (NC-06).
+- [ ] T205 Danny: Confirm the Lira rig license (NC-09). Is `lira.blend` original or Meshy-derived? If Meshy-derived, which plan was used? Gates T073.

@@ -16,8 +16,8 @@ You build a standalone Spectacles Lens in Lens Studio, scripted in TypeScript. T
 - **Target platform**: Snap Spectacles (2024 developer units) and consumer Specs.
 - **Project type**: A Lens plus a pure-logic package alongside the existing iOS app.
 - **Performance goals**: Sustained 60 FPS. Power below 100% of the CPU/GPU budget in the Performance Overlay.
-- **Constraints**: GPS updates at about 1 Hz and requires a paired phone and internet. Developer units run about 45 minutes standalone, per Snap docs (`INFERRED`, not observed). The Lens uses no Experimental APIs.
-- **Scale and scope**: One walker, one session of about 15 minutes, one companion.
+- **Constraints**: GPS uses `Navigation` accuracy: up to 20 m, render-rate FUSED updates in good reception, otherwise one every 10 s (NC-01). Location requires a paired Snapchat account and an internet-connected device. Toolchain: Lens Studio 5.15.4, SIK 0.17.2, UI Kit 0.1.4 (NC-05). Developer units run about 45 minutes standalone, per Snap docs (`INFERRED`, not observed). The Lens uses no Experimental APIs.
+- **Scale and scope**: One walker, one session of up to 30 minutes, one companion.
 
 ## Constitution check
 
@@ -33,7 +33,7 @@ The gates check against the `WAYKIN_SPEC.md` invariants and the `SOLO_MVP_SCOPE.
 | Adapters aren't gameplay authorities | PASS | Lens adapters map semantic state only. |
 | Safe when AR or location is degraded | PASS | Demo Walk fallback. Audio-forward degrade. Stop is dominant. |
 | Device behavior requires device evidence | PENDING | FPS, power, thermal, and GPS stay `NOT_COMPUTABLE` until receipts exist. |
-| Exclusion: backend, accounts, cloud save | PASS | No Snap Cloud. Internet serves only the location dependency. |
+| Exclusion: backend, accounts, cloud save | PASS | No Snap Cloud. Location uses RawLocationModule per D-301. |
 | Exclusion: "Mandatory AR glasses or wearable dependency" | FAIL without ADR; PASS with ADR-0004 | Spectacles is an additional, non-mandatory target. |
 | SOLO_MVP non-goals "AR glasses integration" and "Wearable integration" | FAIL without ADR; PASS with ADR-0004 | Scoped to this standalone Lens. |
 | Exclusion: multiplayer, generative AI, analytics | PASS | Not used. |
@@ -93,7 +93,7 @@ scripts/sync_core_ts.sh                # copies package src into Lens project
 | Second core (TypeScript) | Swift can't run in a Lens. | NDK (C++) still requires a rewrite and adds toolchain cost. |
 | Swift vector exporter target | Swift must be the source of truth for vectors. | Hand-written fixtures drift and aren't authoritative. |
 | `sync_core_ts.sh` copy step | Lens Studio needs scripts inside the project. | Symlinks are unverified in Lens Studio (INFERRED risk). |
-| Custom UInt64 (`BigInt` or 2×uint32) | SplitMix64 needs exact 64-bit wrapping. | JavaScript numbers lose precision above 2^53. |
+| Custom UInt64 (2×uint32; no `BigInt` in Lens es2019, NC-04) | SplitMix64 needs exact 64-bit wrapping. | JavaScript numbers lose precision above 2^53. |
 
 ## Workflows
 

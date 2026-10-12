@@ -9,7 +9,7 @@ Make sure you have the following:
 - macOS with the repository toolchain (`make build` passes).
 - Node LTS [NEEDS CLARIFICATION: pin the version].
 - Lens Studio [NEEDS CLARIFICATION: pin the version].
-- A Spectacles device paired with a Snapchat account, with location permission granted and internet access.
+- A Spectacles device paired with a Snapchat account, with RawLocation permission granted.
 
 ## Step 1: Generate the Swift vectors
 
@@ -41,7 +41,7 @@ scripts/sync_core_ts.sh
 1. Open `spectacles/WaykinLens/` in Lens Studio.
 2. In **Preview**, start **Demo Walk**.
 3. Confirm the following:
-   - Lira appears beside you.
+   - Lira appears at the D-202/D-203 band distance (1.3/1.6/2.0/3.0 m) with +0.6 m lateral offset on her current side (default right).
    - The events match the order in the `demo/*.json` vector.
    - Each event plays its audio cue.
    - **Stop** opens the summary.
@@ -77,7 +77,7 @@ Conditions: <sun/shade>, <temp>
 | Events fired (kinds only)               |       | NOT_COMPUTABLE  |
 | Stop reachable in one interaction       |       | NOT_COMPUTABLE  |
 | Bond/memories persisted after relaunch  |       | NOT_COMPUTABLE  |
-| Permissions: RawLocation+Internet only  |       | NOT_COMPUTABLE  |
+| Permissions: RawLocation only           |       | NOT_COMPUTABLE  |
 ```
 
 A Lens Studio Preview run doesn't count as evidence of device behavior.

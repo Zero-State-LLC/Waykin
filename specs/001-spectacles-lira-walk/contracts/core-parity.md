@@ -28,7 +28,7 @@
 
 ## Parity rules
 
-1. **UInt64**: Arithmetic is bit-exact. Use `BigInt` with `BigInt.asUintN(64, x)` after every add and multiply, or the 2×uint32 fallback behind the same interface. Shifts are logical. Never pass a UInt64 value through `Number`.
+1. **UInt64**: Arithmetic is bit-exact. Code that ships in the Lens MUST use the 2×uint32 implementation, because Lens TS targets es2019 and has no `BigInt` (NC-04). Node-side tests MAY use `BigInt` with `BigInt.asUintN(64, x)` as a reference. Shifts are logical. Never pass a UInt64 value through `Number`.
 2. **Seed 0**: It maps to `0x9E3779B97F4A7C15`. Parse seeds from decimal strings and reject values above 2^64 − 1.
 3. **Elapsed**: `elapsed = max(0, finiteOrZero(stepElapsed ?? state.activeTime))`.
 4. **Tick spacing**: Take `lastGenerated` as the maximum of the internal and external values that are present. If `elapsed − lastGenerated < minimumTickSpacing`, return null. The RNG doesn't advance.

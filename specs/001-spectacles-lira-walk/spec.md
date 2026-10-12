@@ -40,8 +40,6 @@ You choose Begin Walk. Lira follows or leads based on your real walking speed. T
 3. **Given** a walk session with seed S, **when** the same world states occur, **then** the Lens emits the same events as Swift `WaykinCore` with seed S.
 4. **Given** location is denied or unavailable, **when** you choose Begin Walk, **then** the Lens explains why and offers Demo Walk.
 
----
-
 ### User story 3: Bounded pursuit through audio and Lira (priority: P3)
 
 During a walk, pursuit pressure rises and fades. You perceive it only through audio cues and Lira's behavior. No pursuer is rendered.
@@ -99,7 +97,7 @@ When you end a walk, a summary card shows the time, distance, events, and Bond c
 - **FR-011**: AR content MUST stay peripheral and glanceable while you walk. The Lens MUST NOT show a full-screen panel during an active walk.
 - **FR-012**: The Lens MUST show a summary card at the end of each walk with active time, distance, event count, and Bond change.
 - **FR-013**: The Lens MUST persist Bond and the last five memories in Lens persistent storage, on the device only.
-- **FR-014**: The Lens MUST request only publishable permissions: RawLocation plus Internet under Transparent Permission. It MUST NOT use Experimental APIs.
+- **FR-014**: The Lens MUST request only publishable permissions: RawLocation under Transparent Permission. It MUST NOT use Experimental APIs.
 - **FR-015**: The Lens MUST NOT use HealthKit, Mobile Kit, Snap Cloud, Sync Kit, camera or ML, the map, or the network beyond what location requires.
 - **FR-016**: Demo Walk MUST be deterministic and runnable in Lens Studio Preview.
 - **FR-017**: The Lens MUST support a privacy-filtered local field receipt. The receipt contains no coordinates and no route history.

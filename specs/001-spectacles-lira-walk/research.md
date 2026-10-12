@@ -17,9 +17,9 @@ Sources come from PLAN.md (2026-10-11). This file doesn't verify device behavior
 
 ## R3: 64-bit RNG arithmetic
 
-- **Decision**: Implement SplitMix64 with `BigInt` and `BigInt.asUintN(64, …)` after each wrapping add and multiply. If Lens Studio lacks `BigInt`, use two 32-bit halves behind the same `uint64.ts` interface.
+- **Decision**: Implement SplitMix64 with two 32-bit halves behind a `uint64.ts` interface. Lens Studio TypeScript is fixed at `target`/`lib` es2019, so `BigInt` (ES2020) is unavailable to Lens code (https://developers.snap.com/lens-studio/features/scripting/custom-typescript-config). A Node-only `BigInt` reference may be used in tests to cross-check the halves.
 - **Rationale**: Swift's `&+` and `&*` wrap at 2^64. JavaScript numbers are exact only to 2^53.
-- **Open**: Lens Studio `BigInt` support is `NOT_COMPUTABLE`. A spike task (T006) resolves it. An in-Lens self-test checks the first RNG outputs.
+- **Resolved** (NC-04): Lens code doesn't use `BigInt`. An in-Lens self-test still checks the first RNG outputs.
 
 ## R4: Location
 
@@ -30,7 +30,7 @@ Sources come from PLAN.md (2026-10-11). This file doesn't verify device behavior
 
 ## R5: Permissions and publishability
 
-- **Decision**: Request RawLocation plus Internet under Transparent Permission. Use no Experimental APIs and no direct HTTP or WebSocket calls.
+- **Decision**: Request RawLocation under Transparent Permission. Use no Experimental APIs and no direct HTTP or WebSocket calls.
 - **Rationale**: Lenses that use Experimental APIs can't be published.
 - **Sources**: https://developers.snap.com/spectacles/permission-privacy/transparent-permission · https://developers.snap.com/spectacles/about-spectacles-features/apis/internet-access · https://developers.snap.com/spectacles/about-spectacles-features/apis/web-socket · https://developers.snap.com/spectacles/get-started/start-building/publishing-lens
 
