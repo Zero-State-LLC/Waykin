@@ -93,7 +93,7 @@ Write all three into `docs/design/receipts/LENS_BUILD_<UTC>_<sha>.md`, using the
 Before you export, apply these prep rules:
 - Downscale every image texture to **512×512**. The perf doc recommends "512px x 512px or smaller" (https://developers.snap.com/spectacles/best-practices/performance-optimization/optimizing-lens-performance).
 - Decimate meshes to ≤ the triangle budget in NC-53 (default **15,000 tris total**).
-- Actions must keep these names exactly: `Lira_Idle`, `Lira_Follow`, `Lira_Investigate`, `Lira_Alert`, `Lira_Celebrate`, `Lira_Spawn` (`BUILD_MANIFEST.json:40-47`). The PRS-005 fallbacks apply to any action that is missing after import. NC-09 gates publishing.
+- Actions must keep these names exactly: `Lira_Idle`, `Lira_Follow`, `Lira_Investigate`, `Lira_Alert`, `Lira_Celebrate`, `Lira_Spawn` (`BUILD_MANIFEST.json:40-47`). The PRS-005 fallbacks apply to any action that is missing after import. NC-09 is resolved (paid Meshy plan; no credit line, no publish gate).
 - Verify:
   - `.glb` size ≤ **4 MB**.
   - Blender Info shows 6 actions exported.

@@ -36,7 +36,7 @@ The **core port and vectors** (T002, T005–T017) belong to the core-port worker
   - Data-model corrections C1, C2, and C4 (GA).
   - Acceptance: no `[NEEDS CLARIFICATION]` remains without an NC or D link.
 - [x] T040 SCRIBE: Applied the CF-01..CF-32 winners across every doc in this folder. A grep for each overruled value returns 0 hits outside `decisions.md` (done 2026-10-11).
-- [ ] T041 [+] Danny: Confirm the NC-09 asset rights for the Lira rig and textures. Gates T073.
+- [x] T041 [+] Danny: NC-09 asset rights confirmed: Meshy-derived, paid plan, owned outright (2026-10-11). No gate on T073.
 
 ## Phase 1: Setup
 
@@ -136,7 +136,7 @@ All Phase 2b tasks depend on T043 and T044.
 - [ ] T037 [=] [P] SCRIBE: Update the README and docs pointers.
 - [ ] T071 [+] lens-MCP-agent: Run the perf audit: draw calls ≤ 20, tris, bones, size ≤ 15 MB, script ≤ 2.0 ms per frame (Perfetto). Acceptance: TST-037, TST-050.
 - [ ] T072 [+] human: Run the device suite TST-050..055 and record the results in the receipt.
-- [ ] T073 [+] Danny + human: Submit with metadata (LSB-098). Gated by T041, TST-070, and TST-060 PASS.
+- [ ] T073 [+] Danny + human: Submit with metadata (LSB-098). Gated by TST-070 and TST-060 PASS.
 
 ## Dependencies
 
@@ -167,4 +167,4 @@ All Phase 2b tasks depend on T043 and T044.
 - [ ] T202 human (on-device): Battery. Log `getBatteryState()` at start and end of a 15-minute walk. Pass: drain ≤ 40 points (NC-03). Implement D-061 (accepted).
 - [ ] T203 lens-MCP-agent: Record Lens Studio 5.15.4, SIK, and UI Kit versions in the build receipt (NC-05).
 - [ ] T204 human (on-device): Ground fit. With 3 wearers, Lira's feet are within ±10 cm of the visible ground at 2 m, using the non-experimental hit test or the 1.45 m fallback. Feeds TST-052 (NC-06).
-- [ ] T205 Danny: Confirm the Meshy plan used to generate Lira (Lira is Meshy-derived, confirmed 2026-10-11). **Blocks T073 (publish).** Free plan: add the CC BY 4.0 credit line from `decisions.md` § Lira license to the Lens description. Paid plan: no credit needed. Record the plan, the generation date, and the input-image rights in `ArtSource/Companion/Lira/README.md`.
+- [ ] T205 Danny: Lira license resolved: Meshy-derived, paid plan, owned outright, no credit line (2026-10-11). Fill in the open fields (generation date, input-image rights) in `ArtSource/Companion/Lira/README.md`. Informational; does not block T073.
