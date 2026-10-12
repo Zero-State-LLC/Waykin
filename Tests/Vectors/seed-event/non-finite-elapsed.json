@@ -1,0 +1,149 @@
+{
+  "config" : {
+    "minimumTickSpacing" : 0,
+    "rules" : [
+      {
+        "cooldown" : 0,
+        "kind" : "quietInterval",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "1"
+      }
+    ]
+  },
+  "description" : "Non-finite and negative elapsed values clamp to zero.",
+  "rngStream" : [
+    "7960286522194355700",
+    "487617019471545679",
+    "17909611376780542444",
+    "1961750202426094747",
+    "6038094601263162090",
+    "3207296026000306913",
+    "14232521865600346940",
+    "4532161160992623299"
+  ],
+  "schemaVersion" : 1,
+  "seed" : "0",
+  "source" : {
+    "generatedBy" : "WaykinVectorExport",
+    "swiftTree" : "bace3672ccdbb428679343836010860ff8661ff3"
+  },
+  "steps" : [
+    {
+      "elapsed" : "NaN",
+      "expected" : {
+        "eligibleKinds" : [
+          "quietInterval"
+        ],
+        "event" : {
+          "debugLabel" : "quietInterval",
+          "intensity" : 0.5,
+          "kind" : "quietInterval"
+        },
+        "pick" : "0",
+        "rngDraws" : [
+          "7960286522194355700"
+        ],
+        "totalWeight" : "1"
+      },
+      "index" : 0,
+      "nowSeconds" : 1000,
+      "state" : {
+        "activeTime" : 0,
+        "bondLevel" : 5,
+        "energy" : 0.5,
+        "familiarity" : 0.5,
+        "movementState" : "moving",
+        "pressure" : 0.5
+      }
+    },
+    {
+      "elapsed" : "-Infinity",
+      "expected" : {
+        "eligibleKinds" : [
+          "quietInterval"
+        ],
+        "event" : {
+          "debugLabel" : "quietInterval",
+          "intensity" : 0.5,
+          "kind" : "quietInterval"
+        },
+        "pick" : "0",
+        "rngDraws" : [
+          "487617019471545679"
+        ],
+        "totalWeight" : "1"
+      },
+      "index" : 1,
+      "nowSeconds" : 1001,
+      "state" : {
+        "activeTime" : 0,
+        "bondLevel" : 5,
+        "energy" : 0.5,
+        "familiarity" : 0.5,
+        "movementState" : "moving",
+        "pressure" : 0.5
+      }
+    },
+    {
+      "elapsed" : -5,
+      "expected" : {
+        "eligibleKinds" : [
+          "quietInterval"
+        ],
+        "event" : {
+          "debugLabel" : "quietInterval",
+          "intensity" : 0.5,
+          "kind" : "quietInterval"
+        },
+        "pick" : "0",
+        "rngDraws" : [
+          "17909611376780542444"
+        ],
+        "totalWeight" : "1"
+      },
+      "index" : 2,
+      "nowSeconds" : 1002,
+      "state" : {
+        "activeTime" : 0,
+        "bondLevel" : 5,
+        "energy" : 0.5,
+        "familiarity" : 0.5,
+        "movementState" : "moving",
+        "pressure" : 0.5
+      }
+    },
+    {
+      "elapsed" : "Infinity",
+      "expected" : {
+        "eligibleKinds" : [
+          "quietInterval"
+        ],
+        "event" : {
+          "debugLabel" : "quietInterval",
+          "intensity" : 0.5,
+          "kind" : "quietInterval"
+        },
+        "pick" : "0",
+        "rngDraws" : [
+          "1961750202426094747"
+        ],
+        "totalWeight" : "1"
+      },
+      "index" : 3,
+      "nowSeconds" : 1003,
+      "state" : {
+        "activeTime" : 0,
+        "bondLevel" : 5,
+        "energy" : 0.5,
+        "familiarity" : 0.5,
+        "movementState" : "moving",
+        "pressure" : 0.5
+      }
+    }
+  ],
+  "vectorId" : "non-finite-elapsed"
+}

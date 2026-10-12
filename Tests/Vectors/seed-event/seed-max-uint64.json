@@ -1,0 +1,280 @@
+{
+  "config" : {
+    "minimumTickSpacing" : 40,
+    "rules" : [
+      {
+        "cooldown" : 28,
+        "kind" : "quietInterval",
+        "maximumPressure" : 0.25,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "3"
+      },
+      {
+        "cooldown" : 24,
+        "kind" : "companionDrawsNear",
+        "maximumPressure" : 0.47999999999999998,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0.050000000000000003,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "7"
+      },
+      {
+        "cooldown" : 30,
+        "kind" : "companionMovesAhead",
+        "maximumPressure" : 0.62,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0.40000000000000002,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "4"
+      },
+      {
+        "cooldown" : 22,
+        "kind" : "companionObserves",
+        "maximumPressure" : 0.55000000000000004,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0.040000000000000001,
+        "weight" : "4"
+      },
+      {
+        "cooldown" : 44,
+        "kind" : "distantPresence",
+        "maximumPressure" : 0.69999999999999996,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0.23999999999999999,
+        "weight" : "3"
+      },
+      {
+        "cooldown" : 70,
+        "kind" : "pursuitBegins",
+        "maximumPressure" : 0.78000000000000003,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0.28000000000000003,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0.35999999999999999,
+        "weight" : "2"
+      },
+      {
+        "cooldown" : 48,
+        "kind" : "pursuitIntensifies",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0.55000000000000004,
+        "weight" : "3"
+      },
+      {
+        "cooldown" : 38,
+        "kind" : "pursuitFades",
+        "maximumPressure" : 0.55000000000000004,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0.5,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0.17999999999999999,
+        "weight" : "3"
+      },
+      {
+        "cooldown" : 50,
+        "kind" : "familiarPlaceStirs",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0.29999999999999999,
+        "minimumPressure" : 0,
+        "weight" : "3"
+      },
+      {
+        "cooldown" : 60,
+        "kind" : "bondMoment",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 8,
+        "minimumEnergy" : 0.20000000000000001,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "3"
+      }
+    ]
+  },
+  "description" : "Seed 18446744073709551615 (UInt64.max) with default rules.",
+  "rngStream" : [
+    "16490336266968443936",
+    "16834447057089888969",
+    "4048727598324417001",
+    "7862637804313477842",
+    "13015481187462834606",
+    "15212506146343009075",
+    "17388166129998380965",
+    "4638043754431676516"
+  ],
+  "schemaVersion" : 1,
+  "seed" : "18446744073709551615",
+  "source" : {
+    "generatedBy" : "WaykinVectorExport",
+    "swiftTree" : "bace3672ccdbb428679343836010860ff8661ff3"
+  },
+  "steps" : [
+    {
+      "expected" : {
+        "eligibleKinds" : [
+          "quietInterval",
+          "companionDrawsNear",
+          "companionObserves"
+        ],
+        "event" : {
+          "debugLabel" : "quietInterval",
+          "intensity" : 0.29999999999999999,
+          "kind" : "quietInterval"
+        },
+        "pick" : "0",
+        "rngDraws" : [
+          "16490336266968443936"
+        ],
+        "totalWeight" : "14"
+      },
+      "index" : 0,
+      "nowSeconds" : 1000,
+      "state" : {
+        "activeTime" : 0,
+        "bondLevel" : 3,
+        "energy" : 0.29999999999999999,
+        "familiarity" : 0.10000000000000001,
+        "movementState" : "moving",
+        "pressure" : 0.20000000000000001
+      }
+    },
+    {
+      "expected" : {
+        "eligibleKinds" : [
+          "companionDrawsNear",
+          "companionMovesAhead",
+          "companionObserves",
+          "distantPresence",
+          "pursuitFades"
+        ],
+        "event" : {
+          "debugLabel" : "distantPresence",
+          "intensity" : 0.55000000000000004,
+          "kind" : "distantPresence"
+        },
+        "pick" : "15",
+        "rngDraws" : [
+          "16834447057089888969"
+        ],
+        "totalWeight" : "21"
+      },
+      "index" : 1,
+      "nowSeconds" : 1001,
+      "state" : {
+        "activeTime" : 50,
+        "bondLevel" : 5,
+        "energy" : 0.55000000000000004,
+        "familiarity" : 0.20000000000000001,
+        "movementState" : "moving",
+        "pressure" : 0.34999999999999998
+      }
+    },
+    {
+      "expected" : {
+        "eligibleKinds" : [
+          "distantPresence",
+          "pursuitBegins",
+          "pursuitIntensifies",
+          "familiarPlaceStirs",
+          "bondMoment"
+        ],
+        "event" : {
+          "debugLabel" : "pursuitIntensifies",
+          "intensity" : 0.65000000000000002,
+          "kind" : "pursuitIntensifies"
+        },
+        "pick" : "7",
+        "rngDraws" : [
+          "4048727598324417001"
+        ],
+        "totalWeight" : "14"
+      },
+      "index" : 2,
+      "nowSeconds" : 1002,
+      "state" : {
+        "activeTime" : 150,
+        "bondLevel" : 8,
+        "energy" : 0.59999999999999998,
+        "familiarity" : 0.29999999999999999,
+        "movementState" : "moving",
+        "pressure" : 0.65000000000000002
+      }
+    },
+    {
+      "expected" : {
+        "eligibleKinds" : [
+          "companionDrawsNear",
+          "companionMovesAhead",
+          "companionObserves",
+          "distantPresence",
+          "pursuitFades",
+          "familiarPlaceStirs",
+          "bondMoment"
+        ],
+        "event" : {
+          "debugLabel" : "companionDrawsNear",
+          "intensity" : 0.5,
+          "kind" : "companionDrawsNear"
+        },
+        "pick" : "0",
+        "rngDraws" : [
+          "7862637804313477842"
+        ],
+        "totalWeight" : "27"
+      },
+      "index" : 3,
+      "nowSeconds" : 1003,
+      "state" : {
+        "activeTime" : 300,
+        "bondLevel" : 12,
+        "energy" : 0.5,
+        "familiarity" : 0.55000000000000004,
+        "movementState" : "paused",
+        "pressure" : 0.29999999999999999
+      }
+    },
+    {
+      "expected" : {
+        "eligibleKinds" : [
+          "pursuitIntensifies",
+          "familiarPlaceStirs",
+          "bondMoment"
+        ],
+        "event" : {
+          "debugLabel" : "bondMoment",
+          "intensity" : 0.84999999999999998,
+          "kind" : "bondMoment"
+        },
+        "pick" : "6",
+        "rngDraws" : [
+          "13015481187462834606"
+        ],
+        "totalWeight" : "9"
+      },
+      "index" : 4,
+      "nowSeconds" : 1004,
+      "state" : {
+        "activeTime" : 500,
+        "bondLevel" : 14,
+        "energy" : 0.34999999999999998,
+        "familiarity" : 0.65000000000000002,
+        "movementState" : "moving",
+        "pressure" : 0.84999999999999998
+      }
+    }
+  ],
+  "vectorId" : "seed-max-uint64"
+}

@@ -1,0 +1,269 @@
+{
+  "config" : {
+    "minimumTickSpacing" : 0,
+    "rules" : [
+      {
+        "cooldown" : 28,
+        "kind" : "quietInterval",
+        "maximumPressure" : 0.25,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "3"
+      },
+      {
+        "cooldown" : 24,
+        "kind" : "companionDrawsNear",
+        "maximumPressure" : 0.47999999999999998,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0.050000000000000003,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "7"
+      },
+      {
+        "cooldown" : 30,
+        "kind" : "companionMovesAhead",
+        "maximumPressure" : 0.62,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0.40000000000000002,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "4"
+      },
+      {
+        "cooldown" : 22,
+        "kind" : "companionObserves",
+        "maximumPressure" : 0.55000000000000004,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0.040000000000000001,
+        "weight" : "4"
+      },
+      {
+        "cooldown" : 44,
+        "kind" : "distantPresence",
+        "maximumPressure" : 0.69999999999999996,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0.23999999999999999,
+        "weight" : "3"
+      },
+      {
+        "cooldown" : 70,
+        "kind" : "pursuitBegins",
+        "maximumPressure" : 0.78000000000000003,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0.28000000000000003,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0.35999999999999999,
+        "weight" : "2"
+      },
+      {
+        "cooldown" : 48,
+        "kind" : "pursuitIntensifies",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0.55000000000000004,
+        "weight" : "3"
+      },
+      {
+        "cooldown" : 38,
+        "kind" : "pursuitFades",
+        "maximumPressure" : 0.55000000000000004,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0.5,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0.17999999999999999,
+        "weight" : "3"
+      },
+      {
+        "cooldown" : 50,
+        "kind" : "familiarPlaceStirs",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0.29999999999999999,
+        "minimumPressure" : 0,
+        "weight" : "3"
+      },
+      {
+        "cooldown" : 60,
+        "kind" : "bondMoment",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 8,
+        "minimumEnergy" : 0.20000000000000001,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "3"
+      }
+    ]
+  },
+  "description" : "allowedKinds subsets including empty and a set with no eligible kinds.",
+  "rngStream" : [
+    "7960286522194355700",
+    "487617019471545679",
+    "17909611376780542444",
+    "1961750202426094747",
+    "6038094601263162090",
+    "3207296026000306913",
+    "14232521865600346940",
+    "4532161160992623299"
+  ],
+  "schemaVersion" : 1,
+  "seed" : "0",
+  "source" : {
+    "generatedBy" : "WaykinVectorExport",
+    "swiftTree" : "bace3672ccdbb428679343836010860ff8661ff3"
+  },
+  "steps" : [
+    {
+      "allowedKinds" : [
+
+      ],
+      "expected" : {
+        "eligibleKinds" : [
+
+        ],
+        "event" : null,
+        "pick" : null,
+        "rngDraws" : [
+
+        ],
+        "totalWeight" : null
+      },
+      "index" : 0,
+      "nowSeconds" : 1000,
+      "state" : {
+        "activeTime" : 0,
+        "bondLevel" : 3,
+        "energy" : 0.29999999999999999,
+        "familiarity" : 0.10000000000000001,
+        "movementState" : "moving",
+        "pressure" : 0.20000000000000001
+      }
+    },
+    {
+      "allowedKinds" : [
+        "quietInterval"
+      ],
+      "expected" : {
+        "eligibleKinds" : [
+          "quietInterval"
+        ],
+        "event" : {
+          "debugLabel" : "quietInterval",
+          "intensity" : 0.29999999999999999,
+          "kind" : "quietInterval"
+        },
+        "pick" : "0",
+        "rngDraws" : [
+          "7960286522194355700"
+        ],
+        "totalWeight" : "3"
+      },
+      "index" : 1,
+      "nowSeconds" : 1001,
+      "state" : {
+        "activeTime" : 1,
+        "bondLevel" : 3,
+        "energy" : 0.29999999999999999,
+        "familiarity" : 0.10000000000000001,
+        "movementState" : "moving",
+        "pressure" : 0.20000000000000001
+      }
+    },
+    {
+      "allowedKinds" : [
+        "bondMoment"
+      ],
+      "expected" : {
+        "eligibleKinds" : [
+
+        ],
+        "event" : null,
+        "pick" : null,
+        "rngDraws" : [
+
+        ],
+        "totalWeight" : null
+      },
+      "index" : 2,
+      "nowSeconds" : 1002,
+      "state" : {
+        "activeTime" : 2,
+        "bondLevel" : 3,
+        "energy" : 0.29999999999999999,
+        "familiarity" : 0.10000000000000001,
+        "movementState" : "moving",
+        "pressure" : 0.20000000000000001
+      }
+    },
+    {
+      "allowedKinds" : [
+        "companionDrawsNear",
+        "companionObserves",
+        "quietInterval"
+      ],
+      "expected" : {
+        "eligibleKinds" : [
+          "companionDrawsNear",
+          "companionObserves"
+        ],
+        "event" : {
+          "debugLabel" : "companionDrawsNear",
+          "intensity" : 0.29999999999999999,
+          "kind" : "companionDrawsNear"
+        },
+        "pick" : "1",
+        "rngDraws" : [
+          "487617019471545679"
+        ],
+        "totalWeight" : "11"
+      },
+      "index" : 3,
+      "nowSeconds" : 1003,
+      "state" : {
+        "activeTime" : 3,
+        "bondLevel" : 3,
+        "energy" : 0.29999999999999999,
+        "familiarity" : 0.10000000000000001,
+        "movementState" : "moving",
+        "pressure" : 0.20000000000000001
+      }
+    },
+    {
+      "expected" : {
+        "eligibleKinds" : [
+          "companionObserves"
+        ],
+        "event" : {
+          "debugLabel" : "companionObserves",
+          "intensity" : 0.29999999999999999,
+          "kind" : "companionObserves"
+        },
+        "pick" : "0",
+        "rngDraws" : [
+          "17909611376780542444"
+        ],
+        "totalWeight" : "4"
+      },
+      "index" : 4,
+      "nowSeconds" : 1004,
+      "state" : {
+        "activeTime" : 4,
+        "bondLevel" : 3,
+        "energy" : 0.29999999999999999,
+        "familiarity" : 0.10000000000000001,
+        "movementState" : "moving",
+        "pressure" : 0.20000000000000001
+      }
+    }
+  ],
+  "vectorId" : "allowed-kinds"
+}

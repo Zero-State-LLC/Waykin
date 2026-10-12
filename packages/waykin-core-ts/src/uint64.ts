@@ -1,0 +1,105 @@
+/**
+ * UInt64 abstraction.
+ *
+ * The Lens Studio runtime's support for BigInt is unconfirmed (T006). Every
+ * u64 value in this package flows through this module so a 2x uint32 fallback
+ * can be swapped in behind the same interface without touching call sites.
+ *
+ * Constants are built with BigInt("0x...") at module load instead of using
+ * BigInt literal suffixes so older / simpler transpilers stay happy.
+ *
+ * Parity contract (core-parity.md rules 1, 2, 7): arithmetic is bit-exact,
+ * UInt64 values are never passed through `Number`, and overflow in
+ * `checkedAdd` throws (Swift traps).
+ */
+
+export type U64 = bigint;
+
+const SHIFT_64 = BigInt(64);
+const ZERO = BigInt(0);
+
+export const UINT64_MAX: U64 = BigInt("0xFFFFFFFFFFFFFFFF");
+export const MASK: U64 = UINT64_MAX;
+
+const UINT64_DECIMAL_PATTERN = /^(0|[1-9][0-9]{0,19})$/;
+
+/**
+ * Parse a decimal string into a UInt64. Rejects anything that is not a
+ * canonical non-negative decimal (no sign, no leading zeroes, at most 20
+ * digits) and rejects values above 2^64 - 1.
+ */
+export function parseU64(decimal: string): U64 {
+  if (!UINT64_DECIMAL_PATTERN.test(decimal)) {
+    throw new RangeError(`parseU64: not a canonical uint64 decimal string: ${JSON.stringify(decimal)}`);
+  }
+  const value = BigInt(decimal);
+  if (value > UINT64_MAX) {
+    throw new RangeError(`parseU64: value exceeds 2^64 - 1: ${decimal}`);
+  }
+  return value;
+}
+
+export function toDecimal(value: U64): string {
+  return value.toString(10);
+}
+
+/** Force a bigint into the unsigned 64-bit range (wrapping). */
+export function asU64(value: U64): U64 {
+  return BigInt.asUintN(64, value);
+}
+
+/** Wrapping add. */
+export function add(a: U64, b: U64): U64 {
+  return BigInt.asUintN(64, a + b);
+}
+
+/** Wrapping multiply. */
+export function mul(a: U64, b: U64): U64 {
+  return BigInt.asUintN(64, a * b);
+}
+
+export function xor(a: U64, b: U64): U64 {
+  return BigInt.asUintN(64, a ^ b);
+}
+
+/** Logical (unsigned) right shift. */
+export function shr(a: U64, bits: number): U64 {
+  if (bits < 0 || bits >= 64) {
+    // BigInt shifts by >= 64 produce 0 or sign-extended results; mirror the
+    // logical intent explicitly.
+    if (bits < 0) throw new RangeError("shr: negative shift");
+    return ZERO;
+  }
+  return BigInt.asUintN(64, a >> BigInt(bits));
+}
+
+export function mod(a: U64, b: U64): U64 {
+  if (b === ZERO) {
+    throw new RangeError("mod: uint64 modulo by zero");
+  }
+  return BigInt.asUintN(64, a % b);
+}
+
+/**
+ * Non-wrapping add. Mirrors Swift's `&+` being replaced by a trapping `+` in
+ * the parity contract (rule 7): overflow throws a RangeError.
+ */
+export function checkedAdd(a: U64, b: U64): U64 {
+  const sum = a + b;
+  if (sum > UINT64_MAX) {
+    throw new RangeError("checkedAdd: uint64 overflow");
+  }
+  return sum;
+}
+
+/** Non-wrapping multiply helper kept alongside checkedAdd for symmetry. */
+export function checkedMul(a: U64, b: U64): U64 {
+  const product = a * b;
+  if (product > UINT64_MAX) {
+    throw new RangeError("checkedMul: uint64 overflow");
+  }
+  return product;
+}
+
+export const U64_ZERO: U64 = ZERO;
+export const U64_ONE: U64 = BigInt(1);
