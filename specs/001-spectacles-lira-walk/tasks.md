@@ -56,7 +56,7 @@ The **core port and vectors** (T002, T005–T017) belong to the core-port worker
 - T011–T015 Core modules. **T012** (`WorldEventGenerator` module) is a stateful struct whose RNG advances across `evaluate` calls. The PR #17 vectors exercise it that way (`Sources/WaykinVectorExport/main.swift:158-162` on the port branch), and that is correct for the module. **T013–T015** (the Experience/runtime layer) MUST create a new `WorldEventGenerator(seed: eventSeed)` on every movement update, as shipped iOS gameplay does (`Sources/WaykinCore/Experiences/Experiences.swift:118-126`). Cooldown history arrives through `lastEventElapsed` and `lastEventElapsedByKind`, not through RNG state (GA C4, clarified 2026-10-11). Add an Experience-level vector (multi-tick walk through `Experiences.swift`) so that both layers are pinned. CI: the vector export job runs on `macos-26`; `macos-15` fails Swift 6 concurrency checks in `PersistenceStore.swift`.
 - T016 Parity tests.
 - T017 CI job.
-- Status (PR #17): done: T007, T008 (11 seed-event vector files from macOS CI; the TS replay is green), T011 (BigInt path), T012, T016, T017. Open: T006, T009, T010, T013–T015.
+- Status (PR #17): done: T007, T008 (11 seed-event vector files from macOS CI; the TS replay is green), T012 (generator layer only; per-tick fresh generator is T013–T015), T016, T017. Partial: T011 — the BigInt path counts only as a Node cross-check (Lens TS is es2019, no BigInt, NC-04); the Lens 2×uint32 path stays open. Open: T006, T009, T010, T011 (2×uint32), T013–T015.
 - Acceptance owned by that PR: TST-001..TST-011.
 
 - [ ] T044 [+] core-TS: Verify the published `core/index.ts` exports against L §3.1. File a mismatch note in the core PR. Do not edit the core. Depends on T016.
