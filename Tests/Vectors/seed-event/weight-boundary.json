@@ -1,0 +1,183 @@
+{
+  "config" : {
+    "minimumTickSpacing" : 0,
+    "rules" : [
+      {
+        "cooldown" : 0,
+        "kind" : "quietInterval",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "1"
+      },
+      {
+        "cooldown" : 0,
+        "kind" : "companionObserves",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "4611686018427387904"
+      },
+      {
+        "cooldown" : 0,
+        "kind" : "distantPresence",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "3"
+      },
+      {
+        "cooldown" : 0,
+        "kind" : "companionDrawsNear",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "1"
+      },
+      {
+        "cooldown" : 0,
+        "kind" : "pursuitFades",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 1,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "1"
+      },
+      {
+        "cooldown" : 0,
+        "kind" : "bondMoment",
+        "maximumPressure" : 1,
+        "minimumBondLevel" : 0,
+        "minimumEnergy" : 0,
+        "minimumFamiliarity" : 0,
+        "minimumPressure" : 0,
+        "weight" : "1"
+      }
+    ]
+  },
+  "description" : "Very large and very small weights with clamped constructor inputs.",
+  "rngStream" : [
+    "13679457532755275413",
+    "2949826092126892291",
+    "5139283748462763858",
+    "6349198060258255764",
+    "701532786141963250",
+    "16015981125662989062",
+    "4028864712777624925",
+    "14769051326987775908"
+  ],
+  "schemaVersion" : 1,
+  "seed" : "42",
+  "source" : {
+    "generatedBy" : "WaykinVectorExport",
+    "swiftCommit" : "66435a999078"
+  },
+  "steps" : [
+    {
+      "expected" : {
+        "eligibleKinds" : [
+          "quietInterval",
+          "companionObserves",
+          "distantPresence",
+          "companionDrawsNear",
+          "pursuitFades",
+          "bondMoment"
+        ],
+        "event" : {
+          "debugLabel" : "companionObserves",
+          "intensity" : 1,
+          "kind" : "companionObserves"
+        },
+        "pick" : "4456085495900499591",
+        "rngDraws" : [
+          "13679457532755275413"
+        ],
+        "totalWeight" : "4611686018427387911"
+      },
+      "index" : 0,
+      "nowSeconds" : 1000,
+      "state" : {
+        "activeTime" : 0,
+        "bondLevel" : 5,
+        "energy" : 1,
+        "familiarity" : 0.5,
+        "movementState" : "moving",
+        "pressure" : 0.5
+      }
+    },
+    {
+      "expected" : {
+        "eligibleKinds" : [
+          "quietInterval",
+          "companionObserves",
+          "distantPresence",
+          "companionDrawsNear",
+          "pursuitFades",
+          "bondMoment"
+        ],
+        "event" : {
+          "debugLabel" : "companionObserves",
+          "intensity" : 1,
+          "kind" : "companionObserves"
+        },
+        "pick" : "2949826092126892291",
+        "rngDraws" : [
+          "2949826092126892291"
+        ],
+        "totalWeight" : "4611686018427387911"
+      },
+      "index" : 1,
+      "nowSeconds" : 1001,
+      "state" : {
+        "activeTime" : 1,
+        "bondLevel" : 5,
+        "energy" : 1,
+        "familiarity" : 0.5,
+        "movementState" : "moving",
+        "pressure" : 0.5
+      }
+    },
+    {
+      "expected" : {
+        "eligibleKinds" : [
+          "quietInterval",
+          "companionObserves",
+          "distantPresence",
+          "companionDrawsNear",
+          "pursuitFades",
+          "bondMoment"
+        ],
+        "event" : {
+          "debugLabel" : "companionObserves",
+          "intensity" : 1,
+          "kind" : "companionObserves"
+        },
+        "pick" : "527597730035375947",
+        "rngDraws" : [
+          "5139283748462763858"
+        ],
+        "totalWeight" : "4611686018427387911"
+      },
+      "index" : 2,
+      "nowSeconds" : 1002,
+      "state" : {
+        "activeTime" : 2,
+        "bondLevel" : 5,
+        "energy" : 1,
+        "familiarity" : 0.5,
+        "movementState" : "moving",
+        "pressure" : 0.5
+      }
+    }
+  ],
+  "vectorId" : "weight-boundary"
+}
