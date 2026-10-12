@@ -48,8 +48,8 @@ Presentation quality must communicate current metrics and pressure through natur
 - Currencies, inventory, crafting, skill trees, or achievements.
 - Large quest systems.
 - RealityKit gameplay.
-- AR glasses integration.
-- Wearable integration.
+- AR glasses integration, except the standalone Snap Spectacles Lens scoped by ADR-0004 and `specs/001-spectacles-lira-walk/`.
+- Wearable integration, except that same Spectacles Lens; the Lens adds no phone, watch, or cloud link.
 - Live weather APIs.
 - Remote configuration.
 - Analytics platforms.

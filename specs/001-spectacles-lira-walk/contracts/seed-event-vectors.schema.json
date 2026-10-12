@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Zero-State-LLC/Waykin/specs/001-spectacles-lira-walk/contracts/seed-event-vectors.schema.json",
+  "title": "Waykin seed/event parity vector file",
+  "description": "Generated only by Swift WaykinVectorExport. Consumed read-only by packages/waykin-core-ts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "vectorId", "source", "seed", "config", "rngStream", "steps"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "vectorId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "description": { "type": "string" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generatedBy", "swiftCommit"],
+      "properties": {
+        "generatedBy": { "const": "WaykinVectorExport" },
+        "swiftCommit": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" }
+      }
+    },
+    "seed": { "$ref": "#/$defs/uint64" },
+    "config": { "$ref": "#/$defs/generatorConfig" },
+    "rngStream": {
+      "description": "First N raw next() outputs of a fresh SeededRandomNumberGenerator(seed).",
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/uint64" }
+    },
+    "steps": {
+      "description": "Ordered evaluate() calls on one generator instance.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/step" }
+    }
+  },
+  "$defs": {
+    "uint64": {
+      "description": "Unsigned 64-bit integer as a decimal string. Consumers must reject values above 18446744073709551615.",
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "double": {
+      "description": "IEEE 754 binary64. Non-finite values are encoded as strings.",
+      "oneOf": [
+        { "type": "number" },
+        { "enum": ["NaN", "Infinity", "-Infinity"] }
+      ]
+    },
+    "eventKind": {
+      "enum": [
+        "quietInterval", "companionDrawsNear", "companionMovesAhead", "companionObserves",
+        "distantPresence", "pursuitBegins", "pursuitIntensifies", "pursuitFades",
+        "familiarPlaceStirs", "bondMoment"
+      ]
+    },
+    "rule": {
+      "description": "Post-clamp values as stored by WorldEventRule.init.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "minimumEnergy", "minimumPressure", "maximumPressure", "minimumFamiliarity", "minimumBondLevel", "weight", "cooldown"],
+      "properties": {
+        "kind": { "$ref": "#/$defs/eventKind" },
+        "minimumEnergy": { "type": "number", "minimum": 0, "maximum": 1 },
+        "minimumPressure": { "type": "number", "minimum": 0, "maximum": 1 },
+        "maximumPressure": { "type": "number", "minimum": 0, "maximum": 1 },
+        "minimumFamiliarity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "minimumBondLevel": { "type": "integer", "minimum": 0 },
+        "weight": { "$ref": "#/$defs/uint64" },
+        "cooldown": { "type": "number", "minimum": 0 }
+      }
+    },
+    "generatorConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimumTickSpacing", "rules"],
+      "properties": {
+        "minimumTickSpacing": { "type": "number", "minimum": 0 },
+        "rules": { "type": "array", "items": { "$ref": "#/$defs/rule" } }
+      }
+    },
+    "worldState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["energy", "pressure", "familiarity", "bondLevel", "movementState", "activeTime"],
+      "properties": {
+        "energy": { "$ref": "#/$defs/double" },
+        "pressure": { "$ref": "#/$defs/double" },
+        "familiarity": { "$ref": "#/$defs/double" },
+        "bondLevel": { "type": "integer" },
+        "movementState": { "type": "string", "description": "Swift MovementState rawValue; includes moving and paused." },
+        "activeTime": { "$ref": "#/$defs/double" },
+        "lastEventAtSeconds": { "type": ["number", "null"], "description": "Seconds since reference date; unused by the elapsed path." }
+      }
+    },
+    "movementSample": {
+      "description": "Synthetic samples only; never real routes. Fields INFERRED until confirmed against MovementIntegrity.swift.",
+      "type": "object",
+      "required": ["timestamp"],
+      "properties": {
+        "timestamp": { "type": "number" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "horizontalAccuracy": { "type": "number" },
+        "speed": { "type": "number" }
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["index", "nowSeconds", "state", "expected"],
+      "properties": {
+        "index": { "type": "integer", "minimum": 0 },
+        "nowSeconds": { "type": "number" },
+        "elapsed": { "oneOf": [{ "$ref": "#/$defs/double" }, { "type": "null" }] },
+        "movementSamples": { "type": "array", "items": { "$ref": "#/$defs/movementSample" } },
+        "state": { "$ref": "#/$defs/worldState" },
+        "allowedKinds": { "oneOf": [{ "type": "array", "items": { "$ref": "#/$defs/eventKind" } }, { "type": "null" }] },
+        "externalLastGeneratedAtElapsed": { "type": ["number", "null"] },
+        "externalLastFiredAtElapsedByKind": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/eventKind" },
+          "additionalProperties": { "type": "number" }
+        },
+        "expected": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["eligibleKinds", "rngDraws", "totalWeight", "pick", "event"],
+          "properties": {
+            "eligibleKinds": { "type": "array", "items": { "$ref": "#/$defs/eventKind" } },
+            "rngDraws": { "type": "array", "maxItems": 1, "items": { "$ref": "#/$defs/uint64" } },
+            "totalWeight": { "oneOf": [{ "$ref": "#/$defs/uint64" }, { "type": "null" }] },
+            "pick": { "oneOf": [{ "$ref": "#/$defs/uint64" }, { "type": "null" }] },
+            "event": {
+              "oneOf": [
+                { "type": "null" },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["kind", "intensity", "debugLabel"],
+                  "properties": {
+                    "kind": { "$ref": "#/$defs/eventKind" },
+                    "intensity": { "type": "number" },
+                    "debugLabel": { "type": "string" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

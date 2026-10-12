@@ -221,6 +221,8 @@ python3 Tools/version.py bump patch
 
 ## Roadmap
 
+**Snap Spectacles.** ADR-0004 approves a standalone Spectacles Lens, "Lira Walks With You." It runs `packages/waykin-core-ts`, a TypeScript port of `WaykinCore` that must match Swift-exported test vectors. The iOS app remains the reference implementation. See `docs/decisions/ADR-0004-snap-spectacles-target.md` and `specs/001-spectacles-lira-walk/`.
+
 Waykin progresses by proving one bounded layer before promoting the next:
 
 1. **Physical loop proof** — outdoor GPS, audio audibility, and interruption evidence (#41).
