@@ -143,3 +143,12 @@ See `data-model.md`.
 - **Owners**: FORGE decomposes the work, a cloud agent implements it, and SCRIBE files the artifacts.
 - **CI**: Reuse `.github/workflows/ci.yml`. Add a TypeScript parity job there instead of creating a new CI path.
 - **Repo skills**: `/waykin-validate`, `/waykin-pr-review`.
+
+## Implementation-depth companion docs
+
+- [gap-audit.md](gap-audit.md) lists 185 gaps; each one is closed by a source citation, a Snap doc, a proposed DECISION, or an NC with a safe default.
+- [decisions.md](decisions.md) is the decisions log for Danny (D-/NC- entries). § Conflicts is binding.
+- [behavior-spec.md](behavior-spec.md) covers constants, event tables, state machines, lifecycle, GPS, persistence, errors, and summary (BEH-).
+- [presentation-spec.md](presentation-spec.md) covers Lira placement and animation, audio, UI and copy, onboarding, a11y, performance, and the asset pipeline (PRS-).
+- [lens-studio-build.md](lens-studio-build.md) is the executable checklist for the Lens Studio MCP agent (LSB-).
+- [traceability.md](traceability.md) maps each feature to its requirement, task, and test.
