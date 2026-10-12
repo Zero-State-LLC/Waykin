@@ -162,7 +162,7 @@ struct WaykinVectorExport {
             stepsArr.append(renderStep(idx: idx, s: s, config: v.config, G: &G, R: &R))
         }
 
-        var dict: [String: Any] = [
+        let dict: [String: Any] = [
             "schemaVersion": 1,
             "vectorId": v.vectorId,
             "description": v.description,
@@ -175,7 +175,6 @@ struct WaykinVectorExport {
             "rngStream": rngStream,
             "steps": stepsArr
         ]
-        dict = dict // silence
         return dict
     }
 
