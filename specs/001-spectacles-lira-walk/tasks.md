@@ -167,4 +167,4 @@ All Phase 2b tasks depend on T043 and T044.
 - [ ] T202 human (on-device): Battery. Log `getBatteryState()` at start and end of a 15-minute walk. Pass: drain ≤ 40 points (NC-03). Implement D-061 (accepted).
 - [ ] T203 lens-MCP-agent: Record Lens Studio 5.15.4, SIK, and UI Kit versions in the build receipt (NC-05).
 - [ ] T204 human (on-device): Ground fit. With 3 wearers, Lira's feet are within ±10 cm of the visible ground at 2 m, using the non-experimental hit test or the 1.45 m fallback. Feeds TST-052 (NC-06).
-- [ ] T205 Danny: Lira license resolved: Meshy-derived, paid plan, owned outright, no credit line (2026-10-11). Fill in the open fields (generation date, input-image rights) in `ArtSource/Companion/Lira/README.md`. Informational; does not block T073.
+- [x] T205 Danny: Lira license resolved: Meshy-derived, paid plan, owned outright, no credit line. Generated about Aug 2026; input image owned by Zer0 State LLC. Recorded in `ArtSource/Companion/Lira/README.md` (2026-10-11).

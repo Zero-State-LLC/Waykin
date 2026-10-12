@@ -53,5 +53,5 @@ Pipeline: rename → armature → scale → auto-skin → **hero paint** → **D
 
 - Origin: derived from a Meshy AI generation (confirmed by Danny, 2026-10-11).
 - Meshy plan: **paid**. Zero State owns the generated asset outright, so no attribution or credit line is required ([Meshy: ownership](https://help.meshy.ai/en/articles/10137554-what-is-the-ownership-of-the-generated-models)).
-- Generation date: _TBD (Danny)_
-- Input-image rights: _TBD (Danny)_
+- Generation date: about two months before 2026-10-11 (approx. Aug 2026, per Danny)
+- Input-image rights: owned by Zer0 State LLC (per Danny, 2026-10-11 11:30 PM PT)
