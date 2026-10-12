@@ -4,7 +4,9 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -24,3 +26,103 @@ jobs:
       run: |
         # Add your test command here, e.g.:
         # pytest
+
+  # TypeScript core: parity tests against the committed Swift-generated vectors,
+  # plus a check that the synced Lens copy of the core is not stale.
+  # Runs in parallel with swift-vectors on purpose: it must be meaningful even
+  # when the vector jobs are red, so it never declares `needs`.
+  ts-core-parity:
+    name: TypeScript core parity + Lens sync check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: packages/waykin-core-ts/package-lock.json
+
+      - name: Install dependencies
+        working-directory: packages/waykin-core-ts
+        run: npm ci
+
+      - name: Typecheck
+        working-directory: packages/waykin-core-ts
+        run: npm run typecheck
+
+      - name: Isolation check (no Lens imports)
+        working-directory: packages/waykin-core-ts
+        run: npm run isolation
+
+      - name: Require vectors when committed vectors exist
+        run: |
+          if compgen -G "Tests/Vectors/seed-event/*.json" > /dev/null; then
+            echo "Committed seed-event vectors found: tests will fail on missing vectors."
+            echo "WAYKIN_REQUIRE_VECTORS=1" >> "$GITHUB_ENV"
+          else
+            echo "No committed seed-event vectors; parity tests will skip them."
+          fi
+
+      - name: Test
+        working-directory: packages/waykin-core-ts
+        run: npm test
+
+      - name: Verify the Lens core copy is in sync
+        run: bash scripts/sync_core_ts.sh --check
+
+  # Swift side: regenerate the seed-event vectors, prove they are committed and
+  # fresh, and always publish them for debugging.
+  swift-vectors:
+    name: Swift seed-event vectors
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Generate vectors
+        env:
+          # On pull_request, use the PR head commit; on push, the pushed commit.
+          WAYKIN_SWIFT_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          export WAYKIN_SWIFT_COMMIT="${WAYKIN_SWIFT_COMMIT:0:12}"
+          echo "Recording vectors with swiftCommit=$WAYKIN_SWIFT_COMMIT"
+          make vectors
+
+      - name: Verify committed vectors are fresh (ignoring swiftCommit)
+        run: |
+          out="$RUNNER_TEMP/vectors.diff"
+          # Vectors embed the commit they were generated from, so that single
+          # line is expected to differ on every run and must not count as drift.
+          # Decide from the filtered patch text rather than the exit status:
+          # some git versions report "changed" even when every hunk was ignored.
+          git diff --exit-code -I '"swiftCommit"' -- Tests/Vectors > "$out" || true
+          if [ -s "$out" ]; then
+            echo "::error::Tests/Vectors is stale — 'make vectors' output is not committed."
+            echo "----- diff (swiftCommit lines ignored) -----"
+            cat "$out"
+            exit 1
+          fi
+          echo "Tests/Vectors is fresh (swiftCommit lines ignored)."
+
+      - name: Fail on untracked files under Tests/Vectors
+        run: |
+          untracked="$(git status --porcelain -- Tests/Vectors | sed -n 's/^?? //p')"
+          if [ -n "$untracked" ]; then
+            echo "::error::Untracked files under Tests/Vectors must be committed."
+            echo "$untracked"
+            exit 1
+          fi
+          echo "No untracked files under Tests/Vectors."
+
+      - name: Upload seed-event vectors
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seed-event-vectors
+          path: Tests/Vectors
+          if-no-files-found: warn
+          retention-days: 7

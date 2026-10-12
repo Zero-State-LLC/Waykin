@@ -1,0 +1,17 @@
+{
+  "name": "@waykin/core-ts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pure TypeScript port of the seed->event slice of Swift WaykinCore.",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "isolation": "node scripts/check-isolation.mjs",
+    "test": "npm run build && node --test build/test/"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}

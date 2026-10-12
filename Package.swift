@@ -7,6 +7,7 @@ let package = Package(
     products: [
         .library(name: "WaykinCore", targets: ["WaykinCore"]),
         .executable(name: "WaykinDemo", targets: ["WaykinDemo"]),
+        .executable(name: "waykin-vectors", targets: ["WaykinVectorExport"]),
     ],
     dependencies: [],
     targets: [
@@ -19,6 +20,11 @@ let package = Package(
             name: "WaykinDemo",
             dependencies: ["WaykinCore"],
             path: "Demo"
+        ),
+        .executableTarget(
+            name: "WaykinVectorExport",
+            dependencies: ["WaykinCore"],
+            path: "Sources/WaykinVectorExport"
         ),
         .testTarget(
             name: "WaykinCoreTests",

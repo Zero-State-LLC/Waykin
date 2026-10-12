@@ -41,10 +41,10 @@ The **core port and vectors** (T002, T005–T017) belong to the core-port worker
 ## Phase 1: Setup
 
 - [ ] T001 [=] Merge ADR-0004 and apply AMENDMENTS (SCRIBE). Gates everything.
-- [ ] T002 [=] [P] Scaffold the core package (core-port worker).
+- [x] T002 [=] [P] Scaffold the core package (core-port worker).
 - [ ] T003 [~] [P] lens-MCP-agent: Create `spectacles/WaykinLens/` per LSB-010..015 (Base Template, Spectacles platform, Experimental off, SUIK installed, DeviceTracking World, only GPS-Precise). Pin the Lens Studio, SIK, and SUIK versions (NC-05, NC-51) in `plan.md` and in `docs/design/receipts/LENS_BUILD_<UTC>_<sha>.md`. Acceptance: TST-030 (partial).
-- [ ] T004 [=] [P] `scripts/sync_core_ts.sh --check`.
-- [ ] T005 [=] [P] Isolation check (core-port worker).
+- [x] T004 [=] [P] `scripts/sync_core_ts.sh --check`.
+- [x] T005 [=] [P] Isolation check (core-port worker).
 - [ ] T042 [+] [P] human: Record the LSB-001..007 prerequisites in the build receipt (§12 template).
 - [ ] T043 [+] [P] core-TS: Create `spectacles/WaykinLens/Assets/Scripts/logic/`. It holds pure TypeScript with no Lens APIs (imports only `../core/index`). Tests go in `spectacles/tests/*.test.ts` under `node --test`. Add the step to the `ts-core-parity` job in `ci.yml` (T017). Extend `check-isolation.mjs` to cover `logic/`. Acceptance: TST-011.
 
@@ -56,6 +56,7 @@ The **core port and vectors** (T002, T005–T017) belong to the core-port worker
 - T011–T015 Core modules. **T012** (`WorldEventGenerator` module) is a stateful struct whose RNG advances across `evaluate` calls. The PR #17 vectors exercise it that way (`Sources/WaykinVectorExport/main.swift:158-162` on the port branch), and that is correct for the module. **T013–T015** (the Experience/runtime layer) MUST create a new `WorldEventGenerator(seed: eventSeed)` on every movement update, as shipped iOS gameplay does (`Sources/WaykinCore/Experiences/Experiences.swift:118-126`). Cooldown history arrives through `lastEventElapsed` and `lastEventElapsedByKind`, not through RNG state (GA C4, clarified 2026-10-11). Add an Experience-level vector (multi-tick walk through `Experiences.swift`) so that both layers are pinned. CI: the vector export job runs on `macos-26`; `macos-15` fails Swift 6 concurrency checks in `PersistenceStore.swift`.
 - T016 Parity tests.
 - T017 CI job.
+- Status (PR #17): done: T007 (exporter), T011 (BigInt path), T012, T016, T017. Open: T006, T008 (vectors come from the `swift-vectors` CI job), T009, T010, T013–T015.
 - Acceptance owned by that PR: TST-001..TST-011.
 
 - [ ] T044 [+] core-TS: Verify the published `core/index.ts` exports against L §3.1. File a mismatch note in the core PR. Do not edit the core. Depends on T016.
