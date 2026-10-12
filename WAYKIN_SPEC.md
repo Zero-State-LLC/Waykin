@@ -6,6 +6,7 @@
 - Authority: `BINDING`
 - Implementation status: `PARTIAL`
 - Approved scope: `true`
+- Spec revision: 2026-10-11 — ADR-0004 adds Snap Spectacles as an approved, non-mandatory target.
 
 ## Product Contract
 
@@ -49,10 +50,18 @@ The following are not authorized by this specification:
 - Generalized AI Director
 - Economy or LiveOps systems
 - Generative AI runtime
-- Mandatory AR glasses or wearable dependency
+- Mandatory AR glasses or wearable dependency for the iOS product (a standalone Snap Spectacles Lens is authorized by ADR-0004; other glasses or wearable integrations remain excluded)
 - Expansion to run, cycle, hike, or climb before walking is proven
 
 Detailed future documents may guide seams. They do not authorize implementation.
+
+## Target Platform (ADR-0004)
+
+- iOS is the reference implementation. Swift `WaykinCore` is the gameplay source of truth and the only producer of parity test vectors.
+- Snap Spectacles is an approved, non-mandatory target. The MVP is the standalone Lens "Lira Walks With You", specified in `specs/001-spectacles-lira-walk/`.
+- The Lens uses `packages/waykin-core-ts`, a TypeScript port that must match Swift vectors bit-exactly and must not import Lens APIs.
+- The Spectacles MVP excludes HealthKit, Mobile Kit or iPhone sync, the map, Snap Cloud, and multiplayer.
+- All binding invariants apply to the Lens. Device behavior remains `NOT_COMPUTABLE` without device receipts.
 
 ## Validation Contract
 

@@ -122,7 +122,11 @@ The following remain non-authorizing until promoted through `docs/governance/SPE
 - Marketplace or creator SDK
 - Economy and LiveOps
 - Generalized autonomous world director beyond the two bounded AI release candidates
-- AR-glasses dependency
+- AR-glasses dependency for the iOS product, and glasses integrations other than the Spectacles Lens (ADR-0004)
+
+## Spectacles Retarget (ADR-0004)
+
+The standalone Snap Spectacles Lens "Lira Walks With You" is approved. It covers a walk of about 15 minutes and uses a TypeScript core verified against Swift vectors. The spec, plan, and tasks are in `specs/001-spectacles-lira-walk/`. iOS remains the reference implementation.
 
 ## Decision Rule
 
