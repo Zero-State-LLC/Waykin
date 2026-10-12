@@ -82,7 +82,7 @@ interface RawVector {
   schemaVersion: 1;
   vectorId: string;
   description?: string;
-  source: { generatedBy: "WaykinVectorExport"; swiftCommit: string };
+  source: { generatedBy: "WaykinVectorExport"; swiftTree: string };
   seed: string;
   config: RawConfig;
   rngStream: string[];

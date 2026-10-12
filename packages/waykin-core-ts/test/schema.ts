@@ -24,7 +24,7 @@ const EVENT_KIND_SET = new Set<string>(EVENT_KINDS);
 
 const UINT64_DECIMAL_RE = /^(0|[1-9][0-9]{0,19})$/;
 const VECTOR_ID_RE = /^[a-z0-9][a-z0-9-]*$/;
-const SWIFT_COMMIT_RE = /^[0-9a-f]{7,40}$/;
+const SWIFT_TREE_RE = /^[0-9a-f]{40}$/;
 const UINT64_MAX = BigInt("0xFFFFFFFFFFFFFFFF");
 
 const DOUBLE_LITERALS = new Set(["NaN", "Infinity", "-Infinity"]);
@@ -203,16 +203,16 @@ function validateSource(errors: string[], path: string, value: unknown): void {
     fail(errors, path, "expected object");
     return;
   }
-  const allowed = ["generatedBy", "swiftCommit"];
+  const allowed = ["generatedBy", "swiftTree"];
   checkExtra(errors, path, value, allowed);
   checkRequired(errors, path, value, allowed);
 
   if ("generatedBy" in value && value.generatedBy !== "WaykinVectorExport") {
     fail(errors, `${path}.generatedBy`, 'expected const "WaykinVectorExport"');
   }
-  if ("swiftCommit" in value) {
-    if (typeof value.swiftCommit !== "string" || !SWIFT_COMMIT_RE.test(value.swiftCommit)) {
-      fail(errors, `${path}.swiftCommit`, "expected 7-40 lowercase hex chars");
+  if ("swiftTree" in value) {
+    if (typeof value.swiftTree !== "string" || !SWIFT_TREE_RE.test(value.swiftTree)) {
+      fail(errors, `${path}.swiftTree`, "expected 40 lowercase hex chars");
     }
   }
 }

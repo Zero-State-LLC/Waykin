@@ -8,31 +8,35 @@ struct WaykinVectorExport {
 
     static func main() throws {
         var outDir = "Tests/Vectors"
-        var commitArg: String?
+        var treeArg: String?
         let args = Array(CommandLine.arguments.dropFirst())
         var i = 0
         while i < args.count {
             switch args[i] {
             case "--out":
                 i += 1; if i < args.count { outDir = args[i] }
-            case "--commit":
-                i += 1; if i < args.count { commitArg = args[i] }
+            case "--tree":
+                i += 1; if i < args.count { treeArg = args[i] }
             default:
                 break
             }
             i += 1
         }
-        let env = ProcessInfo.processInfo.environment["WAYKIN_SWIFT_COMMIT"]
-        let swiftCommit = commitArg
-            ?? (env.flatMap { $0.isEmpty ? nil : $0 })
-            ?? gitShortCommit()
-            ?? "0000000"
+        let env = ProcessInfo.processInfo.environment["WAYKIN_SWIFT_TREE"]
+        let swiftTree: String
+        if let treeArg = treeArg {
+            swiftTree = treeArg
+        } else if let env = env, !env.isEmpty {
+            swiftTree = env
+        } else {
+            swiftTree = try gitTreeHash()
+        }
 
         let seedDir = URL(fileURLWithPath: outDir).appendingPathComponent("seed-event")
         try FileManager.default.createDirectory(at: seedDir, withIntermediateDirectories: true)
 
         for v in buildAllVectors() {
-            let obj = renderVector(v, swiftCommit: swiftCommit)
+            let obj = renderVector(v, swiftTree: swiftTree)
             let data = try JSONSerialization.data(
                 withJSONObject: obj,
                 options: [.sortedKeys, .prettyPrinted, .withoutEscapingSlashes]
@@ -45,20 +49,26 @@ struct WaykinVectorExport {
         }
     }
 
-    static func gitShortCommit() -> String? {
+    static func gitTreeHash() throws -> String {
         let p = Process()
         p.executableURL = URL(fileURLWithPath: "/usr/bin/env")
-        p.arguments = ["git", "rev-parse", "--short=12", "HEAD"]
+        p.arguments = ["git", "rev-parse", "HEAD:Sources/WaykinCore"]
         let out = Pipe()
         p.standardOutput = out
         p.standardError = Pipe()
-        do { try p.run() } catch { return nil }
+        do { try p.run() } catch {
+            throw NSError(domain: "WaykinVectorExport", code: 1, userInfo: [NSLocalizedDescriptionKey: "failed to run git: \(error)"])
+        }
         p.waitUntilExit()
-        guard p.terminationStatus == 0 else { return nil }
+        guard p.terminationStatus == 0 else {
+            throw NSError(domain: "WaykinVectorExport", code: 1, userInfo: [NSLocalizedDescriptionKey: "git rev-parse failed with status \(p.terminationStatus)"])
+        }
         let data = out.fileHandleForReading.readDataToEndOfFile()
         guard let s = String(data: data, encoding: .utf8)?
             .trimmingCharacters(in: .whitespacesAndNewlines),
-              !s.isEmpty else { return nil }
+              s.range(of: "^[0-9a-f]{40}$", options: .regularExpression) != nil else {
+            throw NSError(domain: "WaykinVectorExport", code: 1, userInfo: [NSLocalizedDescriptionKey: "git rev-parse returned invalid tree hash"])
+        }
         return s
     }
 
@@ -151,7 +161,7 @@ struct WaykinVectorExport {
 
     // MARK: - Rendering
 
-    static func renderVector(_ v: VectorSpec, swiftCommit: String) -> [String: Any] {
+    static func renderVector(_ v: VectorSpec, swiftTree: String) -> [String: Any] {
         var streamGen = SeededRandomNumberGenerator(seed: v.seed)
         let rngStream: [String] = (0..<8).map { _ in String(streamGen.next()) }
 
@@ -168,7 +178,7 @@ struct WaykinVectorExport {
             "description": v.description,
             "source": [
                 "generatedBy": "WaykinVectorExport",
-                "swiftCommit": swiftCommit
+                "swiftTree": swiftTree
             ],
             "seed": String(v.seed),
             "config": renderConfig(v.config),

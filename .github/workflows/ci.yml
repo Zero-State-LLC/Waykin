@@ -84,29 +84,10 @@ jobs:
         run: swift --version
 
       - name: Generate vectors
-        env:
-          # On pull_request, use the PR head commit; on push, the pushed commit.
-          WAYKIN_SWIFT_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
-        run: |
-          export WAYKIN_SWIFT_COMMIT="${WAYKIN_SWIFT_COMMIT:0:12}"
-          echo "Recording vectors with swiftCommit=$WAYKIN_SWIFT_COMMIT"
-          make vectors
+        run: make vectors
 
-      - name: Verify committed vectors are fresh (ignoring swiftCommit)
-        run: |
-          out="$RUNNER_TEMP/vectors.diff"
-          # Vectors embed the commit they were generated from, so that single
-          # line is expected to differ on every run and must not count as drift.
-          # Decide from the filtered patch text rather than the exit status:
-          # some git versions report "changed" even when every hunk was ignored.
-          git diff --exit-code -I '"swiftCommit"' -- Tests/Vectors > "$out" || true
-          if [ -s "$out" ]; then
-            echo "::error::Tests/Vectors is stale — 'make vectors' output is not committed."
-            echo "----- diff (swiftCommit lines ignored) -----"
-            cat "$out"
-            exit 1
-          fi
-          echo "Tests/Vectors is fresh (swiftCommit lines ignored)."
+      - name: Verify committed vectors are fresh
+        run: git diff --exit-code -- Tests/Vectors
 
       - name: Fail on untracked files under Tests/Vectors
         run: |
