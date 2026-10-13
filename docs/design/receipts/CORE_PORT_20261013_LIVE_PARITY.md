@@ -18,7 +18,14 @@ OBSERVED:
   versus 2.2263898158654714 in Swift. Existing exact speed assertions remain
   intact; production Haversine and D-100 remain unchanged.
 - Repository validation reports collaboration-template failures already tracked
-  separately (#24). Native best-effort build was still running when recorded.
+  separately (#24). Native best-effort WaykinApp xcodebuild finished PASS.
+
+Draft PR: https://github.com/Zero-State-LLC/Waykin/pull/26.
+GitHub run 38456456558 independently passes Swift vector freshness and all
+134 Swift tests. Its repository-validation step fails earlier than local
+validation because XcodeGen is absent on the runner. Installing that CI
+prerequisite is proposed, awaiting approval. TypeScript CI reproduces the
+same movement step-11 mismatch. Full acceptance remains red.
 
 Full port/T044 remain incomplete. The draft PR is for validation, not merge.
 The approved ellipsoidal experiment remains isolated; adoption requires a
