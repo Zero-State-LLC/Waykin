@@ -12,6 +12,8 @@ const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex'
 const hashes={};
 const historyProfile=process.env.WAYKIN_HISTORY_PROFILE||'cold';
 assert.ok(['cold','warm-original-pairs'].includes(historyProfile),'Unknown history profile');
+const tsBackend=process.env.WAYKIN_TS_BACKEND||'matched-library';
+assert.ok(['matched-library','self-contained'].includes(tsBackend),'Unknown TypeScript research backend');
 const once=(s,a,b)=>{assert.equal(s.split(a).length,2,'Ambiguous instrumentation seam');return s.replace(a,b);};
 const bits=n=>{const b=Buffer.alloc(8);b.writeDoubleBE(n);return 'bits:'+b.toString('hex');};
 const encode=(_,v)=>typeof v==='number'?bits(v):v;
@@ -52,10 +54,13 @@ for(const source of files(path.join(root,'packages/waykin-core-ts/src')).filter(
     'const distance = movementDistanceMeters(this.anchor, sample);','const distance = candidateDistance(this.anchor, sample);');
   fs.writeFileSync(path.join(tsDir,path.basename(source)),body);
 }
-for(const f of ['candidate.ts','portableMath.ts']) fs.copyFileSync(path.join(__dirname,f),path.join(tsDir,f));
+for(const f of ['candidate.ts','portableMath.ts','portableGeodesic.ts']) fs.copyFileSync(path.join(__dirname,f),path.join(tsDir,f));
 run(path.join(root,'packages/waykin-core-ts/node_modules/.bin/tsc'),['--strict','--target','ES2019','--module','commonjs','--outDir',path.join(out,'js'),...files(tsDir)]);
-const backend=require('./portable_backend.cjs')(path.resolve(process.argv[2]),require(path.join(out,'js/portableMath.js')));
-require(path.join(out,'js/candidate.js')).installResearchBackend(backend.library.Geodesic.WGS84);
+const backend=tsBackend==='matched-library'
+  ? require('./portable_backend.cjs')(path.resolve(process.argv[2]),require(path.join(out,'js/portableMath.js'))):null;
+const distance=require(path.join(out,'js/portableGeodesic.js')).portableDistance;
+require(path.join(out,'js/candidate.js')).installResearchBackend(backend?backend.library.Geodesic.WGS84:
+  {Inverse:(lat1,lon1,lat2,lon2)=>({s12:distance(lat1,lon1,lat2,lon2)})});
 const {MovementEngine}=require(path.join(out,'js/movementEngine.js'));
 const {CompanionWalkExperience,makeExperienceContext}=require(path.join(out,'js/experience.js'));
 const {parseU64}=require(path.join(out,'js/uint64.js'));
@@ -184,16 +189,16 @@ for(const key of ['rejectedStopped','rejectedPaused','awaitingFreshAnchor','acce
 assert.ok(coverage.results===cases.length*2,'Missing session-finish results');
 const originalDecisionChanges=changed.filter(r=>r.fields.some(f=>['isMoving','accumulatedDistance'].includes(f))).length;
 const report={head:run('git',['-C',root,'rev-parse','HEAD']).trim(),optimization,changedPairCount,selectedPairs:[...selected],cases:cases.length,steps,
-  historyProfile,processIsolation:'One fresh process per case',historicalRegression,
+  historyProfile,tsBackend,processIsolation:'One fresh process per case',historicalRegression,
   applePrefixCalls:applePrefix.length,applePrefixSHA256:crypto.createHash('sha256').update(JSON.stringify(applePrefix,encode)).digest('hex'),
   retainedDecisionChanges,expectedOriginalDecisionChanges:originalDecisionChanges,
   migrationGate:'HISTORY_SCOPED_REPLAY_COMPLETE',
   exactMismatchSteps:parity.length,migrationChangedSteps:migration.length,migrationPaths:counts,coverage,
-  inputSHA256:sha(path.join(out,'input.json')),sourceHashes:hashes,primitiveCalls:backend.calls,
+  inputSHA256:sha(path.join(out,'input.json')),sourceHashes:hashes,primitiveCalls:backend?.calls,
   acceptance:parity.length?'EXACT_PARITY_FAILED':'EXACT_FOR_CORPUS_ONLY',
   limitations:['No Lens/device execution','Session random UUID excluded; route values and full ended route compared',
     'In-memory finish results only, not persistence or physical audio','Migration stress corpus, not field incidence','No production adoption authorized']};
-for(const f of ['LifecycleProbe.swift','lifecycle.cjs','PortableMath.swift','PortableGeodesic.swift','portableMath.ts','portable_backend.cjs'])report.sourceHashes[f]=sha(path.join(__dirname,f));
+for(const f of ['LifecycleProbe.swift','lifecycle.cjs','PortableMath.swift','PortableGeodesic.swift','portableMath.ts','portableGeodesic.ts','candidate.ts','portable_backend.cjs'])report.sourceHashes[f]=sha(path.join(__dirname,f));
 report.sourceHashes['Sources/WaykinVectorExport/ExperienceVectors.swift']=sha(path.join(root,'Sources/WaykinVectorExport/ExperienceVectors.swift'));
 write('parity-mismatches.json',JSON.stringify(parity,encode));write('migration-mismatches.json',JSON.stringify(migration));
 write('report.json',JSON.stringify(report,null,2)+'\n');

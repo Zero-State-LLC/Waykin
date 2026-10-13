@@ -8,7 +8,8 @@ const bits=x=>{const b=Buffer.alloc(8);b.writeDoubleBE(x);return b.toString('hex
 const value=x=>Buffer.from(x,'hex').readDoubleBE();
 const sha=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const jsFile=path.resolve(process.argv[2]), prior=path.resolve(process.argv[3]);
-run(path.join(root,'packages/waykin-core-ts/node_modules/.bin/tsc'),['--strict','--target','ES2019','--module','commonjs','--outDir',out,path.join(__dirname,'portableMath.ts')]);
+run(path.join(root,'packages/waykin-core-ts/node_modules/.bin/tsc'),['--strict','--target','ES2019','--lib','ES2019','--module','commonjs','--outDir',out,path.join(__dirname,'portableMath.ts'),path.join(__dirname,'portableGeodesic.ts')]);
+const standalone=require(path.join(out,'portableGeodesic.js')).portableDistance;
 const portable=require('./portable_backend.cjs')(jsFile,require(path.join(out,'portableMath.js')));
 const original=require(jsFile), g=portable.library.Geodesic;
 const rows=JSON.parse(fs.readFileSync(path.join(prior,'input.json'))).pairs.map(p=>({id:p.id,args:[p.latitude,p.longitude,p.latitude2,p.longitude2].map(Number)}));
@@ -38,7 +39,14 @@ rows.forEach((r,i)=>{if(Number.isFinite(expected[i])) {
   assert.ok(Number.isFinite(native)&&error<1e-6,'Independent geographic accuracy sanity gate: '+r.id);
 }});
 const report={cases:rows.length,inputSHA256:sha(input),node:process.version,swift:run('swift',['--version']).trim(),sourceHashes:{},maximumDeviationFromUnmodifiedJS,modes:{},primitiveCalls:portable.calls};
-for(const file of ['PortableMath.swift','portableMath.ts','PortableGeodesic.swift','PortableGeodesicProbe.swift','portable_backend.cjs','test_portable_geodesic.cjs']) report.sourceHashes[file]=sha(path.join(__dirname,file));
+const standaloneValues=rows.map(r=>standalone(...r.args));
+const standaloneMismatches=rows.flatMap((r,i)=>Object.is(standaloneValues[i],expected[i])?[]:
+  [{id:r.id,args:r.args.map(bits),expected:bits(expected[i]),actual:bits(standaloneValues[i])}]);
+fs.writeFileSync(path.join(out,'standalone-mismatches.json'),JSON.stringify(standaloneMismatches,null,2));
+fs.writeFileSync(path.join(out,'standalone.json'),JSON.stringify(standaloneValues.map(bits)));
+report.standalone={exactMismatches:standaloneMismatches.length,outputSHA256:sha(path.join(out,'standalone.json')),
+  dependencies:['portableMath.ts'],compilation:'strict ES2019, ES2019 library only, CommonJS'};
+for(const file of ['PortableMath.swift','portableMath.ts','portableGeodesic.ts','PortableGeodesic.swift','PortableGeodesicProbe.swift','portable_backend.cjs','test_portable_geodesic.cjs']) report.sourceHashes[file]=sha(path.join(__dirname,file));
 const outputs=[];
 for(const flag of ['-Onone','-O']) {
   const executable=path.join(out,flag.slice(1));
@@ -51,7 +59,7 @@ for(const flag of ['-Onone','-O']) {
   report.modes[flag]={exactMismatches:mismatches.length};
 }
 report.optimizationMismatches=outputs[0].filter((v,i)=>v!==outputs[1][i]&&!(Number.isNaN(value(v))&&Number.isNaN(value(outputs[1][i])))).length;
-report.acceptance=Object.values(report.modes).every(s=>s.exactMismatches===0)&&report.optimizationMismatches===0?'EXACT_FOR_CORPUS_ONLY':'EXACT_PARITY_FAILED';
+report.acceptance=standaloneMismatches.length===0&&Object.values(report.modes).every(s=>s.exactMismatches===0)&&report.optimizationMismatches===0?'EXACT_FOR_CORPUS_ONLY':'EXACT_PARITY_FAILED';
 fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({outputDirectory:out,...report},null,2));
 process.exitCode=report.acceptance==='EXACT_PARITY_FAILED'?2:0;

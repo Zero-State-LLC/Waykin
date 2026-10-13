@@ -1,6 +1,7 @@
 GeographicLib JavaScript, Copyright (c) Charles Karney (2011-2025).
 https://geographiclib.sourceforge.io/html/js/
-PortableGeodesic.swift is a research distance-only adaptation of version 2.2.0.
+PortableGeodesic.swift and portableGeodesic.ts are research distance-only
+adaptations of version 2.2.0.
 
 The MIT License (MIT).
 

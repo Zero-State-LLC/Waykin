@@ -91,8 +91,16 @@ builds. See `receipts/PORTABLE_GEODESIC_20261013.md`. CoreLocation migration
 still changes 264 processor decision steps in the adversarial corpus;
 MovementEngine/downstream, Lens execution and production approval remain open.
 Subsequent lifecycle work found a CoreLocation call-history dependency (#27).
-Treat the 264 count as specific to the original complete replay; the lifecycle
-retention gate remains FAIL. See `receipts/CORELOCATION_HISTORY_20261013.md`.
+Treat the 264 count as specific to the original complete replay. The approved
+#27 repair preserves that full regression and separates fresh-process cold/warm
+lifecycle histories; scoped checks pass without asserting that every history
+must reproduce 264. See `receipts/HISTORY_SCOPED_LIFECYCLE_20261013.md`.
+
+The subsequent self-contained TypeScript transcription removes the Node VM and
+external library from the candidate's dependencies (they remain reference/test
+infrastructure). See `receipts/SELF_CONTAINED_GEODESIC_20261013.md` for numerical
+and downstream evidence. This remains an isolated research candidate. Actual
+Lens execution and separately approved runtime adoption are still required.
 
 1. Open/approve a bounded reference-distance issue and ADR. Record the exact
    Swift/TypeScript paths and call-site inventory, original reference SHA,

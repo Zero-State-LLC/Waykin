@@ -161,6 +161,38 @@ Apple lifecycle differences between profiles. See
 
 ## Instrumentation and boundaries
 
+### Self-contained TypeScript research candidate
+
+`portableGeodesic.ts` transcribes `PortableGeodesic.swift` with the same WGS84
+constants, arithmetic order, signed-zero handling, and 84-iteration bound
+(first 20 iterations permit Newton updates). Invalid/nonfinite coordinates,
+out-of-range latitudes/longitudes, or iteration exhaustion return NaN. There
+is no spherical fallback, rounding, epsilon adjustment, or BigInt. Its only
+module dependency is `portableMath.ts`; Node/VM and the external GeographicLib
+library are test/reference dependencies, not candidate dependencies.
+
+`test_portable_geodesic.cjs` now also compares this module bit-for-bit with
+the pinned matched-JS reference across the complete distance corpus. It retains
+the Swift debug/optimized comparison and the unmodified-library accuracy check.
+`test_selfcontained_processor.cjs` compiles the actual TypeScript processor in a
+temporary directory with exactly one distance-call substitution and strict
+ES2019/ES2019-library/empty ambient type roots. It compares all original 172,032
+steps with exact-bit Swift evidence whose hash is verified against the #27
+full-replay receipt. It does not rerun Swift itself or write canonical vectors.
+
+```sh
+node scripts/research/distance-prototype/test_selfcontained_processor.cjs /path/to/pure-swift-replay-output
+WAYKIN_TS_BACKEND=self-contained WAYKIN_HISTORY_PROFILE=cold node scripts/research/distance-prototype/lifecycle.cjs "$research_dir/geographiclib-geodesic.min.js" /path/to/pure-swift-replay-output
+# Repeat with warm-original-pairs and both Swift optimization modes, then run
+# verify_lifecycle_profiles.cjs over the four resulting output directories.
+```
+
+The lifecycle harness defaults to the original `matched-library` backend.
+Explicit `self-contained` selects the new module; unknown backend names fail.
+The pinned library argument is still checked as provenance for the historical
+baseline, but is not loaded as the candidate backend in self-contained mode.
+Node/Swift parity and ES2019 compilation do not establish Lens runtime parity.
+
 The runner copies the actual Swift and TS movement processors into its temp
 directory. It replaces exactly one distance seam in each and fails if the seam
 is missing/ambiguous. The Swift copy uses CoreLocation and the selected C or
