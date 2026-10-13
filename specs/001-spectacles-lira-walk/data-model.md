@@ -2,7 +2,7 @@
 
 Swift core parity types mirror the Swift types field for field; Lens-only presentation and persistence records are separate. Evidence labels below distinguish source fields from not-yet-ported families:
 
-- `SOURCE`: Verified against the cited Swift source; does not imply the TypeScript family is implemented.
+- `OBSERVED`: Verified against the cited Swift source; does not imply the TypeScript family is implemented.
 - `INFERRED`: A Lens-only shape or a projection pending a Swift vector; confirm before a parity claim.
 
 Swift `Double` and `TimeInterval` map to TypeScript `number`, which is the same IEEE 754 binary64. Swift `UInt64` maps to `uint64` (see `contracts/core-parity.md`). Swift `Int` maps to a TypeScript integer `number`.
@@ -11,16 +11,16 @@ Swift `Double` and `TimeInterval` map to TypeScript `number`, which is the same 
 
 | Field | Type | Label |
 |---|---|---|
-| `timeContext` | Swift `TimeContext` | SOURCE (`Models.swift:42-114`); D-001 uses midday |
-| `movementState` | `idle`, `moving`, `paused`, `stopped` | SOURCE (`Models.swift:42-114`, `MovementEngine.swift:42-90`) |
-| `currentSpeedMetersPerSecond` | number | SOURCE (`Models.swift:42-114`); non-finite → 0 |
-| `sessionDistanceMeters` | number ≥ 0 | SOURCE (`Models.swift:42-114`) |
-| `activeTime` | seconds ≥ 0 | SOURCE (`Models.swift:42-114`) |
-| `bondLevel` | integer ≥ 0 | SOURCE (`Models.swift:42-114`) |
-| `familiarity` | number in [0, 1] | SOURCE (`Models.swift:42-114`) |
-| `energy` | number in [0, 1] | SOURCE (`Models.swift:42-114`) |
-| `pressure` | number in [0, 1] | SOURCE (`Models.swift:42-114`) |
-| `lastEventAt` | Date or null | SOURCE (`Models.swift:42-114`) |
+| `timeContext` | Swift `TimeContext` | OBSERVED (`Models.swift:42-114`); D-001 uses midday |
+| `movementState` | `idle`, `moving`, `paused`, `stopped` | OBSERVED (`Models.swift:42-114`, `MovementEngine.swift:42-90`) |
+| `currentSpeedMetersPerSecond` | number | OBSERVED (`Models.swift:42-114`); non-finite → 0 |
+| `sessionDistanceMeters` | number ≥ 0 | OBSERVED (`Models.swift:42-114`) |
+| `activeTime` | seconds ≥ 0 | OBSERVED (`Models.swift:42-114`) |
+| `bondLevel` | integer ≥ 0 | OBSERVED (`Models.swift:42-114`) |
+| `familiarity` | number in [0, 1] | OBSERVED (`Models.swift:42-114`) |
+| `energy` | number in [0, 1] | OBSERVED (`Models.swift:42-114`) |
+| `pressure` | number in [0, 1] | OBSERVED (`Models.swift:42-114`) |
+| `lastEventAt` | Date or null | OBSERVED (`Models.swift:42-114`) |
 
 ## WorldEventKind
 
@@ -83,12 +83,12 @@ The generator holds `rng`, `configuration`, `lastGeneratedAtElapsed` (optional),
 
 | Field | Label |
 |---|---|
-| `timestamp` | SOURCE: `LocationSample.timestamp` |
-| `latitude` | SOURCE: `LocationSample.latitude` |
-| `longitude` | SOURCE: `LocationSample.longitude` |
-| `altitude` | SOURCE: optional `LocationSample.altitude` |
-| `horizontalAccuracy` | SOURCE: `LocationSample.horizontalAccuracy` |
-| `reportedSpeedMetersPerSecond` | SOURCE: `LocationSample.reportedSpeedMetersPerSecond`; adapter passes NaN (D-101/CF-28) |
+| `timestamp` | OBSERVED: `LocationSample.timestamp` |
+| `latitude` | OBSERVED: `LocationSample.latitude` |
+| `longitude` | OBSERVED: `LocationSample.longitude` |
+| `altitude` | OBSERVED: optional `LocationSample.altitude` |
+| `horizontalAccuracy` | OBSERVED: `LocationSample.horizontalAccuracy` |
+| `reportedSpeedMetersPerSecond` | OBSERVED: `LocationSample.reportedSpeedMetersPerSecond`; adapter passes NaN (D-101/CF-28) |
 
 - **Integrity outcome**: accepted or rejected, with a reason (INFERRED).
 - **Coordinates**: They never leave the location adapter and the movement engine. Receipts never contain them.
@@ -97,7 +97,7 @@ The generator holds `rng`, `configuration`, `lastGeneratedAtElapsed` (optional),
 
 | Field | Label |
 |---|---|
-| `behavior`: core companion behavior, mapped to Lens presentation | SOURCE: `CompanionRuntime.swift`; do not confuse core commands with the rendered state |
+| `behavior`: core companion behavior, mapped to Lens presentation | OBSERVED: `CompanionRuntime.swift`; do not confuse core commands with the rendered state |
 | `relativeDistance` | INFERRED Lens placement projection; D-202/D-203 band table governs it |
 
 **Lens presentation**: Five states — `idle`, `follow`, `investigate`, `alert`, `celebrate` — use six clips: `Lira_Idle`, `Lira_Follow`, `Lira_Investigate`, `Lira_Alert` (loops), `Lira_Celebrate`, `Lira_Spawn` (one-shots; D-200/CF-03, `CompanionPresentationState.swift:4-10`). The companion matrix maps movement, events, and pursuit to presentation; Lens presentation is not another Swift `WorldState` field.
@@ -106,8 +106,8 @@ The generator holds `rng`, `configuration`, `lastGeneratedAtElapsed` (optional),
 
 | Field | Label |
 |---|---|
-| `pressure` (bounded, [0, 1]) | SOURCE: `WorldState.pressure` and `Experiences.swift` |
-| `phase`: `inactive`, `noticed`, `approaching`, `close`, `fading` | SOURCE: Swift `PursuitState`; see B §2.2 and TST-005 |
+| `pressure` (bounded, [0, 1]) | OBSERVED: `WorldState.pressure` and `Experiences.swift` |
+| `phase`: `inactive`, `noticed`, `approaching`, `close`, `fading` | OBSERVED: Swift `PursuitState`; see B §2.2 and TST-005 |
 
 User pause stops core ticks, so pressure and pursuit state do not change merely because of pause. Standing still in an active walk is ticked and can increase pressure by `+0.16` for a non-moving sample (`Experiences.swift:199-204`); `.paused` movement state remains event-eligible (`WorldEventGenerator.swift:36,46`). Stop finalizes the session; adapters do not independently rewrite pursuit (T029).
 
@@ -132,10 +132,10 @@ Bond is the single persistent progression metric. The delta rules come from the 
 
 | Field | Type | Label |
 |---|---|---|
-| `id` | UUID string | SOURCE |
-| `sessionID` | UUID string | SOURCE |
-| `text` | string | SOURCE: `"\(companion.name) remembers a \(dist)m walk. \(result.memoryText)"` (`Engines/MemoryEngine.swift:10-11`) |
-| `timestamp` | date (ISO 8601) | SOURCE |
+| `id` | UUID string | OBSERVED |
+| `sessionID` | UUID string | OBSERVED |
+| `text` | string | OBSERVED: `"\(companion.name) remembers a \(dist)m walk. \(result.memoryText)"` (`Engines/MemoryEngine.swift:10-11`) |
+| `timestamp` | date (ISO 8601) | OBSERVED |
 
 The TS core and the vectors mirror exactly these four fields. Nothing else is part of `SessionMemory`.
 
