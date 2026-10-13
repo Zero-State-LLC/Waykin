@@ -48,7 +48,21 @@ The core port is incremental: PR #17 merged T002/T005 and the seed-event subset 
 - [ ] T042 [+] [P] human: Record the LSB-001..007 prerequisites in the build receipt (§12 template).
 - [ ] T043 [+] [P] core-TS: Create `spectacles/WaykinLens/Assets/Scripts/logic/`. It holds pure TypeScript with no Lens APIs (imports only `../core/index`). Tests go in `spectacles/tests/*.test.ts` under `node --test`. Add the step to the `ts-core-parity` job in `ci.yml` (T017). Extend `check-isolation.mjs` to cover `logic/`. Acceptance: TST-011.
 
-## Phase 2: Foundational (core-port worker; reference only)
+## Phase 2: Foundational (Codex core-port owner, issue #23)
+
+On 2026-10-13 the user authorized Codex to take over this phase for SPECS 27.
+Execution and acceptance are tracked in `Zero-State-LLC/Waykin#23`; use the
+scoped issue-local coordination protocol while legacy-board sync is pending.
+Status: In Progress on `codex/23-specs27-core-port`: companion runtime/matrix
+ported locally along with path progress/audio coupling/copy; 54 tests pass
+with a fallback compiler. Complete Swift-vector parity remains pending
+(see `CORE_PORT_20261013_COMPANION.md` and `CORE_PORT_20261013_PATH.md`).
+T044 remains a verification task;
+its instruction not to edit core does not prohibit the separately authorized
+Phase 2 port. No task is completed by this ownership change.
+Source audit confirms `uint64.ts` already uses two uint32 words. Earlier
+BigInt-only status notes below are historical, not instructions to replace
+that implementation; its tests and ES2019 checks still require verification.
 
 - T006 BigInt spike: resolved by NC-04 (no BigInt in Lens code; use 2×uint32).
 - T007–T010 Swift vector exporter and vectors. The movement vectors must include the D-100 ±0.05 m tolerance field.
@@ -167,7 +181,7 @@ All Phase 2b tasks depend on T043 and T044.
 - [ ] T200 human (on-device): GPS characterization. Log `horizontalAccuracy`, `locationSource`, and the update interval for 3 outdoor walks and 1 indoor walk. Pass: p50 ≤ 20 m outdoors. Record time to first FUSED fix. Feeds TST-061 (NC-01); attach privacy-filtered receipt to `Zero-State-LLC/Waykin#13`.
 - [ ] T201 human (on-device): Power and thermal. Over a 15-minute walk, Performance Overlay CPU/GPU stays ≤ 100%, FPS stays at 60, and the D-116 proxy fires 0 times. Feeds TST-060 (NC-02, NC-07); attach receipt to `Zero-State-LLC/Waykin#13`.
 - [ ] T202 human (on-device): Battery measurement. Log `getBatteryState()` at start and end of a 15-minute walk. Pass: drain ≤ 40 percentage points (NC-03, TST-071). Requires T206; this task does not implement the guard. Attach receipt to `Zero-State-LLC/Waykin#13`.
-- [ ] T203 lens-MCP-agent: Record Lens Studio 5.15.4, SIK, and UI Kit versions in the build receipt (NC-05).
+- [ ] T203 lens-MCP-agent: Record Lens Studio 5.24.1.26100516 and separate SIK/UI Kit artifact and runtime versions in the build receipt (D-325 supersedes NC-05 for SPECS 27).
 - [ ] T204 human (on-device): Ground fit. With 3 wearers, Lira's feet are within ±10 cm of the visible ground at 2 m, using the non-experimental hit test or the 1.45 m fallback. Feeds TST-052 (NC-06); attach receipt to `Zero-State-LLC/Waykin#13`.
 - [x] T205 Danny: Lira license resolved: Meshy-derived, paid plan, owned outright, no credit line. Generated about Aug 2026; input image owned by Zer0 State LLC. Recorded in `ArtSource/Companion/Lira/README.md` (2026-10-11).
 - [ ] T206 core-TS + lens-MCP-agent: Implement the accepted D-061 battery guard: `Assets/Scripts/logic/batteryGuard.ts` holds the pure threshold decision (Node-tested under `spectacles/tests/batteryGuard.test.ts`); `Assets/Scripts/adapters/BatteryAdapter.ts` stays an interface-only contract; a neighboring editor-only `Assets/Scripts/adapters/BatteryAdapter.lens.ts` reads `deviceInfoSystem.getBatteryState()` at walk start and subscribes to `onBatteryStateChanged`. While not charging, warn **once** at ≤15% in HUD line 2 for 4000 ms; end **once** with `reason = power` and saved summary at ≤8%; skip in the editor (`isEditor()`). Fake-callback tests cover charging, thresholds, and duplicates; device confirmation is T202/TST-071. T206 is implementation, not battery-drain measurement.

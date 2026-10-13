@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Swift finish, Bond, memory and identity parity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "family",
+    "vectorId",
+    "source",
+    "defaultCompanion",
+    "cases"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "family": {
+      "const": "bond-memory"
+    },
+    "vectorId": {
+      "const": "finish-and-identity"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generatedBy",
+        "swiftTree"
+      ],
+      "properties": {
+        "generatedBy": {
+          "const": "WaykinVectorExport"
+        },
+        "swiftTree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "defaultCompanion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "archetype",
+        "bondLevel",
+        "lastSessionID",
+        "memories"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "archetype": {
+          "type": "string"
+        },
+        "bondLevel": {
+          "type": "integer"
+        },
+        "lastSessionID": {
+          "type": "null"
+        },
+        "memories": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 0,
+          "items": {}
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 42,
+      "maxItems": 42,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "eventKinds",
+          "progress",
+          "distanceMeters",
+          "expected"
+        ],
+        "properties": {
+          "eventKinds": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "enum": [
+                "companionDrawsNear",
+                "companionMovesAhead",
+                "companionObserves",
+                "distantPresence",
+                "pursuitBegins",
+                "pursuitIntensifies",
+                "pursuitFades",
+                "familiarPlaceStirs",
+                "quietInterval",
+                "bondMoment"
+              ]
+            }
+          },
+          "progress": {
+            "type": "number"
+          },
+          "distanceMeters": {
+            "type": "number"
+          },
+          "expected": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "outcome",
+              "bondDelta",
+              "memoryText"
+            ],
+            "properties": {
+              "outcome": {
+                "const": "COMPLETED"
+              },
+              "bondDelta": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "memoryText": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
