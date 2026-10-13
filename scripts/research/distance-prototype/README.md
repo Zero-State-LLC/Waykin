@@ -100,16 +100,41 @@ depend on earlier calls. See bug #27 and `LIFECYCLE_PROTOTYPE_20261013.md`.
 The harness saves its reports before raising this failure; do not delete or
 relax the assertion to claim migration acceptance.
 
+For the read-only isolation of Apple-only versus candidate-interleaved history:
+
 ```sh
-node scripts/research/distance-prototype/lifecycle.cjs "$research_dir/geographiclib-geodesic.min.js" /path/to/pure-swift-replay-output
-WAYKIN_SWIFT_OPT=-O node scripts/research/distance-prototype/lifecycle.cjs "$research_dir/geographiclib-geodesic.min.js" /path/to/pure-swift-replay-output
+node scripts/research/distance-prototype/history_isolation.cjs /path/to/processor/swift-input.json threshold-223
+```
+
+This runs 30 fresh processes across three modes, five histories and two Swift
+optimization settings. It asserts exact input bits, identical debug/optimized
+results, unchanged candidate results, matching Apple-only/mixed results and
+the reproduced Apple-only prefix dependency. This diagnostic does not itself
+grant migration acceptance.
+
+```sh
+WAYKIN_HISTORY_PROFILE=cold node scripts/research/distance-prototype/lifecycle.cjs "$research_dir/geographiclib-geodesic.min.js" /path/to/pure-swift-replay-output
+WAYKIN_HISTORY_PROFILE=warm-original-pairs node scripts/research/distance-prototype/lifecycle.cjs "$research_dir/geographiclib-geodesic.min.js" /path/to/pure-swift-replay-output
+# Repeat both commands with WAYKIN_SWIFT_OPT=-O for optimized Swift.
 ```
 
 This separate harness selects every coordinate pair that changed a processor
 decision, plus four control pairs, and replays each at four intervals. The
-original processor sequences are retained as prefixes; an assertion requires
-every original decision-changing step to remain observable through the real
-MovementEngine. Anchor reset becomes pause/resume calls, not access to private
+original processor sequences are retained as prefixes. Under the user-approved
+#27 repair, the harness first re-executes the COMPLETE original processor input
+with its original probe, checks byte-identical output and all 264 historical
+decision-changing steps, and verifies original source/dependency hashes.
+Keep the original replay directory intact (including probe, exact input, output,
+report and migration mismatch files); regenerate it with the processor runner
+if unavailable. Baseline drift fails closed and requires investigation.
+
+Each lifecycle case then runs in a fresh process. `cold` makes no prior Apple
+distance calls; `warm-original-pairs` first runs every valid original pair in
+original order. The profile and exact prefix hash are recorded, and warm-up
+outputs are retained. This warm profile does not recreate all original processor
+calls. Lifecycle decision counts are observed per profile, not asserted to equal
+264. This replaces the disproved universal-history assertion, not the original
+regression or exact candidate parity. Anchor reset becomes pause/resume calls, not access to private
 processor state. Longer walks then exercise rejection, gaps, lifecycle errors,
 session completion and restart. Only accepted snapshots feed the real companion
 experience, following the App's downstream contract.
@@ -122,6 +147,17 @@ Random session/event UUIDs are excluded; full route values are compared at end.
 It does not test persistence, path/AR presentation integration, physical audio,
 or Lens runtime execution. JSON output and mismatch paths stay in the printed
 temporary directory; `report.json` contains the source and input hashes.
+
+Verify all four persisted runs with:
+
+```sh
+node scripts/research/distance-prototype/verify_lifecycle_profiles.cjs /path/to/cold-debug /path/to/warm-debug /path/to/cold-release /path/to/warm-release
+```
+
+This checks exact candidate outputs across profiles and optimization modes,
+byte-identical artifacts within each profile across modes, and reports observed
+Apple lifecycle differences between profiles. See
+`docs/design/receipts/HISTORY_SCOPED_LIFECYCLE_20261013.md` for the scoped result.
 
 ## Instrumentation and boundaries
 

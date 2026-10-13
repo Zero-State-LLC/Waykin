@@ -97,8 +97,15 @@ func replay(_ input: [String: Any], candidate: Bool) -> [[String: Any]] {
     static func main() throws {
         let input = try JSONSerialization.jsonObject(with: Data(contentsOf:
             URL(fileURLWithPath: CommandLine.arguments[1]))) as! [[String: Any]]
+        precondition(input.count == 1, "Each lifecycle case requires a fresh process")
         let output = input.map { row in
-            ["id": row["id"]!, "apple": replay(row, candidate: false), "candidate": replay(row, candidate: true)] as [String: Any]
+            let prefix = row["applePrefix"] as! [[String: Any]]
+            let warmup = prefix.map { pair in
+                CLLocation(latitude: number(pair["latitude"]), longitude: number(pair["longitude"]))
+                    .distance(from: CLLocation(latitude: number(pair["latitude2"]), longitude: number(pair["longitude2"])))
+            }
+            return ["id": row["id"]!, "warmup": warmup, "apple": replay(row, candidate: false),
+                "candidate": replay(row, candidate: true)] as [String: Any]
         }
         FileHandle.standardOutput.write(try JSONSerialization.data(withJSONObject: encoded(output), options: [.sortedKeys]))
     }

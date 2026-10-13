@@ -73,6 +73,12 @@ legacy-board synchronization pending until verified. A recorded branch/claim,
 one implementation owner, frozen paths, parity tests and all evidence gates
 remain required. This exception does not migrate or authorize other work.
 
+**Research-only coordination exception (user-approved 2026-10-13, #27):**
+Use #27's issue-local claim/status while the legacy board is inaccessible.
+Codex may repair the history-dependent migration research harness, preserving
+the original full replay and adding separate fresh-process cold/warm checks.
+This does not authorize production changes or relaxed exact-parity requirements.
+
 **Narrow Swift exception (user-approved 2026-10-13, #25):**
 `DemoSessionController.runToEnd()` must return without advancing while paused.
 Codex may add that guard and its Swift/TypeScript regression tests on the

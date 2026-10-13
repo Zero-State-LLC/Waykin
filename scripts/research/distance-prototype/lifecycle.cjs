@@ -10,6 +10,8 @@ const write=(p,s)=>fs.writeFileSync(path.join(out,p),s);
 const run=(cmd,args)=>cp.execFileSync(cmd,args,{encoding:'utf8',maxBuffer:1024*1024*1024});
 const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 const hashes={};
+const historyProfile=process.env.WAYKIN_HISTORY_PROFILE||'cold';
+assert.ok(['cold','warm-original-pairs'].includes(historyProfile),'Unknown history profile');
 const once=(s,a,b)=>{assert.equal(s.split(a).length,2,'Ambiguous instrumentation seam');return s.replace(a,b);};
 const bits=n=>{const b=Buffer.alloc(8);b.writeDoubleBE(n);return 'bits:'+b.toString('hex');};
 const encode=(_,v)=>typeof v==='number'?bits(v):v;
@@ -59,6 +61,27 @@ const {CompanionWalkExperience,makeExperienceContext}=require(path.join(out,'js/
 const {parseU64}=require(path.join(out,'js/uint64.js'));
 const previous=JSON.parse(fs.readFileSync(path.join(prior,'input.json')));
 const changed=JSON.parse(fs.readFileSync(path.join(prior,'migration-mismatches.json')));
+// Preserve the complete historical regression, not a transplanted subsequence.
+const priorReport=JSON.parse(fs.readFileSync(path.join(prior,'report.json')));
+for(const [file,expected] of Object.entries(priorReport.harnessSHA256))
+  assert.equal(sha(path.join(__dirname,file)),expected,'Original replay source drift: '+file);
+assert.equal(sha(path.join(root,'Sources/WaykinCore/Location/MovementIntegrity.swift')),priorReport.swiftSourceSHA256);
+assert.equal(sha(path.resolve(process.argv[2])),priorReport.dependencies[Object.keys(priorReport.dependencies).find(k=>k.endsWith('.min.js'))]);
+const historicalOutput=run(path.join(prior,'probe'),[path.join(prior,'swift-input.json')]);
+write('historical-swift.json',historicalOutput);
+assert.equal(sha(path.join(out,'historical-swift.json')),sha(path.join(prior,'swift.json')),'Complete original replay changed');
+const historical=JSON.parse(historicalOutput);
+const historicalDecisionChanges=historical.sequences.reduce((n,s)=>n+s.apple.filter((a,i)=>
+  a.isMoving!==s.candidate[i].isMoving||a.accumulatedDistance!==s.candidate[i].accumulatedDistance).length,0);
+assert.equal(historicalDecisionChanges,264,'Original full-history decision regression changed');
+const historicalRegression={status:'PASS',decisionChanges:historicalDecisionChanges,
+  inputSHA256:sha(path.join(prior,'swift-input.json')),binarySHA256:sha(path.join(prior,'probe')),
+  outputSHA256:sha(path.join(out,'historical-swift.json')),reportSHA256:sha(path.join(prior,'report.json'))};
+// Same valid pair warm-up, in original order, before EACH independent case.
+// This is a declared profile, not a reconstruction of the entire old processor history.
+const applePrefix=historyProfile==='cold'?[]:previous.pairs.filter(p=>
+  [p.latitude,p.longitude,p.latitude2,p.longitude2].every(Number.isFinite)&&
+  Math.abs(p.latitude)<=90&&Math.abs(p.latitude2)<=90&&Math.abs(p.longitude)<=180&&Math.abs(p.longitude2)<=180);
 const selected=new Set(changed.filter(r=>r.fields.some(f=>['isMoving','accumulatedDistance'].includes(f)))
   .map(r=>r.sequence.replace(/-dt.*$/,'')));
 const changedPairCount=selected.size;
@@ -70,7 +93,7 @@ for(const pair of previous.pairs.filter(p=>selected.has(p.id))) for(const dt of 
   const sample=(side,delta=dt,extra={})=>{time+=delta;steps.push({op:'sample',time,receivedAt:time,
     latitude:side?pair.latitude2:pair.latitude,longitude:side?pair.longitude2:pair.longitude,accuracy:5,speed:NaN,...extra});};
   op('pause');sample(0);op('start');op('start');sample(0);op('pause');op('resume');op('resume');sample(0);
-  // Preserve every original processor counterexample, including smoothing order.
+  // Preserve original sequence inputs/smoothing order, not an assumed Apple history.
   // Reset is represented by actual lifecycle calls, not direct processor access.
   op('pause');op('resume');
   const original=previous.sequences.find(s=>s.id===pair.id+'-dt'+dt);
@@ -91,12 +114,16 @@ for(const pair of previous.pairs.filter(p=>selected.has(p.id))) for(const dt of 
     if(i===180) sample(1,dt,{receivedAt:time+dt+16});
   }
   op('end');sample(1);op('end');op('start');op('resume');sample(1);sample(0);op('end');
-  cases.push({id:pair.id+'-dt'+dt,timeOfDay:cases.length%2?'night':'day',seed:cases.length%2?'18446744073709551615':'42',steps});
+  cases.push({id:pair.id+'-dt'+dt,timeOfDay:cases.length%2?'night':'day',seed:cases.length%2?'18446744073709551615':'42',applePrefix,steps});
 }
 assert.equal(cases.length,selected.size*4,'Missing selected pair');
 write('input.json',JSON.stringify(cases,encode));
-const stdout=run(path.join(out,'probe'),[path.join(out,'input.json')]);write('swift.json',stdout);
-const native=JSON.parse(stdout,decode);assert.equal(native.length,cases.length);
+const native=cases.map((input,index)=>{
+  const filename='case-'+index+'.json';write(filename,JSON.stringify([input],encode));
+  const rows=JSON.parse(run(path.join(out,'probe'),[path.join(out,filename)]),decode);
+  assert.equal(rows.length,1,'One fresh process must execute exactly one case');return rows[0];
+});
+write('swift.json',JSON.stringify(native,encode));
 const point=p=>p?{...p,altitude:p.altitude??null}:null;
 const session=s=>s?{activityType:s.activityType,experienceID:s.experienceID,startedAt:s.startedAt,endedAt:s.endedAt,
   elapsedTime:s.elapsedTime,activeTime:s.activeTime,distanceMeters:s.distanceMeters,currentSpeedMetersPerSecond:s.currentSpeedMetersPerSecond,
@@ -157,8 +184,10 @@ for(const key of ['rejectedStopped','rejectedPaused','awaitingFreshAnchor','acce
 assert.ok(coverage.results===cases.length*2,'Missing session-finish results');
 const originalDecisionChanges=changed.filter(r=>r.fields.some(f=>['isMoving','accumulatedDistance'].includes(f))).length;
 const report={head:run('git',['-C',root,'rev-parse','HEAD']).trim(),optimization,changedPairCount,selectedPairs:[...selected],cases:cases.length,steps,
+  historyProfile,processIsolation:'One fresh process per case',historicalRegression,
+  applePrefixCalls:applePrefix.length,applePrefixSHA256:crypto.createHash('sha256').update(JSON.stringify(applePrefix,encode)).digest('hex'),
   retainedDecisionChanges,expectedOriginalDecisionChanges:originalDecisionChanges,
-  migrationGate:retainedDecisionChanges===originalDecisionChanges?'ORIGINAL_DECISIONS_RETAINED':'FAILED_CALL_HISTORY_DEPENDENCY',
+  migrationGate:'HISTORY_SCOPED_REPLAY_COMPLETE',
   exactMismatchSteps:parity.length,migrationChangedSteps:migration.length,migrationPaths:counts,coverage,
   inputSHA256:sha(path.join(out,'input.json')),sourceHashes:hashes,primitiveCalls:backend.calls,
   acceptance:parity.length?'EXACT_PARITY_FAILED':'EXACT_FOR_CORPUS_ONLY',
@@ -169,5 +198,5 @@ report.sourceHashes['Sources/WaykinVectorExport/ExperienceVectors.swift']=sha(pa
 write('parity-mismatches.json',JSON.stringify(parity,encode));write('migration-mismatches.json',JSON.stringify(migration));
 write('report.json',JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({outputDirectory:out,...report},null,2));process.exitCode=parity.length?2:0;
-// Persist evidence BEFORE failing; never erase the lost-counterexample gate.
-assert.equal(retainedDecisionChanges,originalDecisionChanges,'Original decision-changing counterexamples were lost; audit CoreLocation call history');
+// Historical decisions are checked in their complete original context above.
+// Lifecycle decision counts are observations under the separately named profile.

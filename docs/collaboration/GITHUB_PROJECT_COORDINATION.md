@@ -28,6 +28,13 @@ Project #1 protocol below.
 
 ## Fields
 
+User-approved extension (2026-10-13): #27 also uses issue-local coordination
+for the bounded research-harness repair. Owner Codex (/root), lane IMPLEMENT,
+branch `codex/23-specs27-core-port`, base
+`c353b7f9d6ac7f36e7b9ba1a13633155c0413ba7`. Preserve the full historical replay;
+separate cold/warm lifecycle histories. Production stays frozen. Legacy board
+sync is pending for both #23 and #27; all other items retain Project #1 authority.
+
 | Field | Meaning |
 |---|---|
 | Execution Status | Intake, Ready, Claimed, In Progress, Review, Validation, Blocked, or Done |

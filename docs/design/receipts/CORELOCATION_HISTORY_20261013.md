@@ -58,6 +58,11 @@ results are separate and are not invalidated by this CoreLocation dependency.
 
 ## Next evidence required
 
+Follow-up: [CORELOCATION_ISOLATION_20261013.md](CORELOCATION_ISOLATION_20261013.md)
+now demonstrates the dependency with Apple-only calls, while candidate-only
+prefixes do not affect the target result. This resolves the candidate-side-effect
+question for the tested target/host, not the internal mechanism or other runtimes.
+
 - Preserve the failing lifecycle retention gate and its captured reports.
 - Record both cold-process and controlled-prefix histories explicitly.
 - Separate Apple-only and candidate-interleaved prefixes to isolate any
