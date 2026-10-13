@@ -1,105 +1,143 @@
-/**
- * UInt64 abstraction.
- *
- * The Lens Studio runtime's support for BigInt is unconfirmed (T006). Every
- * u64 value in this package flows through this module so a 2x uint32 fallback
- * can be swapped in behind the same interface without touching call sites.
- *
- * Constants are built with BigInt("0x...") at module load instead of using
- * BigInt literal suffixes so older / simpler transpilers stay happy.
- *
- * Parity contract (core-parity.md rules 1, 2, 7): arithmetic is bit-exact,
- * UInt64 values are never passed through `Number`, and overflow in
- * `checkedAdd` throws (Swift traps).
- */
+/** Exact UInt64 arithmetic on two unsigned 32-bit words; no BigInt in Lens code. */
+export interface U64 {
+  readonly hi: number;
+  readonly lo: number;
+}
 
-export type U64 = bigint;
-
-const SHIFT_64 = BigInt(64);
-const ZERO = BigInt(0);
-
-export const UINT64_MAX: U64 = BigInt("0xFFFFFFFFFFFFFFFF");
+const BASE = 0x100000000;
+const ZERO: U64 = { hi: 0, lo: 0 };
+const ONE: U64 = { hi: 0, lo: 1 };
+export const U64_ZERO: U64 = ZERO;
+export const U64_ONE: U64 = ONE;
+export const UINT64_MAX: U64 = { hi: 0xffffffff, lo: 0xffffffff };
 export const MASK: U64 = UINT64_MAX;
+const DECIMAL = /^(0|[1-9][0-9]{0,19})$/;
 
-const UINT64_DECIMAL_PATTERN = /^(0|[1-9][0-9]{0,19})$/;
+function fromSmall(value: number): U64 {
+  return { hi: 0, lo: value >>> 0 };
+}
 
-/**
- * Parse a decimal string into a UInt64. Rejects anything that is not a
- * canonical non-negative decimal (no sign, no leading zeroes, at most 20
- * digits) and rejects values above 2^64 - 1.
- */
+export function asU64(value: U64): U64 {
+  return { hi: value.hi >>> 0, lo: value.lo >>> 0 };
+}
+
+export function eq(a: U64, b: U64): boolean {
+  return a.hi === b.hi && a.lo === b.lo;
+}
+
+export function cmp(a: U64, b: U64): number {
+  if (a.hi !== b.hi) return a.hi < b.hi ? -1 : 1;
+  return a.lo === b.lo ? 0 : a.lo < b.lo ? -1 : 1;
+}
+
+export function add(a: U64, b: U64): U64 {
+  const low = a.lo + b.lo;
+  return { hi: (a.hi + b.hi + (low >= BASE ? 1 : 0)) >>> 0, lo: low >>> 0 };
+}
+
+export function sub(a: U64, b: U64): U64 {
+  return { hi: (a.hi - b.hi - (a.lo < b.lo ? 1 : 0)) >>> 0, lo: (a.lo - b.lo) >>> 0 };
+}
+
+export function checkedAdd(a: U64, b: U64): U64 {
+  const low = a.lo + b.lo;
+  const high = a.hi + b.hi + (low >= BASE ? 1 : 0);
+  if (high >= BASE) throw new RangeError("checkedAdd: uint64 overflow");
+  return { hi: high >>> 0, lo: low >>> 0 };
+}
+
+export function xor(a: U64, b: U64): U64 {
+  return { hi: (a.hi ^ b.hi) >>> 0, lo: (a.lo ^ b.lo) >>> 0 };
+}
+
+function shl1(value: U64): U64 {
+  return { hi: ((value.hi << 1) | (value.lo >>> 31)) >>> 0, lo: (value.lo << 1) >>> 0 };
+}
+
+export function shr(value: U64, bits: number): U64 {
+  if (!Number.isInteger(bits) || bits < 0) throw new RangeError("shr: invalid shift");
+  if (bits >= 64) return ZERO;
+  if (bits === 0) return value;
+  if (bits >= 32) return { hi: 0, lo: value.hi >>> (bits - 32) };
+  return {
+    hi: value.hi >>> bits,
+    lo: ((value.lo >>> bits) | (value.hi << (32 - bits))) >>> 0,
+  };
+}
+
+/** Shift-and-add wraps at 64 bits, as Swift's &* does. */
+export function mul(a: U64, b: U64): U64 {
+  let result = ZERO;
+  let factor = a;
+  let remaining = b;
+  while (!eq(remaining, ZERO)) {
+    if (remaining.lo & 1) result = add(result, factor);
+    remaining = shr(remaining, 1);
+    if (!eq(remaining, ZERO)) factor = shl1(factor);
+  }
+  return result;
+}
+
+export function checkedMul(a: U64, b: U64): U64 {
+  let result = ZERO;
+  let factor = a;
+  let remaining = b;
+  while (!eq(remaining, ZERO)) {
+    if (remaining.lo & 1) result = checkedAdd(result, factor);
+    remaining = shr(remaining, 1);
+    if (!eq(remaining, ZERO)) factor = checkedAdd(factor, factor);
+  }
+  return result;
+}
+
+/** Binary long division; carry holds the 65th bit of the partial remainder. */
+export function mod(a: U64, b: U64): U64 {
+  if (eq(b, ZERO)) throw new RangeError("mod: uint64 modulo by zero");
+  if (cmp(a, b) < 0) return a;
+  let remainder = ZERO;
+  for (let bit = 63; bit >= 0; bit--) {
+    const carry = remainder.hi >>> 31;
+    remainder = shl1(remainder);
+    const next = bit >= 32 ? (a.hi >>> (bit - 32)) & 1 : (a.lo >>> bit) & 1;
+    remainder = { hi: remainder.hi, lo: (remainder.lo | next) >>> 0 };
+    if (carry || cmp(remainder, b) >= 0) remainder = sub(remainder, b);
+  }
+  return remainder;
+}
+
 export function parseU64(decimal: string): U64 {
-  if (!UINT64_DECIMAL_PATTERN.test(decimal)) {
+  if (!DECIMAL.test(decimal)) {
     throw new RangeError(`parseU64: not a canonical uint64 decimal string: ${JSON.stringify(decimal)}`);
   }
-  const value = BigInt(decimal);
-  if (value > UINT64_MAX) {
-    throw new RangeError(`parseU64: value exceeds 2^64 - 1: ${decimal}`);
+  let value = ZERO;
+  for (const digit of decimal) {
+    value = checkedAdd(checkedMul(value, fromSmall(10)), fromSmall(digit.charCodeAt(0) - 48));
   }
   return value;
 }
 
+/** Divide four 16-bit limbs by ten; every intermediate is an exact Number. */
+function divmodTen(value: U64): readonly [U64, number] {
+  const limbs = [value.hi >>> 16, value.hi & 0xffff, value.lo >>> 16, value.lo & 0xffff];
+  const quotient: number[] = [];
+  let remainder = 0;
+  for (const limb of limbs) {
+    const part = remainder * 0x10000 + limb;
+    quotient.push(Math.floor(part / 10));
+    remainder = part % 10;
+  }
+  return [{ hi: ((quotient[0]! << 16) | quotient[1]!) >>> 0,
+            lo: ((quotient[2]! << 16) | quotient[3]!) >>> 0 }, remainder];
+}
+
 export function toDecimal(value: U64): string {
-  return value.toString(10);
-}
-
-/** Force a bigint into the unsigned 64-bit range (wrapping). */
-export function asU64(value: U64): U64 {
-  return BigInt.asUintN(64, value);
-}
-
-/** Wrapping add. */
-export function add(a: U64, b: U64): U64 {
-  return BigInt.asUintN(64, a + b);
-}
-
-/** Wrapping multiply. */
-export function mul(a: U64, b: U64): U64 {
-  return BigInt.asUintN(64, a * b);
-}
-
-export function xor(a: U64, b: U64): U64 {
-  return BigInt.asUintN(64, a ^ b);
-}
-
-/** Logical (unsigned) right shift. */
-export function shr(a: U64, bits: number): U64 {
-  if (bits < 0 || bits >= 64) {
-    // BigInt shifts by >= 64 produce 0 or sign-extended results; mirror the
-    // logical intent explicitly.
-    if (bits < 0) throw new RangeError("shr: negative shift");
-    return ZERO;
+  if (eq(value, ZERO)) return "0";
+  const digits: string[] = [];
+  let remaining = value;
+  while (!eq(remaining, ZERO)) {
+    const [quotient, remainder] = divmodTen(remaining);
+    digits.push(String(remainder));
+    remaining = quotient;
   }
-  return BigInt.asUintN(64, a >> BigInt(bits));
+  return digits.reverse().join("");
 }
-
-export function mod(a: U64, b: U64): U64 {
-  if (b === ZERO) {
-    throw new RangeError("mod: uint64 modulo by zero");
-  }
-  return BigInt.asUintN(64, a % b);
-}
-
-/**
- * Non-wrapping add. Mirrors Swift's `&+` being replaced by a trapping `+` in
- * the parity contract (rule 7): overflow throws a RangeError.
- */
-export function checkedAdd(a: U64, b: U64): U64 {
-  const sum = a + b;
-  if (sum > UINT64_MAX) {
-    throw new RangeError("checkedAdd: uint64 overflow");
-  }
-  return sum;
-}
-
-/** Non-wrapping multiply helper kept alongside checkedAdd for symmetry. */
-export function checkedMul(a: U64, b: U64): U64 {
-  const product = a * b;
-  if (product > UINT64_MAX) {
-    throw new RangeError("checkedMul: uint64 overflow");
-  }
-  return product;
-}
-
-export const U64_ZERO: U64 = ZERO;
-export const U64_ONE: U64 = BigInt(1);
