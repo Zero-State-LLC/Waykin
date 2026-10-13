@@ -1,0 +1,66 @@
+{
+  "rows": 94559,
+  "inputSHA256": "faf06b3ed47c8dc4a37813ef5e824e7149bfa1a0c0f8d9f1c94a2c090c6d8a88",
+  "sourceHashes": {
+    "PortableMath.swift": "ac2c512ba27aafcff7f7595ade5e2cd4588b32a9172473030c1941d1d1854ecb",
+    "portableMath.ts": "60dc159b4b547ef78c2c9c618b067e2d98db273e9622e3e621ff530c5cebb043",
+    "PortableMathProbe.swift": "4b2cb33ee673739cd576ce88cb757308edc30405b8b304247f97f9f758b10ffb",
+    "test_portable_math.cjs": "f0fb39bc10b2e4d10e83d96a5e49ca022d3cde2ad3b6655c937b3d5b9317c250"
+  },
+  "modes": {
+    "-Onone": {
+      "sqrt": {
+        "cases": 23952,
+        "exactMismatches": 0,
+        "maximumDeviationFromJS": 0,
+        "maximumDeviationFromSwift": 0
+      },
+      "sin": {
+        "cases": 22508,
+        "exactMismatches": 0,
+        "maximumDeviationFromJS": 4.440892098500626e-16,
+        "maximumDeviationFromSwift": 4.440892098500626e-16
+      },
+      "cos": {
+        "cases": 22453,
+        "exactMismatches": 0,
+        "maximumDeviationFromJS": 5.551115123125783e-16,
+        "maximumDeviationFromSwift": 5.551115123125783e-16
+      },
+      "atan2": {
+        "cases": 25646,
+        "exactMismatches": 0,
+        "maximumDeviationFromJS": 4.440892098500626e-16,
+        "maximumDeviationFromSwift": 4.440892098500626e-16
+      }
+    },
+    "-O": {
+      "sqrt": {
+        "cases": 23952,
+        "exactMismatches": 0,
+        "maximumDeviationFromJS": 0,
+        "maximumDeviationFromSwift": 0
+      },
+      "sin": {
+        "cases": 22508,
+        "exactMismatches": 0,
+        "maximumDeviationFromJS": 4.440892098500626e-16,
+        "maximumDeviationFromSwift": 4.440892098500626e-16
+      },
+      "cos": {
+        "cases": 22453,
+        "exactMismatches": 0,
+        "maximumDeviationFromJS": 5.551115123125783e-16,
+        "maximumDeviationFromSwift": 5.551115123125783e-16
+      },
+      "atan2": {
+        "cases": 25646,
+        "exactMismatches": 0,
+        "maximumDeviationFromJS": 4.440892098500626e-16,
+        "maximumDeviationFromSwift": 4.440892098500626e-16
+      }
+    }
+  },
+  "note": "Finite results and signed zero compare bit-exactly; NaN payloads are not part of the contract. Accuracy is sampled deviation from host libm, not proof of correct rounding.",
+  "acceptance": "EXACT_FOR_CORPUS_ONLY"
+}

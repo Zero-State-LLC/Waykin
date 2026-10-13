@@ -7,6 +7,11 @@ pure-Swift transcription**, a new package dependency, or a Lens runtime test.
 Both implement Karney's documented geodesic algorithm; exact arithmetic
 agreement is a hypothesis to measure, not an assumption.
 
+The subsequently approved pure-Swift/deterministic-math extension starts with
+`PortableMath.swift` and `portableMath.ts`. Its bounded numerical contract and
+separate test command are in [PORTABLE_MATH_CONTRACT.md](PORTABLE_MATH_CONTRACT.md).
+This does not yet replace the native geodesic candidate in `run.cjs`.
+
 Official source/provenance:
 
 - https://github.com/geographiclib/geographiclib-c/tree/v2.2

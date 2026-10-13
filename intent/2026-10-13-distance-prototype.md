@@ -11,6 +11,12 @@ User approved an isolated Swift/TypeScript prototype and migration comparison
 on 2026-10-13. Measure native/JS agreement and old/new processor behavior on
 identical inputs. Preserve a reproducible harness and all mismatch counts.
 
+Extension approved 2026-10-13: prototype explicitly matched math operations
+and a pure-Swift implementation while preserving exact parity requirements.
+Start by evaluating a bounded-domain elementary-math layer independently;
+its success alone does not complete the geodesic implementation. Production
+adoption remains separately gated.
+
 ## Affected users / systems
 
 Research only. Temporary copies of the existing movement processor are used

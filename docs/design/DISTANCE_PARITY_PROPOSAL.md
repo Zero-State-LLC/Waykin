@@ -80,6 +80,11 @@ adapter calls native GeographicLib C, and its TypeScript adapter calls the
 corresponding JS implementation. It is not a pure-Swift transcription or
 authorization to adopt either dependency. Production gates below still apply.
 
+The user also approved the deterministic-math and pure-Swift prototype
+extension after native/JS differences were established. The primitive layer's
+first gate is recorded in `receipts/PORTABLE_MATH_20261013.md`; successful
+primitive tests do not establish a working geodesic port or approve production.
+
 1. Open/approve a bounded reference-distance issue and ADR. Record the exact
    Swift/TypeScript paths and call-site inventory, original reference SHA,
    migration domain and algorithm/version; amend the freeze explicitly.
