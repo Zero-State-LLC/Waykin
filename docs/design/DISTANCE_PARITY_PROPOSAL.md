@@ -90,6 +90,9 @@ The integrated pure-Swift candidate now passes 42,864 exact distance cases and
 builds. See `receipts/PORTABLE_GEODESIC_20261013.md`. CoreLocation migration
 still changes 264 processor decision steps in the adversarial corpus;
 MovementEngine/downstream, Lens execution and production approval remain open.
+Subsequent lifecycle work found a CoreLocation call-history dependency (#27).
+Treat the 264 count as specific to the original complete replay; the lifecycle
+retention gate remains FAIL. See `receipts/CORELOCATION_HISTORY_20261013.md`.
 
 1. Open/approve a bounded reference-distance issue and ADR. Record the exact
    Swift/TypeScript paths and call-site inventory, original reference SHA,

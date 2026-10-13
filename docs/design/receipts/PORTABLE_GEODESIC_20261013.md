@@ -60,6 +60,12 @@ NaN explicitly; there is no silently accepted spherical or approximate fallback.
 
 ## CoreLocation migration remains material
 
+**Call-history qualification:** subsequent lifecycle work reproduced different
+CoreLocation boundary distances for identical input bits under different prior
+calls. The counts below are valid for this receipt's complete original call
+order, not a context-independent application migration result. See
+[CORELOCATION_HISTORY_20261013.md](CORELOCATION_HISTORY_20261013.md) and bug #27.
+
 Against the unchanged Swift/CoreLocation processor, the same stress corpus
 produced 88,472 numeric-mismatch steps and **264 decision-mismatch steps**:
 

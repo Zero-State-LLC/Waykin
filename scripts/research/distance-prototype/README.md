@@ -70,6 +70,11 @@ To measure individual math primitives using those same inputs:
 node scripts/research/distance-prototype/math_probe.cjs "$research_dir/geographiclib-geodesic.min.js" /path/to/replay-output
 ```
 
+This traces GeographicLib JS without changing its results, deduplicates math
+calls, and sends their argument bits to `MathProbe.swift`. Every returned input
+bit pattern is checked before comparing result bits. It reports native/JS
+differences, not proof that a particular primitive caused each geodesic error.
+
 To reproduce the approved deterministic extension, retain the native replay
 directory and the math-probe output directory printed by the commands above:
 
@@ -87,10 +92,36 @@ GeographicLib JS, and rejects out-of-domain portable trig arguments. These
 accuracy sanity checks do not relax Waykin's exact output contract. The Swift
 solver returns NaN on iteration exhaustion, never a spherical fallback.
 
-This traces GeographicLib JS without changing its results, deduplicates math
-calls, and sends their argument bits to `MathProbe.swift`. Every returned input
-bit pattern is checked before comparing result bits. It reports native/JS
-differences, not proof that a particular primitive caused each geodesic error.
+## Lifecycle and downstream migration
+
+Current status: exact candidate parity passes, but the migration retention
+assertion **fails (exit 1)** because the original CoreLocation decision changes
+depend on earlier calls. See bug #27 and `LIFECYCLE_PROTOTYPE_20261013.md`.
+The harness saves its reports before raising this failure; do not delete or
+relax the assertion to claim migration acceptance.
+
+```sh
+node scripts/research/distance-prototype/lifecycle.cjs "$research_dir/geographiclib-geodesic.min.js" /path/to/pure-swift-replay-output
+WAYKIN_SWIFT_OPT=-O node scripts/research/distance-prototype/lifecycle.cjs "$research_dir/geographiclib-geodesic.min.js" /path/to/pure-swift-replay-output
+```
+
+This separate harness selects every coordinate pair that changed a processor
+decision, plus four control pairs, and replays each at four intervals. The
+original processor sequences are retained as prefixes; an assertion requires
+every original decision-changing step to remain observable through the real
+MovementEngine. Anchor reset becomes pause/resume calls, not access to private
+processor state. Longer walks then exercise rejection, gaps, lifecycle errors,
+session completion and restart. Only accepted snapshots feed the real companion
+experience, following the App's downstream contract.
+
+The harness compiles the actual core sources with a temporary single-distance
+substitution, reuses the actual Swift exporter experience projections, and
+compiles temporary TS copies. It compares state, events, commands, semantic
+audio, diagnostics, session totals, and finish Bond/memory results exactly.
+Random session/event UUIDs are excluded; full route values are compared at end.
+It does not test persistence, path/AR presentation integration, physical audio,
+or Lens runtime execution. JSON output and mismatch paths stay in the printed
+temporary directory; `report.json` contains the source and input hashes.
 
 ## Instrumentation and boundaries
 
@@ -111,7 +142,7 @@ anchor reset, stationary samples and a 16-second gap. Long jumps are included
 and must be handled by existing rejection rules. No epsilon or rounding is
 applied to output comparisons. NaN is serialized explicitly for invalid inputs.
 
-This is a MovementIntegrityProcessor migration comparison. It does not execute
+`run.cjs` is a MovementIntegrityProcessor migration comparison. It does not execute
 MovementEngine pause/resume, experience/event/Bond/memory logic, full coordinate
 domain proofs, or Lens/device behavior. Adversarial mismatch counts are not
 real-world incidence estimates. If this first candidate fails numeric parity,
