@@ -7,7 +7,7 @@
 - Follow `anti-slop-code`, `production-systems`, and `google-developer-style`.
 - Validate each PR with `/waykin-validate` and review it with `/waykin-pr-review`.
 - CI runs only through `.github/workflows/ci.yml`.
-- A conflict resolution (CF-nn) binds as proposed until Danny rules on it in T038.
+- T038 accepted the binding CF-nn resolutions on 2026-10-11; read `decisions.md` for precedence.
 
 **Owners**:
 
@@ -18,7 +18,7 @@
 | human | Blender, device, and docs work |
 | Danny | Product decisions |
 
-The **core port and vectors** (T002, T005–T017) belong to the core-port worker's PR stacked on `spec/spectacles-retarget`. This file references those tasks but does not redefine them. Lens tasks consume the `core/index.ts` surface (L §3.1).
+The core port is incremental: PR #17 merged T002/T005 and the seed-event subset of T007/T008/T012/T016/T017 to `main`; the remaining vector families, ES2019-safe UInt64, and Experience-layer parity are open. Lens tasks consume the `core/index.ts` surface (L §3.1) only after T044 verifies it. A merged subset is not full parity.
 
 **Markers**:
 
@@ -30,7 +30,7 @@ The **core port and vectors** (T002, T005–T017) belong to the core-port worker
 ## Phase 0: Spec closure
 
 - [x] T038 Danny: approved all proposed decisions (2026-10-11 11:03 PM PT). Statuses are set in `decisions.md`. Decisions overruled by the CF table are marked superseded.
-- [ ] T039 [+] human (SCRIBE): Amend `spec.md` and `data-model.md`.
+- [x] T039 [+] human (SCRIBE): Amend `spec.md` and `data-model.md` (docs closure #18; accepted decisions, not code or device acceptance).
   - FR-014 per D-301/CF-29. FR-007 per D-200. FR-018, SC-003, and SC-004 linked to D-116, NC-03.
   - Edge cases linked to D-107 and D-108.
   - Data-model corrections C1, C2, and C4 (GA).
@@ -40,10 +40,10 @@ The **core port and vectors** (T002, T005–T017) belong to the core-port worker
 
 ## Phase 1: Setup
 
-- [ ] T001 [=] Merge ADR-0004 and apply AMENDMENTS (SCRIBE). Gates everything.
+- [x] T001 [=] Merge ADR-0004 (PR #16) and apply accepted amendments via T039 (docs closure #18). This is a governance/spec gate, not a Lens acceptance claim.
 - [x] T002 [=] [P] Scaffold the core package (core-port worker).
 - [ ] T003 [~] [P] lens-MCP-agent: Create `spectacles/WaykinLens/` per LSB-010..015 (Base Template, Spectacles platform, Experimental off, SUIK installed, DeviceTracking World, only GPS-Precise). Pin the Lens Studio, SIK, and SUIK versions (NC-05, NC-51) in `plan.md` and in `docs/design/receipts/LENS_BUILD_<UTC>_<sha>.md`. Acceptance: TST-030 (partial).
-- [x] T004 [=] [P] `scripts/sync_core_ts.sh --check`.
+- [x] T004 [=] [P] `scripts/sync_core_ts.sh --check` (seed-event core copy only; repeat after every core edit).
 - [x] T005 [=] [P] Isolation check (core-port worker).
 - [ ] T042 [+] [P] human: Record the LSB-001..007 prerequisites in the build receipt (§12 template).
 - [ ] T043 [+] [P] core-TS: Create `spectacles/WaykinLens/Assets/Scripts/logic/`. It holds pure TypeScript with no Lens APIs (imports only `../core/index`). Tests go in `spectacles/tests/*.test.ts` under `node --test`. Add the step to the `ts-core-parity` job in `ci.yml` (T017). Extend `check-isolation.mjs` to cover `logic/`. Acceptance: TST-011.
@@ -56,7 +56,7 @@ The **core port and vectors** (T002, T005–T017) belong to the core-port worker
 - T011–T015 Core modules. **T012** (`WorldEventGenerator` module) is a stateful struct whose RNG advances across `evaluate` calls. The PR #17 vectors exercise it that way (`Sources/WaykinVectorExport/main.swift:158-162` on the port branch), and that is correct for the module. **T013–T015** (the Experience/runtime layer) MUST create a new `WorldEventGenerator(seed: eventSeed)` on every movement update, as shipped iOS gameplay does (`Sources/WaykinCore/Experiences/Experiences.swift:118-126`). Cooldown history arrives through `lastEventElapsed` and `lastEventElapsedByKind`, not through RNG state (GA C4, clarified 2026-10-11). Add an Experience-level vector (multi-tick walk through `Experiences.swift`) so that both layers are pinned. CI: the vector export job runs on `macos-26`; `macos-15` fails Swift 6 concurrency checks in `PersistenceStore.swift`.
 - T016 Parity tests.
 - T017 CI job.
-- Status (PR #17): done: T007, T008 (11 seed-event vector files from macOS CI; the TS replay is green), T012 (generator layer only; per-tick fresh generator is T013–T015), T016, T017. Partial: T011 — the BigInt path counts only as a Node cross-check (Lens TS is es2019, no BigInt, NC-04); the Lens 2×uint32 path stays open. Open: T006, T009, T010, T011 (2×uint32), T013–T015.
+- Status (merged PR #17): T007/T008 seed-event fixtures, T012 generator layer, and T016/T017 seed-event test/CI subset are done; none establishes the remaining families. T011 BigInt path is Node-only; ES2019 2×uint32 remains open (NC-04). Open: T006 (Lens-safe confirmation), T009/T010, T011 (2×uint32), T013–T015, remaining T016/T017 coverage. Generator-module RNG persistence does not prove Experience per-tick fresh-generator parity.
 - Acceptance owned by that PR: TST-001..TST-011.
 
 - [ ] T044 [+] core-TS: Verify the published `core/index.ts` exports against L §3.1. File a mismatch note in the core PR. Do not edit the core. Depends on T016.
@@ -134,7 +134,7 @@ All Phase 2b tasks depend on T043 and T044.
 - [ ] T033 [~] [P] lens-MCP-agent: Implement the degrade path per CF-08 (static pose, echo hidden, audio kept, end at 180 s). Acceptance: TST-020, TST-060.
 - [ ] T034 [~] [P] lens-MCP-agent: Write `adapters/ReceiptAdapter.ts` using `receipt.ts`. Output goes to the `WAYKIN_RECEIPT` Logger line and the stored key. Acceptance: TST-062.
 - [ ] T035 [~] human + lens-MCP-agent: Run the publishing checklist LSB-090..099. Acceptance: TST-070.
-- [ ] T036 [~] human: Run the 15-minute protocol and the TST-061 GPS walks. Attach the receipts to issue #41. Results stay `NOT_COMPUTABLE` until observed. Acceptance: TST-060, TST-061.
+- [ ] T036 [~] human: Run the 15-minute protocol and the TST-061 GPS walks. Attach the physical Lens receipts to `Zero-State-LLC/Waykin#13` with device type, OS, Lens commit, and conditions. Do not confuse this gate with `scrimshawlife-ctrl/Waykin#41` (older iOS AR evidence). Results stay `NOT_COMPUTABLE` until observed. Acceptance: TST-060, TST-061.
 - [ ] T037 [=] [P] SCRIBE: Update the README and docs pointers.
 - [ ] T071 [+] lens-MCP-agent: Run the perf audit: draw calls ≤ 20, tris, bones, size ≤ 15 MB, script ≤ 2.0 ms per frame (Perfetto). Acceptance: TST-037, TST-050.
 - [ ] T072 [+] human: Run the device suite TST-050..055 and record the results in the receipt.
@@ -142,16 +142,16 @@ All Phase 2b tasks depend on T043 and T044.
 
 ## Dependencies
 
-- T001 gates everything.
+- T001/T039 are the completed governance/spec gates; implementation, parity, Preview, and device gates remain open.
 - T038 gates T040. T040 must finish before Phase 2b is merged; work may start on the proposed defaults.
-- The core PR (T006–T017) must land before T044. T044 gates Phase 2b.
+- The remaining core families and Lens-safe UInt64 work (T006, T009–T017) must land before T044 can certify the complete L §3.1 surface. T044 gates Phase 2b.
 - T043 gates Phase 2b.
 - T003 gates T046 and T050–T053.
 - T045 must finish before T046, and T046 before T019.
 - T047 must finish before T053, and T053 before T020.
 - T051 gates T052, and T052 gates every Phase 3+ lens task.
 - Phase 3 must finish before Phase 4, and Phase 4 before Phase 5. Phase 6 needs T026's interface (it can run alongside Phase 4 after T055).
-- T071 and T072 must finish before T035. T035 and T036 must finish before T073.
+- T206 and T071/T072 must finish before T035. T035, T036, and on-device T202 must finish before T073.
 
 **Parallel sets**:
 
@@ -164,9 +164,10 @@ All Phase 2b tasks depend on T043 and T044.
 **Hardware**: T036, T072, and T073 require hardware. Every device claim stays `NOT_COMPUTABLE` until those receipts exist.
 ## Phase NC: on-device measurements (from the NC research, 2026-10-11)
 
-- [ ] T200 human (on-device): GPS characterization. Log `horizontalAccuracy`, `locationSource`, and the update interval for 3 outdoor walks and 1 indoor walk. Pass: p50 ≤ 20 m outdoors. Record time to first FUSED fix. Feeds TST-061 (NC-01).
-- [ ] T201 human (on-device): Power and thermal. Over a 15-minute walk, Performance Overlay CPU/GPU stays ≤ 100%, FPS stays at 60, and the D-116 proxy fires 0 times. Feeds TST-060 (NC-02, NC-07).
-- [ ] T202 human (on-device): Battery. Log `getBatteryState()` at start and end of a 15-minute walk. Pass: drain ≤ 40 points (NC-03). Implement D-061 (accepted).
+- [ ] T200 human (on-device): GPS characterization. Log `horizontalAccuracy`, `locationSource`, and the update interval for 3 outdoor walks and 1 indoor walk. Pass: p50 ≤ 20 m outdoors. Record time to first FUSED fix. Feeds TST-061 (NC-01); attach privacy-filtered receipt to `Zero-State-LLC/Waykin#13`.
+- [ ] T201 human (on-device): Power and thermal. Over a 15-minute walk, Performance Overlay CPU/GPU stays ≤ 100%, FPS stays at 60, and the D-116 proxy fires 0 times. Feeds TST-060 (NC-02, NC-07); attach receipt to `Zero-State-LLC/Waykin#13`.
+- [ ] T202 human (on-device): Battery measurement. Log `getBatteryState()` at start and end of a 15-minute walk. Pass: drain ≤ 40 percentage points (NC-03, TST-071). Requires T206; this task does not implement the guard. Attach receipt to `Zero-State-LLC/Waykin#13`.
 - [ ] T203 lens-MCP-agent: Record Lens Studio 5.15.4, SIK, and UI Kit versions in the build receipt (NC-05).
-- [ ] T204 human (on-device): Ground fit. With 3 wearers, Lira's feet are within ±10 cm of the visible ground at 2 m, using the non-experimental hit test or the 1.45 m fallback. Feeds TST-052 (NC-06).
+- [ ] T204 human (on-device): Ground fit. With 3 wearers, Lira's feet are within ±10 cm of the visible ground at 2 m, using the non-experimental hit test or the 1.45 m fallback. Feeds TST-052 (NC-06); attach receipt to `Zero-State-LLC/Waykin#13`.
 - [x] T205 Danny: Lira license resolved: Meshy-derived, paid plan, owned outright, no credit line. Generated about Aug 2026; input image owned by Zer0 State LLC. Recorded in `ArtSource/Companion/Lira/README.md` (2026-10-11).
+- [ ] T206 core-TS + lens-MCP-agent: Implement the accepted D-061 battery guard: `Assets/Scripts/logic/batteryGuard.ts` holds the pure threshold decision (Node-tested under `spectacles/tests/batteryGuard.test.ts`); `Assets/Scripts/adapters/BatteryAdapter.ts` reads `deviceInfoSystem.getBatteryState()` at walk start and subscribes to `onBatteryStateChanged`. While not charging, warn **once** at ≤15% in HUD line 2 for 4000 ms; end **once** with `reason = power` and saved summary at ≤8%; skip in the editor (`isEditor()`). Fake-callback tests cover charging, thresholds, and duplicates; device confirmation is T202/TST-071. T206 is implementation, not battery-drain measurement.

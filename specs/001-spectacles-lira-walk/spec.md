@@ -2,7 +2,7 @@
 
 **Feature branch**: `001-spectacles-lira-walk`
 **Created**: 2026-10-11
-**Status**: Draft
+**Status**: Approved specification (D-/CF- decisions accepted in `decisions.md`; implementation and device acceptance remain open)
 **Input**: Danny's approved decisions and ADR-0004. Retarget Waykin at Snap Spectacles with a standalone Lens MVP: a walk of about 15 minutes, Lira as an AR companion, seeded events, audio cues, pursuit through audio and Lira only, an end-of-walk summary, and local Bond and memories.
 
 **Governance**: `WAYKIN_SPEC.md` and `docs/SOLO_MVP_SCOPE.md` serve as the constitution, as amended by `docs/decisions/ADR-0004-snap-spectacles-target.md`.
@@ -51,7 +51,7 @@ During a walk, pursuit pressure rises and fades. You perceive it only through au
 **Acceptance scenarios**:
 
 1. **Given** pressure reaches a pursuit rule's thresholds, **when** the generator selects `pursuitBegins`, **then** the Lens plays the pursuit cue and Lira shifts behavior, and it renders no enemy entity.
-2. **Given** pursuit is active, **when** you pause or stop, **then** pursuit pressure is suppressed and safety feedback takes precedence.
+2. **Given** pursuit is active, **when** you pause the session, **then** the controller stops core ticks and pauses audio; pressure and pursuit state remain unchanged until a resumed tick. Stop ends the session with safety feedback taking precedence (BEH-004, T029).
 
 ---
 
@@ -74,11 +74,11 @@ When you end a walk, a summary card shows the time, distance, events, and Bond c
 - **No paired phone, no internet, or location denied:** Begin Walk is unavailable. The Lens offers Demo Walk.
 - **GPS jitter or position jumps at about 1 Hz:** The integrity filter rejects the samples. Rejected samples don't advance distance.
 - **Heading uncalibrated after an OS update:** Lira stays positioned relative to you and doesn't depend on heading.
-- **You stand still for a long time:** Rules that require `moving` or `paused` gate events. No pursuit escalation occurs from standing still.
-- **Power budget exceeds 100%, or thermal standby is imminent:** The walk must end safely and save a partial summary. The detection signal is [NEEDS CLARIFICATION: which Lens API exposes thermal or power state].
-- **The Lens closes mid-walk:** Partial-session persistence behavior is [NEEDS CLARIFICATION].
+- **You stand still during an active walk:** Accepted samples still tick the Swift-equivalent core; `nextPressure` adds `+0.16` for a non-moving update (before other pressure terms), and `.paused` movement state remains generator-eligible. This is not a user pause (BEH-004, T029).
+- **Frame-time degradation:** No Lens thermal-state API is documented (NC-02). Use the D-116/CF-08 frame-time proxy: enter audio-forward degrade at >20 ms rolling mean for 10 s, restore after <17 ms for 30 s, and end with `power` after 180 s continuous degradation. Save a partial summary (FR-018, BEH-032).
+- **The Lens closes mid-walk:** Checkpoint every 30 s; at next launch offer RecoveryPanel for a checkpoint ≤24 h old, or silently finalize an older one. Use checkpoint `startedAt` for idempotency (D-108/CF-13, BEH-030/042).
 - **Seed 0:** It maps to `0x9E3779B97F4A7C15`, as in Swift.
-- **The walk passes 15 minutes:** The walk continues. The Lens shows a non-blocking suggestion to end the walk. The threshold value is [NEEDS CLARIFICATION].
+- **The walk reaches 15 or 20 minutes:** Show the BEH-031 suggestion in HUD line 2 for 4000 ms; hard-end at 30:00 with a summary (D-107/CF-05, D-216).
 
 ## Requirements
 
@@ -90,18 +90,18 @@ When you end a walk, a summary card shows the time, distance, events, and Bond c
 - **FR-004**: The TypeScript core MUST reproduce Swift RNG outputs and emitted events bit-exactly for every vector in `Tests/Vectors/`.
 - **FR-005**: Swift MUST generate the vectors. TypeScript MUST consume them read-only.
 - **FR-006**: The location adapter MUST use `GeoLocation.createLocationService()` with `GeoLocationAccuracy.Navigation` and poll `getCurrentPosition` at about 1 s.
-- **FR-007**: Lira MUST render as a single world-locked character, positioned relative to you, with 3 to 4 behaviors.
+- **FR-007**: Lira MUST render as one world-locked character, positioned relative to you, using the five presentation states `idle`, `follow`, `investigate`, `alert`, and `celebrate` (four loop clips plus celebrate and spawn one-shots; D-200/CF-03). This does not add a companion or pursuit entity.
 - **FR-008**: Each emitted event MUST map to one of the seven semantic audio cue kinds and MAY add a small visual effect.
 - **FR-009**: The Lens MUST express pursuit only through audio and Lira behavior. It MUST NOT render any pursuer.
-- **FR-010**: Pause and Stop MUST be reachable at all times and MUST override pursuit pressure.
+- **FR-010**: Pause and Stop MUST be reachable during an active session. User pause stops core ticks and audio without mutating pursuit pressure; Stop ends the session, and safety feedback takes precedence (BEH-004, T029).
 - **FR-011**: AR content MUST stay peripheral and glanceable while you walk. The Lens MUST NOT show a full-screen panel during an active walk.
 - **FR-012**: The Lens MUST show a summary card at the end of each walk with active time, distance, event count, and Bond change.
 - **FR-013**: The Lens MUST persist Bond and the last five memories in Lens persistent storage, on the device only.
-- **FR-014**: The Lens MUST request only publishable permissions: RawLocation under Transparent Permission. It MUST NOT use Experimental APIs.
+- **FR-014**: The Lens MUST declare only RawLocation/RawLocationModule under Transparent Permission, without an Internet permission descriptor or Experimental APIs (D-301/CF-29). Verify first Begin Walk and publishing on device (TST-051, T073); if GPS cannot work without an Internet descriptor, stop and amend D-301 before adding one.
 - **FR-015**: The Lens MUST NOT use HealthKit, Mobile Kit, Snap Cloud, Sync Kit, camera or ML, the map, or the network beyond what location requires.
 - **FR-016**: Demo Walk MUST be deterministic and runnable in Lens Studio Preview.
 - **FR-017**: The Lens MUST support a privacy-filtered local field receipt. The receipt contains no coordinates and no route history.
-- **FR-018**: The Lens MUST degrade to audio-forward presence when the power budget forces reduced rendering. The trigger is [NEEDS CLARIFICATION].
+- **FR-018**: The Lens MUST degrade to audio-forward presence on the D-116 frame-time proxy (>20 ms 10 s rolling mean), recover after <17 ms for 30 s, and end with `power` after 180 s continuously degraded (CF-08, BEH-032, PRS-093). The battery guard D-061 independently warns at ≤15% and ends at ≤8% when not charging; skip the guard in the editor. These are implementation requirements, not observed hardware outcomes.
 
 ### Key entities
 
@@ -122,18 +122,18 @@ See `data-model.md`.
 
 - **SC-001**: 100% of Swift-exported vectors pass in the TypeScript parity job. RNG outputs and event sequences match exactly.
 - **SC-002**: The Lens sustains 60 FPS during a 15-minute outdoor walk, as shown in the Lens Performance Overlay.
-- **SC-003**: CPU and GPU power stay below 100% of the Lens power budget for the full walk. Any tighter numeric margin is [NEEDS CLARIFICATION].
-- **SC-004**: A 15-minute outdoor walk completes without throttling-induced shutdown, thermal standby, or shutdown, as documented by a device receipt. Battery headroom on consumer Specs is [NEEDS CLARIFICATION: consumer Specs battery life is undocumented].
+- **SC-003**: CPU and GPU power stay below 100% of the Lens power budget for the full walk, measured in the device Performance Overlay (NC-02, T201/TST-060). A tighter margin is not asserted.
+- **SC-004**: A 15-minute outdoor walk completes without throttling-induced shutdown, thermal standby, or shutdown, as documented by a device receipt (NC-03, T201/T202). Log starting/ending battery percentage; ≤40 percentage-point drain is the TST-071 gate. Published developer-unit runtime is not consumer-device evidence.
 - **SC-005**: The Lens uses only publishable permissions and passes the Lens Studio publishing checklist with no Experimental APIs.
 - **SC-006**: Bond and the last five memories survive 3 consecutive Lens relaunches unchanged.
 - **SC-007**: Stop is reachable from any walk state in one interaction.
 
 ### Clarifications needed
 
-- [NEEDS CLARIFICATION: battery life of consumer Specs (not documented by Snap; `NOT_COMPUTABLE`).]
-- [NEEDS CLARIFICATION: current Spectacles Developer Program pricing and terms (previously $99/mo with a 12-month commitment).]
-- [NEEDS CLARIFICATION: publishability of Mobile Kit combined with location or sensitive data. Not used in the MVP, but it gates any phase-2 sync.]
-- [NEEDS CLARIFICATION: iOS reference scope. The iOS app is the reference implementation, but the docs don't state whether it also stays the primary shipped product, or whether Spectacles-only tuning may diverge from iOS defaults.]
+- **NC-03**: Consumer Specs battery life is not established here; on-device drain remains `NOT_COMPUTABLE` until T202/TST-071 receipts.
+- **NC-05/NC-50/NC-51**: Reconfirm current Spectacles Developer Program pricing and terms before procurement; do not infer them from historic pricing.
+- **CF-29**: Mobile Kit combined with sensitive location is outside this MVP; phase-2 publishability requires a separate decision.
+- **D-324**: Swift iOS gameplay and exported vectors govern core parity. Spectacles-specific presentation defaults follow accepted B/P/L decisions; whether iOS remains the primary shipped product is a separate product decision.
 
 ## Workflows
 

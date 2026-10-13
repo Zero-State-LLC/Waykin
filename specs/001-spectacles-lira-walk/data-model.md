@@ -1,9 +1,9 @@
 # Data model: mirrored from WaykinCore
 
-The TypeScript types mirror the Swift types field for field. Each field carries an evidence label:
+Swift core parity types mirror the Swift types field for field; Lens-only presentation and persistence records are separate. Evidence labels below distinguish source fields from not-yet-ported families:
 
-- `OBSERVED`: The field appears in the `WorldEventGenerator.swift` excerpt.
-- `INFERRED`: The field is assumed from usage or the directory layout. Confirm it against the Swift source before you port it.
+- `SOURCE`: Verified against the cited Swift source; does not imply the TypeScript family is implemented.
+- `INFERRED`: A Lens-only shape or a projection pending a Swift vector; confirm before a parity claim.
 
 Swift `Double` and `TimeInterval` map to TypeScript `number`, which is the same IEEE 754 binary64. Swift `UInt64` maps to `uint64` (see `contracts/core-parity.md`). Swift `Int` maps to a TypeScript integer `number`.
 
@@ -11,15 +11,16 @@ Swift `Double` and `TimeInterval` map to TypeScript `number`, which is the same 
 
 | Field | Type | Label |
 |---|---|---|
-| `energy` | number, in [0, 1] | OBSERVED (usage) |
-| `pressure` | number, in [0, 1] | OBSERVED (usage) |
-| `familiarity` | number, in [0, 1] | OBSERVED (usage) |
-| `bondLevel` | integer ≥ 0 | OBSERVED (usage) |
-| `movementState` | enum; includes `moving` and `paused` | OBSERVED (the other cases are INFERRED) |
-| `activeTime` | seconds | OBSERVED (usage) |
-| `lastEventAt` | Date or null | OBSERVED (usage) |
-
-The `[0, 1]` range for energy, pressure, and familiarity is INFERRED.
+| `timeContext` | Swift `TimeContext` | SOURCE (`Models.swift:42-114`); D-001 uses midday |
+| `movementState` | `idle`, `moving`, `paused`, `stopped` | SOURCE (`Models.swift:42-114`, `MovementEngine.swift:42-90`) |
+| `currentSpeedMetersPerSecond` | number | SOURCE (`Models.swift:42-114`); non-finite → 0 |
+| `sessionDistanceMeters` | number ≥ 0 | SOURCE (`Models.swift:42-114`) |
+| `activeTime` | seconds ≥ 0 | SOURCE (`Models.swift:42-114`) |
+| `bondLevel` | integer ≥ 0 | SOURCE (`Models.swift:42-114`) |
+| `familiarity` | number in [0, 1] | SOURCE (`Models.swift:42-114`) |
+| `energy` | number in [0, 1] | SOURCE (`Models.swift:42-114`) |
+| `pressure` | number in [0, 1] | SOURCE (`Models.swift:42-114`) |
+| `lastEventAt` | Date or null | SOURCE (`Models.swift:42-114`) |
 
 ## WorldEventKind
 
@@ -82,32 +83,37 @@ The generator holds `rng`, `configuration`, `lastGeneratedAtElapsed` (optional),
 
 | Field | Label |
 |---|---|
-| `timestamp` | INFERRED |
-| `latitude` | INFERRED |
-| `longitude` | INFERRED |
-| `horizontalAccuracy` | INFERRED |
-| `speed` | INFERRED |
+| `timestamp` | SOURCE: `LocationSample.timestamp` |
+| `latitude` | SOURCE: `LocationSample.latitude` |
+| `longitude` | SOURCE: `LocationSample.longitude` |
+| `altitude` | SOURCE: optional `LocationSample.altitude` |
+| `horizontalAccuracy` | SOURCE: `LocationSample.horizontalAccuracy` |
+| `reportedSpeedMetersPerSecond` | SOURCE: `LocationSample.reportedSpeedMetersPerSecond`; adapter passes NaN (D-101/CF-28) |
 
 - **Integrity outcome**: accepted or rejected, with a reason (INFERRED).
 - **Coordinates**: They never leave the location adapter and the movement engine. Receipts never contain them.
 
-## Lira state (`Engines/CompanionRuntime.swift`, `CompanionPresentationMatrix.swift`)
+## Lira state (`Engines/CompanionRuntime.swift`, `CompanionPresentationMatrix.swift`; GA C2)
 
 | Field | Label |
 |---|---|
-| `behavior`: follow, drawNear, moveAhead, observe (3–4 for the MVP) | INFERRED |
-| `relativeDistance` | OBSERVED as a concept in the spec; the type is INFERRED |
+| `behavior`: core companion behavior, mapped to Lens presentation | SOURCE: `CompanionRuntime.swift`; do not confuse core commands with the rendered state |
+| `relativeDistance` | INFERRED Lens placement projection; D-202/D-203 band table governs it |
 
-**Transitions**: The companion matrix drives transitions from movement state, speed, and events (INFERRED).
+**Lens presentation**: Five states — `idle`, `follow`, `investigate`, `alert`, `celebrate` — use six clips: `Lira_Idle`, `Lira_Follow`, `Lira_Investigate`, `Lira_Alert` (loops), `Lira_Celebrate`, `Lira_Spawn` (one-shots; D-200/CF-03, `CompanionPresentationState.swift:4-10`). The companion matrix maps movement, events, and pursuit to presentation; Lens presentation is not another Swift `WorldState` field.
 
-## Pursuit state
+## Pursuit state (GA C1)
 
 | Field | Label |
 |---|---|
-| `pressure` (bounded, [0, 1]) | INFERRED |
-| `phase`: inactive → active → intensified → fading → inactive | INFERRED; follows the `pursuitBegins`/`pursuitIntensifies`/`pursuitFades` events |
+| `pressure` (bounded, [0, 1]) | SOURCE: `WorldState.pressure` and `Experiences.swift` |
+| `phase`: `inactive`, `noticed`, `approaching`, `close`, `fading` | SOURCE: Swift `PursuitState`; see B §2.2 and TST-005 |
 
-Pause and Stop force the phase toward inactive (INFERRED). Safety precedence is a spec invariant.
+User pause stops core ticks, so pressure and pursuit state do not change merely because of pause. Standing still in an active walk is ticked and can increase pressure by `+0.16` for a non-moving sample (`Experiences.swift:199-204`); `.paused` movement state remains event-eligible (`WorldEventGenerator.swift:36,46`). Stop finalizes the session; adapters do not independently rewrite pursuit (T029).
+
+## Generator lifetime (GA C4)
+
+The generator module keeps its RNG state across `evaluate` calls (seed-event vectors). The Experience/runtime layer creates a **fresh** `WorldEventGenerator(seed: eventSeed)` per movement update (`Experiences.swift:118-126`); cooldown history is supplied by `lastEventElapsed` and `lastEventElapsedByKind`, not a persisted generator RNG. Require multi-tick Experience-level Swift vectors before claiming that layer's parity (T013–T015).
 
 ## Audio cue (`Engines/AudioExperienceLayer.swift`)
 
@@ -157,7 +163,7 @@ Vectors cover `SessionMemory` only. `LensMemoryEntry` is tested by Lens unit tes
 | `distance` | INFERRED |
 | `eventCount` | INFERRED |
 | `bondDelta` | INFERRED |
-| `endedReason` (`userStop`, `power`, `locationLost`) | INFERRED |
+| `endedReason` (`userStop`, `demoComplete`, `power`, `locationLost`, `timeLimit`, `interrupted`, `closed`, `error`) | Lens-only summary reasons per B §8 and T032; not a Swift parity field |
 
 **Lifecycle**: A summary is derived once at session end and is then immutable.
 

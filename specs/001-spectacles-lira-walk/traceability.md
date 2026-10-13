@@ -36,7 +36,7 @@
 | 23 | Checkpoint every 30 s with `startedAt` idempotency key | B §6 BEH-042; DEC D-108/CF-13; GA GAP-LIFE-03 | BEH-030, BEH-042, GAP-LIFE-03, D-108, CF-13 | T057, T030, T070 | TST-014, TST-035 | in scope |
 | 24 | Crash recovery: RecoveryPanel ≤24 h, silent finalize >24 h, reasons `interrupted`/`closed` | B §3.1 T3/T3b/T20/T21, BEH-030; DEC D-108/CF-13 | BEH-030, GAP-LIFE-04, D-108, CF-13, BEH-008 | T070, T057, T032 | TST-014, TST-035 | in scope |
 | 25 | Walk-length prompts at 15:00 / 20:00 and hard end at 30:00 rendered as HUD line 2 for 4000 ms | B §4 BEH-031; DEC D-107/CF-05, D-216; GA GAP-UI-16 | BEH-031, D-107, CF-05, D-216, GAP-UI-16 | T062, T064 | TST-019, TST-063, TST-077 | in scope |
-| 26 | Battery handling: 30:00 hard end (D-107) within the documented 45-min runtime; battery API `deviceInfoSystem.getBatteryState()` exists (NC-03); low-battery guard D-061 (accepted) | B §4 BEH-033; DEC NC-03, D-061; GA GAP-LIFE-07 | BEH-033, GAP-LIFE-07, NC-03, NC-10, D-061 | T202 | TST-071 | in scope |
+| 26 | Battery handling: 30:00 hard end (D-107) within documented developer runtime; D-061 low-battery guard implementation (T206) is distinct from physical drain measurement (T202) | B §4 BEH-033; DEC NC-03, D-061; GA GAP-LIFE-07 | BEH-033, GAP-LIFE-07, NC-03, NC-10, D-061 | T206, T202 | TST-071 | in scope (implementation and hardware open) |
 | 27 | Thermal/power degrade and end: enter >20 ms 10 s mean, exit <17 ms 30 s, end at 180 s with `reason = power` | B §4 BEH-032; P §6 PRS-093; DEC D-116/CF-08; GA GAP-LIFE-06 | FR-018, BEH-032, PRS-093, D-116, CF-08, ERR-PERF-01, NC-02 | T033, T062, T071 | TST-020, TST-060, TST-076 | in scope |
 | 28 | Stale/lost location: degraded at 15 s or 3 errors, ERR-GPS-03 in HUD line 2, lost at 120 s → `locationLost`, no auto-pause | B §4/§5/§7; `SessionMapPresentation.swift:95-97`; DEC D-111/CF-09 | BEH-034, D-111, CF-09, GAP-LIFE-08, ERR-GPS-03, ERR-GPS-04 | T058, T025, T032, T064 | TST-015, TST-036, TST-077 | in scope |
 | 29 | Lens OS pause / sleep → implicit pause, no auto-resume, ERR-LIFE-02 | B §4 BEH-029; DEC D-036/CF-30, NC-16; GA GAP-SM-07, GAP-LIFE-10 | BEH-029, GAP-SM-07, GAP-LIFE-10, D-036, CF-30, NC-16, ERR-LIFE-02 | T069, T026 | TST-054 | in scope |
@@ -109,7 +109,7 @@
 | 96 | End-of-walk summary: fields, computation, closing phrase, path line, moments + reason line, Done dismiss | B §8 BEH-048/049; P PRS-058, LSB-074; DEC D-050, CF-25, CF-26; GA GAP-SUMMARY-01..07 | FR-012, BEH-048, BEH-049, PRS-058, D-050, CF-25, CF-26, GAP-SUMMARY-01, GAP-SUMMARY-02, GAP-SUMMARY-03, GAP-SUMMARY-04, GAP-SUMMARY-05, GAP-SUMMARY-06, GAP-SUMMARY-07, LSB-074 | T031, T061 | TST-018, TST-034 | in scope |
 | 97 | Field receipt contents and `WAYKIN_RECEIPT` Logger output channel | B §8 BEH-050; DEC D-310; GA GAP-L-TEST-01; `spec.md` FR-017 | FR-017, BEH-050, D-310, GAP-L-TEST-01 | T034, T063 | TST-062 | in scope |
 | 98 | Publish checklist and acceptance gates: permissions, no Experimental API, size, metadata, capturability, review, and preview/device acceptance runs | L LSB-080..084, LSB-090..099; GA GAP-PUB-01..06, GAP-TEST-01..06; `spec.md` SC-001, SC-005..SC-007 | SC-001, SC-005, SC-006, SC-007, LSB-080, LSB-081, LSB-082, LSB-083, LSB-084, LSB-090, LSB-091, LSB-092, LSB-093, LSB-094, LSB-095, LSB-096, LSB-097, LSB-098, LSB-099, GAP-PUB-01, GAP-PUB-02, GAP-PUB-03, GAP-PUB-04, GAP-PUB-05, GAP-PUB-06, GAP-TEST-01, GAP-TEST-02, GAP-TEST-03, GAP-TEST-04, GAP-TEST-05, GAP-TEST-06 | T016, T023, T036, T067, T072, T073 | TST-001, TST-030, TST-032, TST-034, TST-035, TST-060, TST-070 | in scope |
-| 99 | NC device measurements: GPS accuracy/cadence, power/thermal at 60 FPS, battery drain, toolchain pins, ground fit, rig license | DEC §Needs Clarification (NC-01..NC-09) | FR-018, BEH-032, BEH-033, PRS-091, LSB-001, NC-01, NC-02, NC-03, NC-05, NC-06, NC-07, NC-09 | T200, T201, T202, T203, T204, T205 | TST-052, TST-060, TST-061, TST-071 | in scope (hardware) |
+| 99 | NC device measurements: GPS accuracy/cadence, power/thermal at 60 FPS, battery drain, toolchain pins, ground fit, rig license | DEC §Needs Clarification (NC-01..NC-09) | FR-018, BEH-032, BEH-033, PRS-091, LSB-001, NC-01, NC-02, NC-03, NC-05, NC-06, NC-07, NC-09 | T200, T201, T202, T203, T204, T205, T206 | TST-052, TST-060, TST-061, TST-071 | in scope (hardware; T206 implementation separate) |
 
 ---
 
@@ -117,7 +117,8 @@
 
 | Task | Owner | Files | Acceptance |
 |---|---|---|---|
-| **T202** (defined in `tasks.md` Phase NC) | human | `docs/design/receipts/LENS_BUILD_<UTC>_<sha>.md` | Battery % is logged at the start and end of a 15-minute walk; drain ≤ 40 points. D-061 is implemented only once accepted. TST-071 PASS. |
+| **T206** (defined in `tasks.md` Phase NC) | core-TS + lens-MCP-agent | `Assets/Scripts/logic/batteryGuard.ts`, `Assets/Scripts/adapters/BatteryAdapter.ts`, `spectacles/tests/batteryGuard.test.ts` | D-061 accepted: warn once at ≤15%, end once at ≤8% when not charging; editor skipped; synthetic thresholds/charging/duplicate-callback checks. No hardware PASS claim. |
+| **T202** (defined in `tasks.md` Phase NC) | human | `docs/design/receipts/LENS_BUILD_<UTC>_<sha>.md`; `Zero-State-LLC/Waykin#13` | After T206, log battery % at start and end of a 15-minute device walk; drain ≤40 percentage points. TST-071 remains `NOT_COMPUTABLE` pending a physical receipt. |
 
 All other task ids used above already exist in `tasks.md`.
 
@@ -172,7 +173,7 @@ Existing TST ids and meanings are unchanged; new ids continue from TST-070.
 | TST-062 | field-walk | FR-017, BEH-050 | Inspect the receipt (`WAYKIN_RECEIPT` line + stored key) | 0 coordinates or route points; timeline ≤200; every count field present | FLD |
 | TST-063 | field-walk | BEH-031, D-107 | 30-minute walk (optional) | Prompts at 15:00 and 20:00 ±1 s; auto-end at 30:00 ±2 s with "Lira walked you home." | FLD |
 | TST-070 | lens-preview + manual | SC-005, LSB-090..099 | Run the publish checklist | Every LSB-090..099 row PASS; no Experimental API; size ≤25 MB; icon + 3:4 preview set | PV + manual |
-| **TST-071** | field-walk | BEH-033, GAP-LIFE-07, NC-03, NC-10 | Run a 15-minute walk on device and log `getBatteryState()` at start and end; in Preview with a fake clock, run the 30:00 hard end | Drain ≤ 40 percentage points; auto-end at 1800 s ±2 s; low-battery line at ≤ 15 %, end with `reason = power` at ≤ 8 % when not charging | FLD |
+| **TST-071** | unit + lens-preview + field-walk | BEH-033, GAP-LIFE-07, NC-03, NC-10, D-061 | Test T206 with an injectable battery seam (≤15% warning, ≤8% end, charging and duplicate callbacks); in Preview with fake clock run the 30:00 hard end; after T206 run a 15-minute walk on device and log `getBatteryState()` at start and end | Drain ≤40 percentage points on device; auto-end at 1800 s ±2 s; warning ≤15% for 4000 ms and `power` end ≤8% when not charging, once. Synthetic/Preview PASS does not satisfy FLD. | Node + PV + FLD |
 | **TST-072** | lens-preview | PRS-061, D-052, D-055, GAP-PUB-08 | Launch; confirm version label; 5 pinches within 3000 ms; retry while `walkActive` | Version string `v0.1.0` at 1.0 cm cap height; DebugPanel opens on 5 pinches within 3000 ms ±100 ms; DebugPanel not reachable during `walkActive`; debug text contains 0 coordinate pairs and ≤20 lines | PV |
 | **TST-073** | lens-preview | PRS-081, NC-30, D-041 | Toggle "Reduce motion" on Memories; restart; replay spawn and celebrate | `profile.reduceMotion = true` persists across restart; spawn coalesce 120 ms ±16 ms; loop clips frozen at frame 0; HUD follow τ = 0 (no smoothing lag) | PV |
 | **TST-074** | unit | D-040, GAP-ERR-04, BEH-048 | Inject a throwing core tick into the session logic; assert the end path | Walk ends with `endedReason = error`; summary is computed and saved; toast copy "Something went wrong. Your walk was saved." exact; 0 uncaught exceptions | Node |
@@ -197,7 +198,7 @@ Existing TST ids and meanings are unchanged; new ids continue from TST-070.
 | Distinct `LSB-` ids cited | 60 of 60 (LSB-001..007, 010..015, 020..025, 030..032, 040..044, 050, 060..067, 070..078, 080..084, 090..099) |
 | Normative requirement ids cited (BEH + PRS + LSB) | 175 of 175 |
 | `SC-` ids cited | SC-001..SC-007 (7 of 7) |
-| Task ids used | T001–T073 + T200–T205 (Phase NC) |
+| Task ids used | T001–T073 + T200–T206 (Phase NC) |
 | Test ids defined | 51 (TST-001..020, 030..040, 050..055, 060..063, 070, plus new TST-071..079) |
 
 **Requirement ids from BEH/PRS/LSB not referenced by any row: none.**
@@ -210,8 +211,8 @@ Verification method and evidence:
 
 **Rows added for coverage**
 
-- Row 26 (battery handling) is covered by **T202** (Phase NC) and **TST-071**.
-- Six new tests were added where no existing TST carried the criterion: TST-072 (Debug panel + version label), TST-073 (Reduce Motion persistence), TST-074 (core exception end path), TST-075 (spatial emitters / D-306 fallback), TST-076 (degrade visual effect), TST-077 (status line 2 / no-toast timing), TST-078 (path-relation vectors), TST-079 (materials, Dawn-only, echo silhouette).
+- Row 26 (battery handling) separates **T206** (implementation and synthetic tests) from **T202** (on-device drain measurement); both feed **TST-071**, whose field result stays `NOT_COMPUTABLE` until a physical receipt is attached to `Zero-State-LLC/Waykin#13`.
+- Eight new tests were added where no existing TST carried the criterion: TST-072 (Debug panel + version label), TST-073 (Reduce Motion persistence), TST-074 (core exception end path), TST-075 (spatial emitters / D-306 fallback), TST-076 (degrade visual effect), TST-077 (status line 2 / no-toast timing), TST-078 (path-relation vectors), TST-079 (materials, Dawn-only, echo silhouette).
 
 **Open clarifications carried unchanged (no row owns them as a requirement)**
 
