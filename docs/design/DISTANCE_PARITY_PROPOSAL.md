@@ -1,7 +1,8 @@
 # Distance parity proposal
 
-Status: PROPOSED / SUPPORTING. Design work approved by the user on 2026-10-13;
-implementation is NOT approved. This document changes no accepted decision,
+Status: PROPOSED / SUPPORTING. Design and an isolated prototype/migration
+comparison approved by the user on 2026-10-13. Production implementation is
+NOT approved. This document changes no accepted decision,
 Swift freeze, runtime behavior, fixture, or test tolerance.
 
 ## Problem and evidence
@@ -71,7 +72,13 @@ storage schemas, location permissions, presentation, or persistence ownership.
 Old persisted summaries are not recalculated. Review all distance call sites
 before choosing the allowed paths; do not replace unrelated App/MapKit uses.
 
-## Staged implementation plan — not authorized by this proposal
+## Staged implementation plan — production remains unapproved
+
+The user subsequently approved isolated prototype work only. The first
+candidate lives in `scripts/research/distance-prototype/`; its Swift-facing
+adapter calls native GeographicLib C, and its TypeScript adapter calls the
+corresponding JS implementation. It is not a pure-Swift transcription or
+authorization to adopt either dependency. Production gates below still apply.
 
 1. Open/approve a bounded reference-distance issue and ADR. Record the exact
    Swift/TypeScript paths and call-site inventory, original reference SHA,
