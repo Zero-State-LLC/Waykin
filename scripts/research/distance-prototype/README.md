@@ -161,6 +161,25 @@ Apple lifecycle differences between profiles. See
 
 ## Instrumentation and boundaries
 
+### Disposable fixture integration
+
+```sh
+node scripts/research/distance-prototype/test_fixture_integration.cjs
+```
+
+Copies actual package sources/tests/configuration into a fresh temporary project,
+instruments only the approved research distance seams, and uses the real Swift
+exporter with a real temporary Swift Git tree. It never writes canonical fixtures.
+Checks all six families, repeated/debug/release export hashes, strict package
+typechecks, Swift tests, and the full unchanged TS suite. A separate exact
+movement check removes even the existing distance tolerance for this experiment.
+
+Known result: family replay passes, but two spherical-metre unit assertions
+fail under the candidate. The runner collects all three export/test results and
+still exits 2; it must not be presented as a passing complete integration. See
+`docs/design/receipts/ISOLATED_FIXTURE_INTEGRATION_20261013.md`. Existing fixtures
+remain insufficient to represent the separately measured historical changes.
+
 ### Self-contained TypeScript research candidate
 
 `portableGeodesic.ts` transcribes `PortableGeodesic.swift` with the same WGS84

@@ -55,19 +55,21 @@ function sincos(x: number, extra?: number): [number, number] {
 }
 function poly(order: number, p: number[], offset: number, x: number): number {
   if (order < 0) return 0;
-  let y = p[offset];
-  for (let j = 1; j <= order; j++) y = y * x + p[offset + j];
+  // Private callers pass fixed coefficient tables and bounded order/offsets.
+  let y = p[offset]!;
+  for (let j = 1; j <= order; j++) y = y * x + p[offset + j]!;
   return y;
 }
 function series(s: number, c: number, coefficients: number[]): number {
   let k = coefficients.length, count = coefficients.length - 1;
   const ar = 2 * (c - s) * (c + s);
   let y0 = 0, y1 = 0;
-  if ((count & 1) !== 0) { k--; y0 = coefficients[k]; }
+  // k walks only the populated coefficients; index zero is intentionally unused.
+  if ((count & 1) !== 0) { k--; y0 = coefficients[k]!; }
   count = Math.floor(count / 2);
   for (let i = 0; i < count; i++) {
-    k--; y1 = ar * y0 - y1 + coefficients[k];
-    k--; y0 = ar * y1 - y0 + coefficients[k];
+    k--; y1 = ar * y0 - y1 + coefficients[k]!;
+    k--; y0 = ar * y1 - y0 + coefficients[k]!;
   }
   return 2 * s * c * y0;
 }
@@ -87,7 +89,7 @@ function c12(eps: number, second: boolean): number[] {
   let d = eps, o = 0;
   for (let l = 1; l <= 6; l++) {
     const p = Math.floor((6 - l) / 2);
-    c[l] = d * poly(p, coeff, o, sq(eps)) / coeff[o + p + 1];
+    c[l] = d * poly(p, coeff, o, sq(eps)) / coeff[o + p + 1]!;
     o += p + 2; d *= eps;
   }
   return c;
@@ -98,7 +100,7 @@ const a3x = (() => {
   let o = 0;
   for (let j = 5; j >= 0; j--) {
     const p = Math.min(6 - j - 1, j);
-    result.push(poly(p, coeff, o, n) / coeff[o + p + 1]); o += p + 2;
+    result.push(poly(p, coeff, o, n) / coeff[o + p + 1]!); o += p + 2;
   }
   return result;
 })();
@@ -108,7 +110,7 @@ const c3x = (() => {
   let o = 0;
   for (let l = 1; l < 6; l++) for (let j = 5; j >= l; j--) {
     const p = Math.min(6 - j - 1, j);
-    result.push(poly(p, coeff, o, n) / coeff[o + p + 1]); o += p + 2;
+    result.push(poly(p, coeff, o, n) / coeff[o + p + 1]!); o += p + 2;
   }
   return result;
 })();
@@ -137,7 +139,7 @@ function lengths(eps: number, sig: number, s1: number, c1: number, dn1: number,
       J = m0 * sig + (A1 * B1 - A2 * B2);
     }
   } else if (reduced) {
-    for (let l = 1; l <= 6; l++) C2[l] = A1 * C1[l] - A2 * C2[l];
+    for (let l = 1; l <= 6; l++) C2[l] = A1 * C1[l]! - A2 * C2[l]!;
     J = m0 * sig + (series(s2, c2, C2) - series(s1, c1, C2));
   }
   const m = reduced ? dn2 * (c1 * s2) - dn1 * (s1 * c2) - c1 * c2 * J : NaN;

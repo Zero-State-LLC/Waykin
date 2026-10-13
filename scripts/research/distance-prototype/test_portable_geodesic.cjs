@@ -8,7 +8,7 @@ const bits=x=>{const b=Buffer.alloc(8);b.writeDoubleBE(x);return b.toString('hex
 const value=x=>Buffer.from(x,'hex').readDoubleBE();
 const sha=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const jsFile=path.resolve(process.argv[2]), prior=path.resolve(process.argv[3]);
-run(path.join(root,'packages/waykin-core-ts/node_modules/.bin/tsc'),['--strict','--target','ES2019','--lib','ES2019','--module','commonjs','--outDir',out,path.join(__dirname,'portableMath.ts'),path.join(__dirname,'portableGeodesic.ts')]);
+run(path.join(root,'packages/waykin-core-ts/node_modules/.bin/tsc'),['--strict','--noUncheckedIndexedAccess','--target','ES2019','--lib','ES2019','--module','commonjs','--outDir',out,path.join(__dirname,'portableMath.ts'),path.join(__dirname,'portableGeodesic.ts')]);
 const standalone=require(path.join(out,'portableGeodesic.js')).portableDistance;
 const portable=require('./portable_backend.cjs')(jsFile,require(path.join(out,'portableMath.js')));
 const original=require(jsFile), g=portable.library.Geodesic;
@@ -45,7 +45,7 @@ const standaloneMismatches=rows.flatMap((r,i)=>Object.is(standaloneValues[i],exp
 fs.writeFileSync(path.join(out,'standalone-mismatches.json'),JSON.stringify(standaloneMismatches,null,2));
 fs.writeFileSync(path.join(out,'standalone.json'),JSON.stringify(standaloneValues.map(bits)));
 report.standalone={exactMismatches:standaloneMismatches.length,outputSHA256:sha(path.join(out,'standalone.json')),
-  dependencies:['portableMath.ts'],compilation:'strict ES2019, ES2019 library only, CommonJS'};
+  dependencies:['portableMath.ts'],compilation:'strict + noUncheckedIndexedAccess, ES2019 target/library, CommonJS'};
 for(const file of ['PortableMath.swift','portableMath.ts','portableGeodesic.ts','PortableGeodesic.swift','PortableGeodesicProbe.swift','portable_backend.cjs','test_portable_geodesic.cjs']) report.sourceHashes[file]=sha(path.join(__dirname,file));
 const outputs=[];
 for(const flag of ['-Onone','-O']) {

@@ -23,7 +23,7 @@ fs.writeFileSync(path.join(out,'movementIntegrity.ts'),'import { portableDistanc
   'const distance = portableDistance(this.anchor.latitude, this.anchor.longitude, sample.latitude, sample.longitude);'));
 for(const f of ['portableMath.ts','portableGeodesic.ts'])fs.copyFileSync(path.join(__dirname,f),path.join(out,f));
 fs.mkdirSync(path.join(out,'empty-types'));
-run(path.join(root,'packages/waykin-core-ts/node_modules/.bin/tsc'),['--strict','--target','ES2019','--lib','ES2019',
+run(path.join(root,'packages/waykin-core-ts/node_modules/.bin/tsc'),['--strict','--noUncheckedIndexedAccess','--target','ES2019','--lib','ES2019',
   '--typeRoots',path.join(out,'empty-types'),'--module','commonjs','--outDir',path.join(out,'js'),
   ...['movementIntegrity.ts','portableMath.ts','portableGeodesic.ts'].map(f=>path.join(out,f))]);
 const {MovementIntegrityProcessor}=require(path.join(out,'js/movementIntegrity.js'));
@@ -51,7 +51,7 @@ const report={head:run('git',['-C',root,'rev-parse','HEAD']).trim(),sequences:in
   exactMismatchSteps:mismatches.length,acceptance:mismatches.length?'EXACT_PARITY_FAILED':'EXACT_FOR_CORPUS_ONLY',
   sourceHashes:Object.fromEntries(['portableMath.ts','portableGeodesic.ts','test_selfcontained_processor.cjs'].map(f=>[f,sha(path.join(__dirname,f))])),
   processorSHA256:sha(source),swiftInputSHA256:verified.inputSHA256,swiftOutputSHA256:verified.outputSHA256,
-  compiler:'strict ES2019 with ES2019 library and empty ambient type roots',node:process.version,
+  compiler:'strict + noUncheckedIndexedAccess, ES2019 target/library, empty ambient type roots',node:process.version,
   limitations:['Recorded Swift baseline validated against full-replay receipt; no Swift rerun in this command',
     'No Lens execution or production adoption','Processor projections, not full experience state']};
 fs.writeFileSync(path.join(out,'mismatches.json'),JSON.stringify(mismatches,(_,v)=>typeof v==='number'?bits(v):v));
