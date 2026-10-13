@@ -10,7 +10,11 @@ agreement is a hypothesis to measure, not an assumption.
 The subsequently approved pure-Swift/deterministic-math extension starts with
 `PortableMath.swift` and `portableMath.ts`. Its bounded numerical contract and
 separate test command are in [PORTABLE_MATH_CONTRACT.md](PORTABLE_MATH_CONTRACT.md).
-This does not yet replace the native geodesic candidate in `run.cjs`.
+The extension now includes `PortableGeodesic.swift`, a pure-Swift, WGS84-only
+inverse-distance transcription. `WAYKIN_DISTANCE_BACKEND=pure-swift` selects
+it in `run.cjs`; the default retains the first native C candidate for comparison.
+The matching JS backend runs the pinned library with explicitly replaced math
+primitives in an isolated VM. It is not a self-contained production TS solver.
 
 Official source/provenance:
 
@@ -20,7 +24,8 @@ Official source/provenance:
 - https://geographiclib.sourceforge.io/scripts/geographiclib-geodesic.min.js
 
 C/JS are MIT/X11 licensed by Charles Karney. Keep upstream notices with the
-external downloads. No third-party source is redistributed in this directory.
+external downloads. The Swift adaptation is derived third-party source;
+its required notice is retained in `GEOGRAPHICLIB_LICENSE.txt`.
 The runner pins the C/header/JS file SHA-256 values; changed downloads fail
 closed and require review. The mutable JS URL alone is not the identity pin.
 
@@ -65,6 +70,23 @@ To measure individual math primitives using those same inputs:
 node scripts/research/distance-prototype/math_probe.cjs "$research_dir/geographiclib-geodesic.min.js" /path/to/replay-output
 ```
 
+To reproduce the approved deterministic extension, retain the native replay
+directory and the math-probe output directory printed by the commands above:
+
+```sh
+node scripts/research/distance-prototype/test_portable_math.cjs /path/to/math-probe-output
+node scripts/research/distance-prototype/test_portable_geodesic.cjs "$research_dir/geographiclib-geodesic.min.js" /path/to/replay-output
+WAYKIN_DISTANCE_BACKEND=pure-swift node scripts/research/distance-prototype/run.cjs "$research_dir" "$research_dir/geographiclib-geodesic.min.js" "$research_dir/broad.json" "$research_dir/threshold.json"
+WAYKIN_DISTANCE_BACKEND=pure-swift WAYKIN_SWIFT_OPT=-O node scripts/research/distance-prototype/run.cjs "$research_dir" "$research_dir/geographiclib-geodesic.min.js" "$research_dir/broad.json" "$research_dir/threshold.json"
+```
+
+The distance gate adds 20,000 global and 20,000 near-antipodal seeded pairs,
+plus angle/signed-zero cases. It compares binary64 outputs under both Swift
+optimization modes, independently checks sampled deviation from unmodified
+GeographicLib JS, and rejects out-of-domain portable trig arguments. These
+accuracy sanity checks do not relax Waykin's exact output contract. The Swift
+solver returns NaN on iteration exhaustion, never a spherical fallback.
+
 This traces GeographicLib JS without changing its results, deduplicates math
 calls, and sends their argument bits to `MathProbe.swift`. Every returned input
 bit pattern is checked before comparing result bits. It reports native/JS
@@ -74,8 +96,8 @@ differences, not proof that a particular primitive caused each geodesic error.
 
 The runner copies the actual Swift and TS movement processors into its temp
 directory. It replaces exactly one distance seam in each and fails if the seam
-is missing/ambiguous. The Swift copy uses either CoreLocation or the C candidate;
-TS uses the JS candidate. Swift's real RoutePoint value type is extracted from
+is missing/ambiguous. The Swift copy uses CoreLocation and the selected C or
+pure-Swift candidate; TS uses the corresponding JS backend. Swift's real RoutePoint value type is extracted from
 the existing source. No production source, manifest, lockfile, Lens core copy,
 or canonical `Tests/Vectors` file is changed. Generated research JSON is NOT
 an accepted replacement for Swift-exported parity fixtures.

@@ -65,4 +65,13 @@ enum PortableMath {
         return signed(a, y)
     }
     static func sqrt(_ x: Double) -> Double { x.squareRoot() }
+    static func cbrt(_ x: Double) -> Double {
+        if !x.isFinite || x == 0 { return x }
+        var a = abs(x), scale = 1.0
+        while a >= 8 { a = div(a, 8); scale = mul(scale, 2) }
+        while a < 1 { a = mul(a, 8); scale = div(scale, 2) }
+        var r = 2.0
+        for _ in 0..<12 { r = div(add(mul(2, r), div(a, mul(r, r))), 3) }
+        return signed(mul(r, scale), x)
+    }
 }

@@ -17,8 +17,9 @@ under the user-approved exception in `GITHUB_PROJECT_COORDINATION.md`.
 | Paused demo runToEnd hang (#25) | Fix committed as 9f2b6b1; draft validation pending | Codex (/root), IMPLEMENT | Swift regression and TS regression pass; 134 Swift tests pass |
 | SPECS 27 Lens editor setup (T003) | Partial | Codex, lens-MCP-agent | Saved project opens and compiles; permission wiring and package runtime integration incomplete |
 | Lens gameplay logic (Phase 2b) | Blocked | Codex after dependencies | T043 and T044; no playable Demo claimed |
-| Core validation | FAIL / movement parity and repository checks remain | Codex | Swift build/test and deterministic regeneration pass; locked TS typechecks/isolation pass; 84 pass, 1 movement mismatch, no skips; template validation failures tracked separately |
+| Core validation | FAIL / production movement parity remains | Codex | Swift build, 134 tests and repository validation pass; template repair validated; locked TS has 84 pass, 1 movement mismatch, no skips |
 | D-100 distance-model conflict | Decision needed | Product / Codex research | CLLocation probe exceeds 0.05 m and can change threshold decisions; no spec amendment yet |
+| Approved deterministic-math / pure-Swift prototype | Distance and processor research gates pass; migration review incomplete | Codex (/root) | 42,864 exact distance cases and 172,032 exact processor steps in debug/optimized Swift; 264 old/new decision changes; see PORTABLE_GEODESIC_20261013 receipt; no production switch |
 | SPECS 27 device acceptance | Pending | Device operator | Device/OS, GPS, audio, tracking, battery and publishing NOT_COMPUTABLE |
 | Legacy Project #1 synchronization | Pending | Codex when access returns | CLI cannot access board; no live Kanban-field change verified |
 

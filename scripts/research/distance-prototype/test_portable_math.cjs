@@ -10,7 +10,7 @@ const run = (cmd, args) => cp.execFileSync(cmd, args, {encoding:'utf8', maxBuffe
 run(path.join(root, 'packages/waykin-core-ts/node_modules/.bin/tsc'), [
   '--strict', '--target', 'ES2019', '--module', 'commonjs', '--outDir', out, path.join(__dirname, 'portableMath.ts')]);
 const ts = require(path.join(out, 'portableMath.js'));
-const functions = {sin: ts.portableSin, cos: ts.portableCos, atan2: ts.portableAtan2, sqrt: ts.portableSqrt};
+const functions = {sin: ts.portableSin, cos: ts.portableCos, atan2: ts.portableAtan2, sqrt: ts.portableSqrt, cbrt:ts.portableCbrt};
 const rows = [], keys = new Set();
 const add = (name, args, family) => {
   const encoded = args.map(bits), key = JSON.stringify([name, encoded]);
@@ -27,6 +27,7 @@ for (let i = 0; i < 20000; i++) {
   const a = (random()*2-1) * 2 ** Math.floor(random()*2040-1020);
   const b = (random()*2-1) * 2 ** Math.floor(random()*2040-1020);
   add('atan2', [a,b], 'seeded'); add('sqrt', [Math.abs(a)], 'seeded');
+  add('cbrt', [a], 'seeded');
 }
 const special = [0, -0, Number.MIN_VALUE, -Number.MIN_VALUE, Number.MAX_VALUE, -Number.MAX_VALUE,
   Infinity, -Infinity, NaN, 1, -1, Math.PI/4, -Math.PI/4, Math.PI/2, -Math.PI/2,
@@ -36,6 +37,7 @@ for (const x of special) {
     add('sin', [dx === 0 ? x : x+dx], 'edge'); add('cos', [dx === 0 ? x : x+dx], 'edge');
   }
   add('sqrt', [x], 'edge');
+  add('cbrt', [x], 'edge');
   for (const y of special) add('atan2', [y,x], 'edge');
 }
 const input = path.join(out, 'input.json'); fs.writeFileSync(input, JSON.stringify(rows));
@@ -53,19 +55,22 @@ for (const flag of ['-Onone','-O']) {
   rows.forEach((row,i) => {
     assert.deepEqual(native[i].bits, row.bits, 'Input bit corruption');
     const args = row.bits.map(value), js = functions[row.name](...args), swift = value(native[i].result);
-    const s = stats[row.name] ??= {cases:0, exactMismatches:0, maximumDeviationFromJS:0, maximumDeviationFromSwift:0};
+    const s = stats[row.name] ??= {cases:0, exactMismatches:0, maximumDeviationFromJS:0, maximumDeviationFromSwift:0, maximumRelativeDeviationFromJS:0};
     s.cases++;
     if (!(Number.isNaN(js) && Number.isNaN(swift)) && bits(js) !== native[i].result) {
       s.exactMismatches++; mismatches.push({...row, js:bits(js), swift:native[i].result});
     }
     const baseline = Math[row.name](...args), swiftBaseline = value(native[i].native);
+    if (Number.isFinite(js) && Number.isFinite(baseline) && baseline !== 0)
+      s.maximumRelativeDeviationFromJS = Math.max(s.maximumRelativeDeviationFromJS, Math.abs((js-baseline)/baseline));
     if (Number.isFinite(js) && Number.isFinite(baseline)) s.maximumDeviationFromJS = Math.max(s.maximumDeviationFromJS, Math.abs(js-baseline));
     if (Number.isFinite(swift) && Number.isFinite(swiftBaseline)) s.maximumDeviationFromSwift = Math.max(s.maximumDeviationFromSwift,Math.abs(swift-swiftBaseline));
     if ((row.name === 'sin' || row.name === 'cos') && (!Number.isFinite(args[0]) || Math.abs(args[0]) > 2*Math.PI)) {
       assert.ok(Number.isNaN(js) && Number.isNaN(swift), 'Out-of-domain trigonometry must fail explicitly');
     } else if (Number.isFinite(baseline)) {
       assert.ok(Number.isFinite(js) && Number.isFinite(swift), 'In-domain finite result missing');
-      if (row.name !== 'sqrt') assert.ok(Math.abs(js-baseline) <= 2e-15 && Math.abs(swift-swiftBaseline) <= 2e-15, 'Research primitive accuracy sanity gate');
+      if (row.name === 'cbrt') assert.ok(Math.abs(js-baseline) <= 2e-15*Math.abs(baseline) && Math.abs(swift-swiftBaseline) <= 2e-15*Math.abs(swiftBaseline), 'Cube root relative accuracy sanity gate');
+      else if (row.name !== 'sqrt') assert.ok(Math.abs(js-baseline) <= 2e-15 && Math.abs(swift-swiftBaseline) <= 2e-15, 'Research primitive accuracy sanity gate');
     }
   });
   fs.writeFileSync(executable+'-mismatches.json',JSON.stringify(mismatches));

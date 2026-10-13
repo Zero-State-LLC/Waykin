@@ -7,6 +7,8 @@ const crypto = require('node:crypto');
 const cp = require('node:child_process');
 const assert = require('node:assert/strict');
 const root = path.resolve(__dirname, '../../..');
+const portable = process.env.WAYKIN_DISTANCE_BACKEND === 'pure-swift';
+const swiftFlag = process.env.WAYKIN_SWIFT_OPT === '-O' ? '-O' : '-Onone';
 const [cDir, jsFile, broadFile, thresholdFile] = process.argv.slice(2).map(p => path.resolve(p));
 if (!thresholdFile) throw new Error('Expected C directory, JS library, broad JSON, threshold JSON');
 const hash = p => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
@@ -44,13 +46,27 @@ write('movementIntegrity.ts', 'import { candidateDistance } from "./candidate";\
   once(read(tsPath), 'const distance = movementDistanceMeters(this.anchor, sample);',
     'const distance = candidateDistance(this.anchor, sample);'));
 write('candidate.ts', fs.readFileSync(path.join(__dirname, 'candidate.ts')));
-run('clang', ['-O2', '-fno-fast-math', '-ffp-contract=off', '-c', path.join(cDir, 'geodesic.c'), '-o', path.join(out, 'geodesic.o')]);
-run('swiftc', ['-Onone', '-import-objc-header', path.join(cDir, 'geodesic.h'),
-  path.join(out, 'RoutePoint.swift'), path.join(out, 'MovementIntegrity.swift'),
-  path.join(__dirname, 'Probe.swift'), path.join(out, 'geodesic.o'), '-o', path.join(out, 'probe')]);
+if (portable) {
+  const probe = fs.readFileSync(path.join(__dirname, 'Probe.swift'), 'utf8');
+  const original = probe.slice(probe.indexOf('func candidateDistance('), probe.indexOf('// Used only'));
+  assert.ok(original.includes('geod_inverse('));
+  write('Probe.swift', once(probe, original,
+    'func candidateDistance(_ lat1: Double, _ lon1: Double, _ lat2: Double, _ lon2: Double) -> Double {\n' +
+    '    PortableGeodesic.distance(lat1, lon1, lat2, lon2)\n}\n\n'));
+  run('swiftc', [swiftFlag, path.join(out, 'RoutePoint.swift'), path.join(out, 'MovementIntegrity.swift'),
+    path.join(__dirname, 'PortableMath.swift'), path.join(__dirname, 'PortableGeodesic.swift'),
+    path.join(out, 'Probe.swift'), '-o', path.join(out, 'probe')]);
+  write('portableMath.ts', fs.readFileSync(path.join(__dirname, 'portableMath.ts')));
+} else {
+  run('clang', ['-O2', '-fno-fast-math', '-ffp-contract=off', '-c', path.join(cDir, 'geodesic.c'), '-o', path.join(out, 'geodesic.o')]);
+  run('swiftc', ['-Onone', '-import-objc-header', path.join(cDir, 'geodesic.h'),
+    path.join(out, 'RoutePoint.swift'), path.join(out, 'MovementIntegrity.swift'),
+    path.join(__dirname, 'Probe.swift'), path.join(out, 'geodesic.o'), '-o', path.join(out, 'probe')]);
+}
 run(path.join(root, 'packages/waykin-core-ts/node_modules/.bin/tsc'), [
   '--strict', '--target', 'ES2019', '--module', 'commonjs', '--outDir', path.join(out, 'js'),
-  path.join(out, 'candidate.ts'), path.join(out, 'movementIntegrity.ts')]);
+  path.join(out, 'candidate.ts'), path.join(out, 'movementIntegrity.ts'),
+  ...(portable ? [path.join(out, 'portableMath.ts')] : [])]);
 
 const pairs = [];
 for (const [family, file] of [['broad', broadFile], ['threshold', thresholdFile]]) {
@@ -112,7 +128,8 @@ write('swift.json', run(path.join(out, 'probe'), [path.join(out, 'swift-input.js
 const swift = JSON.parse(fs.readFileSync(path.join(out, 'swift.json'), 'utf8'), (_, value) => fromBits(value));
 const nativeByID = new Map(swift.distances.map(r => [r.id, r]));
 const adapter = require(path.join(out, 'js/candidate.js'));
-adapter.installResearchBackend(require(jsFile).Geodesic.WGS84);
+const portableBackend = portable ? require('./portable_backend.cjs')(jsFile, require(path.join(out, 'js/portableMath.js'))) : null;
+adapter.installResearchBackend((portableBackend ? portableBackend.library : require(jsFile)).Geodesic.WGS84);
 const {MovementIntegrityProcessor} = require(path.join(out, 'js/movementIntegrity.js'));
 const decode = value => typeof value === 'string' ? Number(value) : value;
 const finite = value => Number.isFinite(value);
@@ -121,7 +138,7 @@ const projection = s => ({sampleInterval: s.sampleInterval, distanceDelta: s.dis
   disposition: s.diagnostic.disposition, accuracyBucket: s.diagnostic.accuracyBucket,
   accumulatedDistance: s.diagnostic.accumulatedDistance});
 const decisions = ['isMoving', 'hasPoint', 'disposition', 'accuracyBucket', 'accumulatedDistance'];
-const equal = (a,b) => a === b || (Number.isNaN(a) && Number.isNaN(b));
+const equal = (a,b) => Object.is(a, b) || (Number.isNaN(a) && Number.isNaN(b));
 const migration = [], parity = [], distanceRows = [];
 const stats = {pairs: pairs.length, sequences: sequences.length, steps: 0,
   distanceExactMismatches: 0, maximumNativeJSDistanceError: 0,
@@ -189,16 +206,20 @@ for (const [index, sequence] of sequences.entries()) {
   });
 }
 const manifest = {head: run('git', ['rev-parse', 'HEAD']).trim(), dependencies: pinned,
+  backend: portable ? 'Pure Swift WGS84 inverse / JS 2.2.0 with matched portable primitives' : 'Native C / unmodified JS',
+  primitiveCalls: portableBackend?.calls,
   transport: 'All Swift numeric inputs and outputs use exact binary64 hex strings, not JSON decimal decoding',
-  harnessSHA256: Object.fromEntries(['run.cjs', 'Probe.swift', 'candidate.ts'].map(name => [name, hash(path.join(__dirname, name))])),
+  harnessSHA256: Object.fromEntries(['run.cjs', 'Probe.swift', 'candidate.ts',
+    ...(portable ? ['PortableMath.swift', 'PortableGeodesic.swift', 'portableMath.ts', 'portable_backend.cjs'] : [])]
+    .map(name => [name, hash(path.join(__dirname, name))])),
   swiftSourceSHA256: hash(path.join(root, swiftPath)), tsSourceSHA256: hash(path.join(root, tsPath)),
   broadSHA256: hash(broadFile), thresholdSHA256: hash(thresholdFile),
   swift: run('swift', ['--version']).trim(), node: process.version,
   clang: run('clang', ['--version']).trim(),
-  compilerFlags: 'C: -O2 -fno-fast-math -ffp-contract=off; Swift: -Onone; TS: strict ES2019 CommonJS',
+  compilerFlags: portable ? `Swift: ${swiftFlag}; TS: strict ES2019 CommonJS` : 'C: -O2 -fno-fast-math -ffp-contract=off; Swift: -Onone; TS: strict ES2019 CommonJS',
   stats, acceptance: stats.distanceExactMismatches === 0 && stats.nativeJSNumericStepMismatches === 0
     && stats.nativeJSDecisionStepMismatches === 0 ? 'EXACT_FOR_CORPUS_ONLY' : 'EXACT_PARITY_FAILED',
-  limitations: ['Swift uses native C, not a pure-Swift transcription', 'No Lens runtime execution',
+  limitations: [...(portable ? [] : ['Swift uses native C, not a pure-Swift transcription']), 'No Lens runtime execution',
     'Processor-level replay only; no MovementEngine, events, Bond or memory replay',
     'Adversarial selection is not real-world incidence', 'No production adoption authorized']};
 write('distance-results.json', JSON.stringify(distanceRows));

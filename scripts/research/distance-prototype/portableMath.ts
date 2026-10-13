@@ -66,3 +66,12 @@ export function portableAtan2(y: number, x: number): number {
   return signed(a, y);
 }
 export function portableSqrt(x: number): number { return Math.sqrt(x); }
+export function portableCbrt(x: number): number {
+  if (!Number.isFinite(x) || x === 0) return x;
+  let a = Math.abs(x), scale = 1;
+  while (a >= 8) { a = div(a, 8); scale = mul(scale, 2); }
+  while (a < 1) { a = mul(a, 8); scale = div(scale, 2); }
+  let r = 2;
+  for (let k = 0; k < 12; k++) r = div(add(mul(2, r), div(a, mul(r, r))), 3);
+  return signed(mul(r, scale), x);
+}

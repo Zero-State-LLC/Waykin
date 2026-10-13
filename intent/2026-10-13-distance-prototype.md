@@ -29,6 +29,9 @@ manifest changes, or merge. Candidate phase one uses Swift-to-C GeographicLib
 2.2 and TypeScript-to-JS GeographicLib 2.2.0. This is not a pure-Swift port or
 a claim of Lens compatibility. Native/JS mismatch is a valid negative result.
 Vendor downloads stay outside the repository and are checked by SHA-256.
+Phase two includes an attributed pure-Swift distance-only adaptation and
+matched ES2019 primitives under the approved extension. Its upstream MIT
+notice is included. No production source is changed.
 
 ## Open questions
 
@@ -44,7 +47,7 @@ evidence gates. User approval is required before production adoption.
 | Current movement speed parity fails | OBSERVED | CI 38460523367, 84 pass / 1 fail |
 | Ellipsoidal tolerance alone preserves decisions | Not assumed | Prior threshold experiment contradicts it |
 | Native and JS GeographicLib implement the documented geodesic algorithm | OBSERVED | Official C/JS documentation |
-| Candidate exact cross-runtime parity | NOT_COMPUTABLE | This experiment measures it |
+| Candidate exact cross-runtime parity on measured corpus | OBSERVED | PORTABLE_GEODESIC_20261013: 42,864 distances and 172,032 processor steps in debug/optimized Swift; not a global proof |
 | Physical behavior or Lens numeric agreement | NOT_COMPUTABLE | No device/runtime execution |
 
 ## Author / date

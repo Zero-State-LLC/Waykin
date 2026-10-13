@@ -13,6 +13,7 @@ struct PortableMathProbe {
             case "cos": result = PortableMath.cos(args[0]); native = cos(args[0])
             case "atan2": result = PortableMath.atan2(args[0], args[1]); native = atan2(args[0], args[1])
             case "sqrt": result = PortableMath.sqrt(args[0]); native = sqrt(args[0])
+            case "cbrt": result = PortableMath.cbrt(args[0]); native = cbrt(args[0])
             default: fatalError("Unsupported portable primitive")
             }
             return ["bits": args.map { String(format: "%016llx", $0.bitPattern) },

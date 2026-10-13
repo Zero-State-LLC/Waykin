@@ -2,7 +2,8 @@
 
 User approved the deterministic-math / pure-Swift prototype extension on
 2026-10-13. This layer is isolated under `scripts/research`; it is neither a
-production library nor a completed inverse-geodesic implementation.
+production library. The isolated inverse-geodesic integration is documented
+in `docs/design/receipts/PORTABLE_GEODESIC_20261013.md` from the repository root.
 
 ## Arithmetic contract
 
@@ -23,6 +24,11 @@ production library nor a completed inverse-geodesic implementation.
 - Sqrt uses Swift `Double.squareRoot()` and JS `Math.sqrt()`. Sampled bit
   agreement is verified, not proof for every runtime/input. A Lens discrepancy
   must fail the gate and be investigated rather than tolerated.
+- Cbrt preserves zero signs and nonfinite inputs. Normalize magnitude into
+  [1,8) using exact power-of-eight scaling; start at 2 and perform exactly 12
+  Newton updates `(2*r + a/(r*r))/3`, then restore scale/sign. This covers the
+  antipodal astroid solver without host pow/cbrt. Tests include subnormals and
+  extreme finite inputs; the separate relative-error sanity bound is 2e-15.
 - Cross-language parity compares every finite result and signed zero by bits.
   NaN is a semantic invalid result; NaN payload bits are not a contract.
 - Exact-bit hex transport is mandatory for research inputs and outputs.
@@ -51,13 +57,14 @@ rounding, and is not a proven global mathematical error bound. A matching pair
 of wrong implementations would not suffice; domain and accuracy checks remain
 separate from exact cross-language assertions.
 
-## Integration not yet established
+## Integration limits
 
-Keep this layer out of production until a pure-Swift inverse-geodesic prototype
-uses the same evaluation sequence as TypeScript and passes distance, processor,
-MovementEngine and downstream migration gates. Verify all trigonometric call
+The pure-Swift inverse prototype now passes sampled exact distance and processor
+comparisons in debug and optimized builds. Keep it out of production pending
+MovementEngine and downstream migration gates and separate approval. Verify all trigonometric call
 arguments stay within this layer's documented domain. Do not silently fall
 back to host trig or sphere outside that domain. GeographicLib's native/JS
-normalization and angle-special-case differences still need reconciliation.
+normalization and angle-special-case differences are reconciled in the research
+transcription; this is tested corpus evidence, not a proof over all binary64 inputs.
 Lens-runtime evidence and performance are separate gates. Exact agreement on
 the primitive corpus is not proof of full port completion.

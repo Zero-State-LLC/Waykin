@@ -85,6 +85,12 @@ extension after native/JS differences were established. The primitive layer's
 first gate is recorded in `receipts/PORTABLE_MATH_20261013.md`; successful
 primitive tests do not establish a working geodesic port or approve production.
 
+The integrated pure-Swift candidate now passes 42,864 exact distance cases and
+172,032 processor steps against the matched JS backend in debug and optimized
+builds. See `receipts/PORTABLE_GEODESIC_20261013.md`. CoreLocation migration
+still changes 264 processor decision steps in the adversarial corpus;
+MovementEngine/downstream, Lens execution and production approval remain open.
+
 1. Open/approve a bounded reference-distance issue and ADR. Record the exact
    Swift/TypeScript paths and call-site inventory, original reference SHA,
    migration domain and algorithm/version; amend the freeze explicitly.
