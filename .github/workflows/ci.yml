@@ -76,6 +76,10 @@ jobs:
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: |
+          brew install xcodegen
+          xcodegen --version
       - name: Swift version
         run: swift --version
       - name: Build Swift package
