@@ -2,12 +2,11 @@
 
 **Status: SKELETON — this directory does not yet open as a Lens Studio project.**
 
-Everything in this folder that a lens *needs* at runtime (the `.esproj`, the
-scene graph, prefabs, imported assets, permission declarations, the Spectacles
-Interaction Kit) can only be produced by the Lens Studio desktop editor, which
-cannot run in this repository or in CI. What is committed here is the part that
-*can* be reviewed and diffed as text: the adapter interfaces and the generated
-TypeScript core.
+The `.esproj`, scene graph, prefabs, imported assets, permission declarations,
+and Spectacles Interaction Kit still require the Lens Studio desktop editor;
+none is verified in CI. What is committed here is reviewable text: adapter
+interfaces and the generated TypeScript core. The current core copy is not
+Lens ES2019-compatible yet (NC-04), despite its Node parity checks.
 
 ---
 
@@ -28,8 +27,8 @@ Committed and reviewable as text (no editor required):
 **TODO(editor)** — must be done in Lens Studio (desktop), not here:
 
 1. Create the Lens Studio project in this directory and save it as
-   `spectacles/WaykinLens/WaykinLens.esproj`.
-2. Add the **Spectacles Interaction Kit** package to the project.
+   `spectacles/WaykinLens/WaykinLens.esproj` (T003).
+2. Add the **Spectacles Interaction Kit** and **Spectacles UI Kit** packages per NC-05.
 3. Import `Assets/Scripts/**` into the project (Lens Studio picks up the folder
    as-is; confirm each script compiles and attach the components to scene
    objects).
@@ -39,9 +38,10 @@ Committed and reviewable as text (no editor required):
    semantic cue kind (see `AudioAdapter.ts`).
 6. Wire the scene objects: camera / head binding, walker anchor, Lira anchor,
    audio emitter pool, and the demo driver object.
-7. Declare permissions in the Lens Studio project settings:
-   **RawLocation** and **Internet** (Internet is required for the glTF/text
-   asset fetch and any remote asset resolution). Nothing else.
+7. Declare **RawLocation only** in the Lens Studio project settings (D-301/CF-29),
+   with no Internet permission descriptor. Bundle model, audio and text assets;
+   do not add a remote asset fetch. TST-051 and publishing must verify this on
+   device; if GPS needs an Internet descriptor, amend D-301 first.
 8. Do **not** enable any Experimental APIs in the project settings. If a feature
    needs an Experimental API, stop and raise it — the plan forbids it.
 
@@ -53,6 +53,7 @@ Committed and reviewable as text (no editor required):
 spectacles/WaykinLens/                 # Lens Studio project
 ├── WaykinLens.esproj                  # (TODO(editor)) project file
 ├── Assets/Scripts/core/               # GENERATED copy of waykin-core-ts (committed, do not edit)
+├── Assets/Scripts/logic/               # (T043 TODO) pure, Node-tested Lens logic
 ├── Assets/Scripts/adapters/
 │   ├── LocationAdapter.ts             # location seam
 │   ├── AudioAdapter.ts                # semantic cue seam
@@ -78,25 +79,31 @@ list lives there.
 
 | Path | Task(s) | Notes |
 | --- | --- | --- |
-| `scripts/sync_core_ts.sh` | **T003** | Core → Lens sync + `--check` used by CI. |
-| `Assets/Scripts/core/*.ts` | **T003** | Generated; parity-tested upstream. |
-| `Assets/Scripts/adapters/LocationAdapter.ts` | **T018** | `GeoLocationAccuracy.Navigation`, ~1 s poll. |
-| `Assets/Scripts/adapters/AudioAdapter.ts` | **T019** | Seven provisional cue kinds; final names come from the `audioSemantics` port (**T014**). |
-| `Assets/Scripts/adapters/LiraPresenter.ts` | **T020** | Behavior keyed by `WorldEventKind | 'idle'`. |
-| `Assets/Scripts/adapters/StorageAdapter.ts` | **T021** | Bond + ≤5 memories, no coordinates. |
-| `Assets/Scripts/presentation/LiraController.ts` | **T022–T024** | `TODO(editor)`: bind presenter to scene objects. |
-| `Assets/Scripts/presentation/IntroPanel.ts` | **T025–T026** | `TODO(editor)`: start + permission prompts. |
-| `Assets/Scripts/presentation/SummaryPanel.ts` | **T027–T028** | `TODO(editor)`: bond/memory recap, privacy-safe. |
-| `Assets/Lira/` (glTF, materials) | **T029–T030** | `TODO(editor)`: import + rig. |
-| `Assets/Audio/` (cue clips) | **T031** | `TODO(editor)`: one clip per `AudioCueKind`. |
-| `Assets/Scripts/demo/DemoDriver.ts` | **T032–T033** | `TODO(editor)`: Demo Walk arc. |
-| Permissions `RawLocation` + `Internet`, no Experimental APIs | **T034** | `TODO(editor)`: project settings. |
+| `scripts/sync_core_ts.sh`, `Assets/Scripts/core/*.ts` | **T004, T011–T017** | Generated; only seed-event subset currently parity-tested in Node. Lens ES2019 `2×uint32` still open. |
+| `WaykinLens.esproj`, editor scene | **T003, T050–T053** | `TODO(editor)`: no project file or Preview receipt yet. |
+| `Assets/Scripts/adapters/LocationAdapter.ts` | **T024, T058** | Currently interface only; Navigation accuracy and ~1 s poll remain to implement. |
+| `Assets/Scripts/adapters/AudioAdapter.ts` | **T020, T056** | Currently interface only; semantic cue planner/asset wiring open. |
+| `Assets/Scripts/adapters/LiraPresenter.ts` | **T019, T059** | Currently interface only; presenter implementation open. |
+| `Assets/Scripts/adapters/StorageAdapter.ts` | **T030, T057** | Currently interface only; Bond and ≤5 memories open. |
+| `Assets/Scripts/presentation/LiraController.ts` | **T019** | `TODO(editor)`: bind presentation to scene objects. |
+| `Assets/Scripts/presentation/IntroPanel.ts` | **T022, T065** | `TODO(editor)`: start and permission UX. |
+| `Assets/Scripts/presentation/SummaryPanel.ts` | **T031** | `TODO(editor)`: Bond/memory recap, privacy-safe. |
+| `Assets/Lira/` (glTF, materials) | **T045, T046, T050** | `TODO(editor)`: import and rig. |
+| `Assets/Audio/` (cue clips) | **T047, T053** | `TODO(editor)`: accepted 9-file catalog, excluding launch/reveal. |
+| `Assets/Scripts/demo/DemoDriver.ts` | **T021, T023** | `TODO(editor)`: Demo Walk arc and Preview test. |
+| Permission: RawLocation only; no Experimental APIs | **T027, TST-051** | `TODO(editor/device)`: project settings and physical confirmation. |
+| Battery guard vs drain | **T206 vs T202** | Implement D-061 in Lens; measure drain separately on hardware (`Zero-State-LLC/Waykin#13`). |
 
 ---
 
 ## 4. How core sync works
 
 One TypeScript source serves both the parity tests and the lens.
+
+**Current limit:** The synced source still uses `BigInt`/`bigint` and the Lens
+target is ES2019. Passing Node 22 seed-event parity and sync checks does **not**
+prove Lens compilation. T011 must replace it with an ES2019-safe `2×uint32`
+implementation and run Swift-vector parity again before T003/T023 Preview claims.
 
 ```text
 packages/waykin-core-ts/src/*.ts   (source of truth, npm + node:test)
