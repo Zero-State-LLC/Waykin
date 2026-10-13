@@ -1,0 +1,549 @@
+{
+  "cases" : [
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira stayed close during a quiet 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira stayed close during a quiet 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0.90000000000000002
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira stayed close during a quiet 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira stayed close during a quiet 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1.9999990000000001
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+
+      ],
+      "expected" : {
+        "bondDelta" : 2,
+        "memoryText" : "Lira stayed close during a quiet 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 2
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+
+      ],
+      "expected" : {
+        "bondDelta" : 12,
+        "memoryText" : "Lira stayed close during a quiet 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 12.5
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "bondMoment"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira shared a familiar motif during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "bondMoment"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira shared a familiar motif during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0.90000000000000002
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "bondMoment"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira shared a familiar motif during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "bondMoment"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira shared a familiar motif during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1.9999990000000001
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "bondMoment"
+      ],
+      "expected" : {
+        "bondDelta" : 2,
+        "memoryText" : "Lira shared a familiar motif during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 2
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "bondMoment"
+      ],
+      "expected" : {
+        "bondDelta" : 12,
+        "memoryText" : "Lira shared a familiar motif during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 12.5
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira watched the path during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira watched the path during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0.90000000000000002
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira watched the path during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira watched the path during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1.9999990000000001
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves"
+      ],
+      "expected" : {
+        "bondDelta" : 2,
+        "memoryText" : "Lira watched the path during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 2
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves"
+      ],
+      "expected" : {
+        "bondDelta" : 12,
+        "memoryText" : "Lira watched the path during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 12.5
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionDrawsNear"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira drew close during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionDrawsNear"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira drew close during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0.90000000000000002
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionDrawsNear"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira drew close during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionDrawsNear"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira drew close during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1.9999990000000001
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionDrawsNear"
+      ],
+      "expected" : {
+        "bondDelta" : 2,
+        "memoryText" : "Lira drew close during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 2
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionDrawsNear"
+      ],
+      "expected" : {
+        "bondDelta" : 12,
+        "memoryText" : "Lira drew close during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 12.5
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira noticed a distant presence during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira noticed a distant presence during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0.90000000000000002
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira noticed a distant presence during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira noticed a distant presence during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1.9999990000000001
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence"
+      ],
+      "expected" : {
+        "bondDelta" : 2,
+        "memoryText" : "Lira noticed a distant presence during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 2
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence"
+      ],
+      "expected" : {
+        "bondDelta" : 12,
+        "memoryText" : "Lira noticed a distant presence during a 123m walk.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 12.5
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira noticed a distant presence and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira noticed a distant presence and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0.90000000000000002
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira noticed a distant presence and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira noticed a distant presence and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1.9999990000000001
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 2,
+        "memoryText" : "Lira noticed a distant presence and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 2
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 12,
+        "memoryText" : "Lira noticed a distant presence and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 12.5
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves",
+        "companionDrawsNear",
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira watched the path, drew close when a distant presence appeared, and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves",
+        "companionDrawsNear",
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira watched the path, drew close when a distant presence appeared, and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 0.90000000000000002
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves",
+        "companionDrawsNear",
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira watched the path, drew close when a distant presence appeared, and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves",
+        "companionDrawsNear",
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 1,
+        "memoryText" : "Lira watched the path, drew close when a distant presence appeared, and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 1.9999990000000001
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves",
+        "companionDrawsNear",
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 2,
+        "memoryText" : "Lira watched the path, drew close when a distant presence appeared, and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 2
+    },
+    {
+      "distanceMeters" : 123.90000000000001,
+      "eventKinds" : [
+        "companionObserves",
+        "companionDrawsNear",
+        "distantPresence",
+        "pursuitFades"
+      ],
+      "expected" : {
+        "bondDelta" : 12,
+        "memoryText" : "Lira watched the path, drew close when a distant presence appeared, and stayed beside you until it faded.",
+        "outcome" : "COMPLETED"
+      },
+      "progress" : 12.5
+    }
+  ],
+  "defaultCompanion" : {
+    "archetype" : "explorer",
+    "bondLevel" : 12,
+    "id" : "6C697261-0001-4000-8000-000000000001",
+    "lastSessionID" : null,
+    "memories" : [
+
+    ],
+    "name" : "Lira"
+  },
+  "family" : "bond-memory",
+  "schemaVersion" : 1,
+  "source" : {
+    "generatedBy" : "WaykinVectorExport",
+    "swiftTree" : "94eaeb810901d089f89d17ed631534a4b56b0da6"
+  },
+  "vectorId" : "finish-and-identity"
+}

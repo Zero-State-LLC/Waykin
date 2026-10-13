@@ -18,6 +18,17 @@ The authoritative inputs are `spec.md`, `plan.md`, `data-model.md`, and `contrac
 
 ## 0. Prerequisites
 
+**Target amendment, 2026-10-13 (accepted D-325):** Execute this checklist for
+**SPECS 27**. The historical 2024 pins in the table below are superseded for
+this build: LSB-001 requires **5.24.1.26100516**; LSB-003/004 use the checked-in
+SIK/SUIK artifacts, each descriptor **2.0.0** (SIK runtime banner **0.18.0**).
+The separate SUIK release identity remains `NOT_COMPUTABLE`. LSB-002 must record
+the actual paired SPECS 27 OS and establish compatibility; the old OS minimum
+is not evidence for the new device. LSB-010 uses the SPECS base template and
+LSB-011 verifies the **SPECS 27** Preview header. All other acceptance gates
+remain in force. Historical source links below are not proof of SPECS 27 API
+or hardware behavior.
+
 | Id | Item | Value | Source |
 |---|---|---|---|
 | LSB-001 | Lens Studio | **5.15.4** exactly. 5.15.x is the last series for Spectacles (2024); never use 5.2x, which is for SPECS 27 (NC-05) | https://ar.snap.com/spectacles; location doc minimum is v5.7.0 (https://developers.snap.com/spectacles/about-spectacles-features/apis/location) |
@@ -167,6 +178,37 @@ The core module is `Assets/Scripts/core/index.ts`. Lens scripts import only from
 | `CanonicalCompanionIdentity.defaultCompanion` (bond 12) | `Sources/WaykinCore/Persistence/PersistenceStore.swift:37-51` | StorageAdapter |
 
 ### 3.2 Lens script files
+
+**Core port signature note (2026-10-13, #23; T044 still open):** the
+TypeScript boundary is present and exercised by
+`packages/waykin-core-ts/test/publicSurface.test.ts`. This is compilation and
+composition evidence, not completed Swift parity or an attached Lens runtime.
+
+- Construct `MovementEngine(now, newID, configuration?)` with adapter-owned
+  functions. Time values are seconds in one consistent clock domain.
+- Construct `DemoSessionController(movementEngine, { now, newID })`. The
+  controller has no scheduler; `advanceOneTick()` advances one simulated tick.
+  `runToEnd()` does not end the session and returns without advancing while
+  paused (#25). Call `end()` to obtain `{ session, result, summary }`.
+- Build context with `makeExperienceContext({ timeOfDay, activity, bondLevel,
+  eventSeed, activityEnergyHint })`; only timeOfDay and activity are required.
+  `eventSeed` is a two-word `U64`, constructed with `parseU64(decimalString)`.
+  `start(context)`, `update(state, movement, context)` and
+  `finish(state, session)` belong to `CompanionWalkExperience`.
+- Swift's overloaded runtime `apply` methods are `applyCommand(command)` and
+  `applyEvent(event)` in TypeScript. `arBehaviorString` takes one object with
+  `state`, optional `event` kind, `pursuitState`, `pathRelation` and
+  `pathIntegrityPressure`.
+- `AudioExperienceLayer.map(event)`,
+  `cueForARPresentationTransition(previous, next, elapsed, lastAudioElapsed,
+  intensity?)` and `momentCue(moment, intensity?)` are static. Stateful
+  `cue(event, now)` and `endSession()` belong to an instance.
+- `PathProgressEngine` exposes `reset(isDemo)`, `recordAccepted(snapshot)`,
+  `recordRejected()` and a copied `snapshot`. `PathAudioCoupling.cue(previous,
+  next, pursuitState, elapsed?, lastPathAudioElapsed?)` is static.
+- Identity creation returns a plain value. Applying Bond and persisting a
+  completed result remain adapter responsibilities; none of these APIs writes
+  persistent storage.
 
 All files live under `spectacles/WaykinLens/Assets/Scripts/`. Each is a `@component export class <Name> extends BaseScriptComponent`, as in the SIK and location doc examples.
 
