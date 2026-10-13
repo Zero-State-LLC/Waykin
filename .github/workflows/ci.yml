@@ -52,6 +52,10 @@ jobs:
         working-directory: packages/waykin-core-ts
         run: npm run typecheck
 
+      - name: Typecheck ES2019 Lens source
+        working-directory: packages/waykin-core-ts
+        run: npm run typecheck:lens
+
       - name: Isolation check (no Lens imports)
         working-directory: packages/waykin-core-ts
         run: npm run isolation

@@ -6,7 +6,7 @@
  * evaluateTraced() for the observable surface used by parity tests.
  */
 
-import { type U64, checkedAdd, toDecimal } from "./uint64.js";
+import { type U64, U64_ZERO as ZERO, U64_ONE as ONE, checkedAdd, cmp, eq, mod, parseU64, toDecimal } from "./uint64.js";
 import { SeededRandomNumberGenerator, type RngLike } from "./rng.js";
 import {
   clamped01,
@@ -15,8 +15,6 @@ import {
   type WorldState,
 } from "./worldState.js";
 
-const ZERO = BigInt(0);
-const ONE = BigInt(1);
 const DEFAULT_COOLDOWN = 20;
 const DEFAULT_WEIGHT: U64 = ONE;
 
@@ -61,7 +59,7 @@ export function makeRule(input: WorldEventRuleInput): WorldEventRule {
     maximumPressure: clamped01(input.maximumPressure ?? 1),
     minimumFamiliarity: clamped01(input.minimumFamiliarity ?? 0),
     minimumBondLevel: Math.max(0, input.minimumBondLevel ?? 0),
-    weight: weight < ONE ? ONE : weight,
+    weight: cmp(weight, ONE) < 0 ? ONE : weight,
     cooldown: Math.max(0, input.cooldown ?? DEFAULT_COOLDOWN),
   };
 }
@@ -96,21 +94,21 @@ export function defaultRules(): WorldEventRule[] {
       kind: "quietInterval",
       minimumEnergy: 0,
       maximumPressure: 0.25,
-      weight: BigInt(3),
+      weight: parseU64("3"),
       cooldown: 28,
     }),
     makeRule({
       kind: "companionDrawsNear",
       minimumEnergy: 0.05,
       maximumPressure: 0.48,
-      weight: BigInt(7),
+      weight: parseU64("7"),
       cooldown: 24,
     }),
     makeRule({
       kind: "companionMovesAhead",
       minimumEnergy: 0.4,
       maximumPressure: 0.62,
-      weight: BigInt(4),
+      weight: parseU64("4"),
       cooldown: 30,
     }),
     makeRule({
@@ -118,14 +116,14 @@ export function defaultRules(): WorldEventRule[] {
       minimumEnergy: 0,
       minimumPressure: 0.04,
       maximumPressure: 0.55,
-      weight: BigInt(4),
+      weight: parseU64("4"),
       cooldown: 22,
     }),
     makeRule({
       kind: "distantPresence",
       minimumPressure: 0.24,
       maximumPressure: 0.7,
-      weight: BigInt(3),
+      weight: parseU64("3"),
       cooldown: 44,
     }),
     makeRule({
@@ -133,14 +131,14 @@ export function defaultRules(): WorldEventRule[] {
       minimumEnergy: 0.28,
       minimumPressure: 0.36,
       maximumPressure: 0.78,
-      weight: BigInt(2),
+      weight: parseU64("2"),
       cooldown: 70,
     }),
     makeRule({
       kind: "pursuitIntensifies",
       minimumPressure: 0.55,
       maximumPressure: 1,
-      weight: BigInt(3),
+      weight: parseU64("3"),
       cooldown: 48,
     }),
     makeRule({
@@ -148,20 +146,20 @@ export function defaultRules(): WorldEventRule[] {
       minimumEnergy: 0.5,
       minimumPressure: 0.18,
       maximumPressure: 0.55,
-      weight: BigInt(3),
+      weight: parseU64("3"),
       cooldown: 38,
     }),
     makeRule({
       kind: "familiarPlaceStirs",
       minimumFamiliarity: 0.3,
-      weight: BigInt(3),
+      weight: parseU64("3"),
       cooldown: 50,
     }),
     makeRule({
       kind: "bondMoment",
       minimumEnergy: 0.2,
       minimumBondLevel: 8,
-      weight: BigInt(3),
+      weight: parseU64("3"),
       cooldown: 60,
     }),
   ];
@@ -303,15 +301,15 @@ export class WorldEventGenerator {
 
     // Rule 8: exactly one draw per emitted event.
     const draw = this.rng.next();
-    const pick = totalWeight === ZERO ? ZERO : draw % totalWeight;
+    const pick = eq(totalWeight, ZERO) ? ZERO : mod(draw, totalWeight);
 
     // Rule 9: accumulate cursor in configuration order; boundary belongs to
     // the next rule; fallback to eligible[0] is unreachable but mirrored.
     let cursor = ZERO;
     let selected: WorldEventRule = eligible[0]!;
     for (const rule of eligible) {
-      cursor += rule.weight;
-      if (pick < cursor) {
+      cursor = checkedAdd(cursor, rule.weight);
+      if (cmp(pick, cursor) < 0) {
         selected = rule;
         break;
       }

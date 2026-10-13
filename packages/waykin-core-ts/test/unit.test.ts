@@ -10,7 +10,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { SeededRandomNumberGenerator, splitmix64Next } from "../src/rng.js";
-import { checkedAdd, parseU64, toDecimal } from "../src/uint64.js";
+import { U64_ZERO as ZERO, U64_ONE as ONE, UINT64_MAX as MASK64_U64, checkedAdd, parseU64, toDecimal } from "../src/uint64.js";
 import { makeWorldState } from "../src/worldState.js";
 import {
   WorldEventGenerator,
@@ -27,11 +27,11 @@ const GOLDEN_RATIO = BigInt("0x9E3779B97F4A7C15");
 const MUL_1 = BigInt("0xBF58476D1CE4E5B9");
 const MUL_2 = BigInt("0x94D049BB133111EB");
 const MASK64 = BigInt("0xFFFFFFFFFFFFFFFF");
-const ZERO = BigInt(0);
-const ONE = BigInt(1);
+const asBigInt = (value: U64): bigint => BigInt(toDecimal(value));
+const fromBigInt = (value: bigint): U64 => parseU64(value.toString());
 
 /** Straightforward reference SplitMix64 step (independent of rng.ts). */
-function refSplitMix64(state: U64): [U64, U64] {
+function refSplitMix64(state: bigint): [bigint, bigint] {
   const nextState = (state + GOLDEN_RATIO) & MASK64;
   let z = nextState;
   z = ((z ^ (z >> BigInt(30))) * MUL_1) & MASK64;
@@ -63,35 +63,35 @@ const BASE_STATE = makeWorldState({
 
 test("splitmix64Next: raw state 0 matches the well-known reference output", () => {
   const [nextState, output] = splitmix64Next(ZERO);
-  assert.strictEqual(nextState, GOLDEN_RATIO);
-  assert.strictEqual(output, BigInt("0xE220A8397B1DCDAF"));
+  assert.strictEqual(asBigInt(nextState), GOLDEN_RATIO);
+  assert.strictEqual(asBigInt(output), BigInt("0xE220A8397B1DCDAF"));
 });
 
 test("SeededRandomNumberGenerator(seed 0) matches reference stream", () => {
   const rng = new SeededRandomNumberGenerator(ZERO);
   // Swift maps seed 0 to the golden ratio as the initial *state*, then adds
   // the golden ratio again inside next() before mixing.
-  let state: U64 = GOLDEN_RATIO;
+  let state = GOLDEN_RATIO;
   for (let i = 0; i < 16; i++) {
     const [newState, expected] = refSplitMix64(state);
     state = newState;
-    assert.strictEqual(rng.next(), expected, `output ${i}`);
+    assert.deepStrictEqual(rng.next(), fromBigInt(expected), `output ${i}`);
   }
 });
 
 test("SeededRandomNumberGenerator(non-zero) uses the seed as state directly", () => {
   const seed = BigInt("0x123456789ABCDEF0");
-  const rng = new SeededRandomNumberGenerator(seed);
-  let state: U64 = seed;
+  const rng = new SeededRandomNumberGenerator(fromBigInt(seed));
+  let state = seed;
   for (let i = 0; i < 8; i++) {
     const [newState, expected] = refSplitMix64(state);
     state = newState;
-    assert.strictEqual(rng.next(), expected, `output ${i}`);
+    assert.deepStrictEqual(rng.next(), fromBigInt(expected), `output ${i}`);
   }
 });
 
 test("SeededRandomNumberGenerator.clone produces independent streams", () => {
-  const rng = new SeededRandomNumberGenerator(BigInt(42));
+  const rng = new SeededRandomNumberGenerator(fromBigInt(BigInt(42)));
   rng.next();
   const clone = rng.clone();
   const a = [rng.next(), rng.next()];
@@ -104,14 +104,14 @@ test("SeededRandomNumberGenerator.clone produces independent streams", () => {
   void refState;
   // The exact value here is less interesting than non-interference; the clone
   // is deterministic and independent, so just make sure the call succeeds.
-  assert.strictEqual(typeof c, "bigint");
+  assert.strictEqual(typeof c.hi, "number");
   void refExpected;
 });
 
 test("parseU64 accepts canonical decimals and rejects bad inputs", () => {
-  assert.strictEqual(parseU64("0"), ZERO);
-  assert.strictEqual(parseU64("1"), ONE);
-  assert.strictEqual(parseU64("18446744073709551615"), MASK64);
+  assert.deepStrictEqual(parseU64("0"), ZERO);
+  assert.deepStrictEqual(parseU64("1"), ONE);
+  assert.deepStrictEqual(parseU64("18446744073709551615"), MASK64_U64);
 
   for (const bad of ["18446744073709551616", "-1", "01", "", " 1", "1 ", "0x1", "1.0"]) {
     assert.throws(
@@ -123,9 +123,9 @@ test("parseU64 accepts canonical decimals and rejects bad inputs", () => {
 });
 
 test("checkedAdd throws on uint64 overflow", () => {
-  assert.strictEqual(checkedAdd(MASK64, ZERO), MASK64);
+  assert.deepStrictEqual(checkedAdd(MASK64_U64, ZERO), MASK64_U64);
   assert.throws(
-    () => checkedAdd(MASK64, ONE),
+    () => checkedAdd(MASK64_U64, ONE),
     (err: unknown) => err instanceof RangeError,
   );
 });
@@ -250,7 +250,7 @@ test("defaultRules mirrors Swift post-clamp values", () => {
 
 test("makeRule clamps weight >= 1 and cooldown >= 0", () => {
   const rule = makeRule({ kind: "quietInterval", weight: ZERO, cooldown: -5 });
-  assert.strictEqual(rule.weight, ONE);
+  assert.deepStrictEqual(rule.weight, ONE);
   assert.strictEqual(rule.cooldown, 0);
 });
 
@@ -402,7 +402,7 @@ test("clone preserves state and produces an independent generator", () => {
     minimumTickSpacing: 0,
     rules: [makeRule({ kind: "quietInterval", maximumPressure: 1, cooldown: 0 })],
   });
-  const original = new WorldEventGenerator(BigInt(7), configuration);
+  const original = new WorldEventGenerator(fromBigInt(BigInt(7)), configuration);
   original.evaluate({ state: BASE_STATE, elapsed: 0 });
   const clone = original.clone();
 
