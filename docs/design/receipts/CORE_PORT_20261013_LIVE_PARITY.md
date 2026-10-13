@@ -24,8 +24,15 @@ Draft PR: https://github.com/Zero-State-LLC/Waykin/pull/26.
 GitHub run 38456456558 independently passes Swift vector freshness and all
 134 Swift tests. Its repository-validation step fails earlier than local
 validation because XcodeGen is absent on the runner. Installing that CI
-prerequisite is proposed, awaiting approval. TypeScript CI reproduces the
-same movement step-11 mismatch. Full acceptance remains red.
+prerequisite was subsequently approved and added in commit `5e3e9f5`.
+Follow-up run [38458584302](https://github.com/Zero-State-LLC/Waykin/actions/runs/38458584302)
+is complete: XcodeGen installation and generation pass, as do Swift package
+build/tests and vector freshness. Repository validation now reaches the
+separate #24 collaboration-template failure: three required issue templates
+are absent and the PR template lacks required metadata and sections.
+TypeScript CI still reproduces the same movement step-11 mismatch
+(84 pass, one fail). Full acceptance remains red; no parity assertions were
+relaxed and no production distance model changed.
 
 Full port/T044 remain incomplete. The draft PR is for validation, not merge.
 The approved ellipsoidal experiment remains isolated; adoption requires a
