@@ -104,8 +104,12 @@ for (const p of pairs.filter(p => p.family !== 'edge')) for (const dt of [0.5, 1
 }
 const input = {pairs, sequences};
 write('input.json', JSON.stringify(input));
-write('swift.json', run(path.join(out, 'probe'), [path.join(out, 'input.json')]));
-const swift = JSON.parse(fs.readFileSync(path.join(out, 'swift.json'), 'utf8'));
+const bits = n => { const b = Buffer.alloc(8); b.writeDoubleBE(n); return 'bits:' + b.toString('hex'); };
+const fromBits = value => typeof value === 'string' && value.startsWith('bits:')
+  ? Buffer.from(value.slice(5), 'hex').readDoubleBE() : value;
+write('swift-input.json', JSON.stringify(input, (_, value) => typeof value === 'number' ? bits(value) : value));
+write('swift.json', run(path.join(out, 'probe'), [path.join(out, 'swift-input.json')]));
+const swift = JSON.parse(fs.readFileSync(path.join(out, 'swift.json'), 'utf8'), (_, value) => fromBits(value));
 const nativeByID = new Map(swift.distances.map(r => [r.id, r]));
 const adapter = require(path.join(out, 'js/candidate.js'));
 adapter.installResearchBackend(require(jsFile).Geodesic.WGS84);
@@ -143,7 +147,8 @@ for (const p of pairs) {
     stats.maximumAppleCandidateError[p.family] = Math.max(stats.maximumAppleCandidateError[p.family], error);
     if (error > 0.05) stats.migrationDistanceAbove005[p.family]++;
   }
-  distanceRows.push({...p, native: native.candidate, js: finite(js) ? js : String(js), apple: native.apple});
+  distanceRows.push({...p, native: finite(c) ? c : String(c), js: finite(js) ? js : String(js),
+    apple: finite(apple) ? apple : String(apple)});
 }
 // Independent sanity gates; exact cross-runtime mismatches are reported, not erased.
 for (const id of ['coincident', 'signed-zero', 'dateline-alias', 'north-pole', 'south-pole']) {
@@ -184,6 +189,7 @@ for (const [index, sequence] of sequences.entries()) {
   });
 }
 const manifest = {head: run('git', ['rev-parse', 'HEAD']).trim(), dependencies: pinned,
+  transport: 'All Swift numeric inputs and outputs use exact binary64 hex strings, not JSON decimal decoding',
   harnessSHA256: Object.fromEntries(['run.cjs', 'Probe.swift', 'candidate.ts'].map(name => [name, hash(path.join(__dirname, name))])),
   swiftSourceSHA256: hash(path.join(root, swiftPath)), tsSourceSHA256: hash(path.join(root, tsPath)),
   broadSHA256: hash(broadFile), thresholdSHA256: hash(thresholdFile),

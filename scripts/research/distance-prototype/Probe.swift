@@ -24,6 +24,9 @@ func researchDistance(_ lhs: LocationSample, _ rhs: LocationSample) -> Double {
 }
 
 func number(_ value: Any?) -> Double {
+    if let text = value as? String, text.hasPrefix("bits:") {
+        return Double(bitPattern: UInt64(text.dropFirst(5), radix: 16)!)
+    }
     if let n = value as? NSNumber { return n.doubleValue }
     switch value as? String {
     case "NaN": return .nan
@@ -33,13 +36,12 @@ func number(_ value: Any?) -> Double {
     }
 }
 func encode(_ n: Double) -> Any {
-    if n.isFinite { return n }
-    return n.isNaN ? "NaN" : (n > 0 ? "Infinity" : "-Infinity")
+    "bits:" + String(format: "%016llx", n.bitPattern)
 }
 func projection(_ s: StabilizedMovementSample) -> [String: Any] {
-    ["sampleInterval": s.sampleInterval, "distanceDelta": s.distanceDelta,
+    ["sampleInterval": encode(s.sampleInterval), "distanceDelta": encode(s.distanceDelta),
      "isMoving": s.isMoving, "hasPoint": s.point != nil,
-     "speed": s.diagnostic.derivedSpeedMetersPerSecond,
+     "speed": encode(s.diagnostic.derivedSpeedMetersPerSecond),
      "disposition": s.diagnostic.disposition.rawValue,
      "accuracyBucket": s.diagnostic.accuracyBucket.rawValue,
      "accumulatedDistance": s.diagnostic.accumulatedDistance]

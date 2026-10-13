@@ -1,5 +1,11 @@
 # Distance prototype: native/JS candidate does not pass exact parity
 
+**SUPERSEDED COUNTS:** The first experiment below used Foundation decimal JSON
+decoding, which can change input binary64 bits. Its same-input numeric counts
+are therefore confounded. See [the corrected report](DISTANCE_PROTOTYPE_20261013_CORRECTED.md)
+for exact-bit transport, corrected counts and math-primitive evidence. Preserve
+this receipt and its JSON as historical evidence, not current acceptance.
+
 Authority: user approved the isolated prototype and migration comparison on
 2026-10-13. No production switch is authorized. Base is
 `e280d6b5f913ab423d5c2fd4c6b6435098025889`.

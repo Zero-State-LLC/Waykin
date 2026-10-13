@@ -48,6 +48,23 @@ Swift recalculates CoreLocation distances on the current host rather than
 trusting historical `appleMeters` fields. Corpus selection and numerical
 results can depend on the host's CoreLocation version; preserve input hashes.
 
+All numbers passed to Swift use `bits:<16 hex digits>` in `swift-input.json`.
+Swift also emits numeric outputs as raw binary64 bit strings. This avoids the
+observed rounding in Foundation JSONSerialization/NSNumber decimal decoding;
+`input.json` remains the readable Node corpus, not the Swift transport. Earlier
+results without this transport were confounded and are superseded.
+
+To measure individual math primitives using those same inputs:
+
+```sh
+node scripts/research/distance-prototype/math_probe.cjs "$research_dir/geographiclib-geodesic.min.js" /path/to/replay-output
+```
+
+This traces GeographicLib JS without changing its results, deduplicates math
+calls, and sends their argument bits to `MathProbe.swift`. Every returned input
+bit pattern is checked before comparing result bits. It reports native/JS
+differences, not proof that a particular primitive caused each geodesic error.
+
 ## Instrumentation and boundaries
 
 The runner copies the actual Swift and TS movement processors into its temp
