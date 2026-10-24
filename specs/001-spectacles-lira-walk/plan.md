@@ -13,10 +13,12 @@ You build a standalone Spectacles Lens in Lens Studio, scripted in TypeScript. T
 - **Primary dependencies**: Lens Studio, Spectacles Interaction Kit, and `RawLocationModule`/`LocationService`. The TypeScript core has zero runtime dependencies.
 - **Storage**: Lens persistent storage, on the device only.
 - **Testing**: Node `node:test` and `tsc` for the TypeScript core. Swift `make test` for the exporter. Lens Studio Preview for Demo Walk. Device receipts for outdoor behavior.
-- **Target platform**: Snap Spectacles (2024 developer units) and consumer Specs.
+- **Target platform**: SPECS 27 (D-325, user-approved 2026-10-13). This build does not target Spectacles (2024).
 - **Project type**: A Lens plus a pure-logic package alongside the existing iOS app.
 - **Performance goals**: Sustained 60 FPS. Power below 100% of the CPU/GPU budget in the Performance Overlay.
 - **Constraints**: GPS uses `Navigation` accuracy: up to 20 m, render-rate FUSED updates in good reception, otherwise one every 10 s (NC-01). Location requires a paired Snapchat account and an internet-connected device. Toolchain: Lens Studio 5.15.4, SIK 0.17.2, UI Kit 0.1.4 (NC-05). Developer units run about 45 minutes standalone, per Snap docs (`INFERRED`, not observed). The Lens uses no Experimental APIs.
+
+**2026-10-13 target amendment (D-325):** The user selected SPECS 27. This supersedes the legacy toolchain pins and 2024 battery assumption in the Constraints paragraph above: pin Lens Studio **5.24.1.26100516** and the checked-in SIK/SUIK artifacts (both descriptor version **2.0.0**; SIK runtime banner **0.18.0**). SUIK's separate release identity and device OS are `NOT_COMPUTABLE`. Revalidate platform APIs and physical behavior for SPECS 27; do not infer them from 2024 documentation. T003 remains incomplete because permission wiring and device evidence are pending. See `docs/design/receipts/LENS_BUILD_20261013T064330Z_3de19ae.md`.
 - **Scale and scope**: One walker, one session of up to 30 minutes, one companion.
 
 ## Constitution check

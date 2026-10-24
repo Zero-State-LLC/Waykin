@@ -111,7 +111,7 @@ public final class DemoSessionController {
     }
     
     public func runToEnd() {
-        guard let scenario = currentScenario, isRunning else { return }
+        guard let scenario = currentScenario, isRunning, !isPaused else { return }
         while tickIndex < scenario.ticks.count {
             advanceOneTick()
         }

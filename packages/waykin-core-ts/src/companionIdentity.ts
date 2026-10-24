@@ -1,0 +1,26 @@
+/** Plain core values. UUID and wall-clock creation belong to caller adapters. */
+export interface SessionMemory {
+  id: string;
+  sessionID: string;
+  text: string;
+  timestamp: number;
+}
+
+export interface Companion {
+  id: string;
+  name: string;
+  archetype: string;
+  bondLevel: number;
+  lastSessionID: string | null;
+  memories: SessionMemory[];
+}
+
+/** Mirrors CanonicalCompanionIdentity without importing platform persistence. */
+export class CanonicalCompanionIdentity {
+  static readonly liraID = "6C697261-0001-4000-8000-000000000001";
+
+  static defaultCompanion(bondLevel = 12): Companion {
+    return { id: this.liraID, name: "Lira", archetype: "explorer", bondLevel,
+      lastSessionID: null, memories: [] };
+  }
+}
