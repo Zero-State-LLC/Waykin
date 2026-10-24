@@ -1,3 +1,7 @@
+## Current next milestone — physical loop and AR evidence
+
+Waykin’s deterministic MVP is implemented, while physical-walk, outdoor audio/interruption, AR continuity, and HealthKit device evidence remain validation gates. The next milestone is a tip-matched device evidence pass covering those gates, with privacy-filtered receipts and no simulator-only readiness claim. Post-MVP AI Director material remains reference-only until separately promoted. No calendar ship date is claimed.
+
 # Waykin Roadmap
 
 > **North star (reference only):** [`docs/design/PRODUCT_VISION_NORTH_STAR.md`](docs/design/PRODUCT_VISION_NORTH_STAR.md) — AR companion across walks/runs/rides + fitness; later worldbuilding and user-designed companions/experiences. Gated path: [`docs/canonical/MVP_TO_VISION_LADDER.md`](docs/canonical/MVP_TO_VISION_LADDER.md). Near-term AR session redesign planning: [`docs/design/AR_PRODUCT_REDESIGN_MAP.md`](docs/design/AR_PRODUCT_REDESIGN_MAP.md) (**SUPPORTING**). This roadmap remains evidence-gated engineering for the **current** binding MVP.
