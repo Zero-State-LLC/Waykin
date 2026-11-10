@@ -120,6 +120,6 @@ This section is my standing authorization. Do not ask me to approve anything lis
 - Turn off a check or protection to get a merge through.
 
 ### Where things are
-- Keys: 1Password. Never ask for a pasted key; if you cannot find one, ask where it is stored and record the vault name here.
+- Keys: never in the tree, chat or logs. CI secrets are GitHub Actions secrets; app secrets live in the Keychain; local values live in gitignored `.dev.vars` or `.env`. If a value is missing, ask where it is stored; never ask for a paste.
 - Board: `ROADMAP.md`. Live plan: `docs/plans/`. Facts: `FACTS.md`. Hand-offs: `docs/handoff/NEXT.md`.
 - Hosting: no deploy target identified.
