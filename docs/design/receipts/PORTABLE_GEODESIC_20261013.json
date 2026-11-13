@@ -1,0 +1,287 @@
+{
+  "primitives": {
+    "outputDirectory": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-portable-math-dZPB7F",
+    "rows": 114579,
+    "inputSHA256": "c70820c5c4ba31020c162f1e718df9a716d01ad84c2b0ce031088e18bcdb45d6",
+    "sourceHashes": {
+      "PortableMath.swift": "33056fc714c3ad05ea5aca69e043723fca4b9780e753b174ed485f8c48d30c8b",
+      "portableMath.ts": "a95e5d0285cdd6cb29404ff294f185a91e3687a1dd0954cf2ea45d6afb2d82f1",
+      "PortableMathProbe.swift": "a97fcf10b792463c9bc36322b557f404d27773b0e6f660fcf786052016796810",
+      "test_portable_math.cjs": "f1580781f475abfceafab5f865da1b193c653c312215b24e07e5736928bd77b5"
+    },
+    "modes": {
+      "-Onone": {
+        "sqrt": {
+          "cases": 23952,
+          "exactMismatches": 0,
+          "maximumDeviationFromJS": 0,
+          "maximumDeviationFromSwift": 0,
+          "maximumRelativeDeviationFromJS": 0
+        },
+        "sin": {
+          "cases": 22508,
+          "exactMismatches": 0,
+          "maximumDeviationFromJS": 4.440892098500626e-16,
+          "maximumDeviationFromSwift": 4.440892098500626e-16,
+          "maximumRelativeDeviationFromJS": 1
+        },
+        "cos": {
+          "cases": 22453,
+          "exactMismatches": 0,
+          "maximumDeviationFromJS": 5.551115123125783e-16,
+          "maximumDeviationFromSwift": 5.551115123125783e-16,
+          "maximumRelativeDeviationFromJS": 1.133689349812608
+        },
+        "atan2": {
+          "cases": 25646,
+          "exactMismatches": 0,
+          "maximumDeviationFromJS": 4.440892098500626e-16,
+          "maximumDeviationFromSwift": 4.440892098500626e-16,
+          "maximumRelativeDeviationFromJS": 8.4773282855661e-16
+        },
+        "cbrt": {
+          "cases": 20020,
+          "exactMismatches": 0,
+          "maximumDeviationFromJS": 2.4866161820489332e+86,
+          "maximumDeviationFromSwift": 2.4866161820489332e+86,
+          "maximumRelativeDeviationFromJS": 2.219670822985405e-16
+        }
+      },
+      "-O": {
+        "sqrt": {
+          "cases": 23952,
+          "exactMismatches": 0,
+          "maximumDeviationFromJS": 0,
+          "maximumDeviationFromSwift": 0,
+          "maximumRelativeDeviationFromJS": 0
+        },
+        "sin": {
+          "cases": 22508,
+          "exactMismatches": 0,
+          "maximumDeviationFromJS": 4.440892098500626e-16,
+          "maximumDeviationFromSwift": 4.440892098500626e-16,
+          "maximumRelativeDeviationFromJS": 1
+        },
+        "cos": {
+          "cases": 22453,
+          "exactMismatches": 0,
+          "maximumDeviationFromJS": 5.551115123125783e-16,
+          "maximumDeviationFromSwift": 5.551115123125783e-16,
+          "maximumRelativeDeviationFromJS": 1.133689349812608
+        },
+        "atan2": {
+          "cases": 25646,
+          "exactMismatches": 0,
+          "maximumDeviationFromJS": 4.440892098500626e-16,
+          "maximumDeviationFromSwift": 4.440892098500626e-16,
+          "maximumRelativeDeviationFromJS": 8.4773282855661e-16
+        },
+        "cbrt": {
+          "cases": 20020,
+          "exactMismatches": 0,
+          "maximumDeviationFromJS": 2.4866161820489332e+86,
+          "maximumDeviationFromSwift": 2.4866161820489332e+86,
+          "maximumRelativeDeviationFromJS": 2.219670822985405e-16
+        }
+      }
+    },
+    "note": "Finite results and signed zero compare bit-exactly; NaN payloads are not part of the contract. Accuracy is sampled deviation from host libm, not proof of correct rounding.",
+    "acceptance": "EXACT_FOR_CORPUS_ONLY"
+  },
+  "geodesic": {
+    "outputDirectory": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-portable-geodesic-TYz1le",
+    "cases": 42864,
+    "inputSHA256": "478bfbcace12289d9e933ef84cc70668c11d25b5e5ef1826b2832747fd8afe1a",
+    "node": "v22.23.1",
+    "swift": "Apple Swift version 6.3.2 (swiftlang-6.3.2.1.108 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0",
+    "sourceHashes": {
+      "PortableMath.swift": "33056fc714c3ad05ea5aca69e043723fca4b9780e753b174ed485f8c48d30c8b",
+      "portableMath.ts": "a95e5d0285cdd6cb29404ff294f185a91e3687a1dd0954cf2ea45d6afb2d82f1",
+      "PortableGeodesic.swift": "9f97a7fc00007262308bed0e412ac8904cdcce498b65c9f20fc1f105a40be9d7",
+      "PortableGeodesicProbe.swift": "a4a6e0df89a37ccf8d5337135fee734ff24807e9ada2370875d8bc8cf64d2f69",
+      "portable_backend.cjs": "ba5f2bff1e01a9d441cb4776366ccbfb8176d88937028ab14514a61185c9ebe3",
+      "test_portable_geodesic.cjs": "cdc5812dc7d54f745f2226ca5865b921f69ba474888f413b41b96e3a49eee075"
+    },
+    "maximumDeviationFromUnmodifiedJS": 7.450580596923828e-9,
+    "modes": {
+      "-Onone": {
+        "exactMismatches": 0
+      },
+      "-O": {
+        "exactMismatches": 0
+      }
+    },
+    "primitiveCalls": {
+      "sqrt": {
+        "count": 1025648,
+        "maximumAbsoluteArgument": 24.513491855273646
+      },
+      "sin": {
+        "count": 231471,
+        "maximumAbsoluteArgument": 3.1415926536060934
+      },
+      "cos": {
+        "count": 250527,
+        "maximumAbsoluteArgument": 3.1415926536060934
+      },
+      "atan2": {
+        "count": 282239,
+        "maximumAbsoluteArgument": 1.0000000000000002
+      },
+      "cbrt": {
+        "count": 415,
+        "maximumAbsoluteArgument": 2.9154378722846657
+      }
+    },
+    "optimizationMismatches": 0,
+    "acceptance": "EXACT_FOR_CORPUS_ONLY"
+  },
+  "processorDebug": {
+    "outputDirectory": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-distance-replay-bV77w9",
+    "head": "fb9748f9bbb46d6a5553d6607ac35b800f6c7af2",
+    "dependencies": {
+      "/private/tmp/waykin-distance-prototype.VDU6NF/geodesic.c": "87a91e0e30e7db839cbd1ef5aafea77487524958070565ff9155e50e9bead550",
+      "/private/tmp/waykin-distance-prototype.VDU6NF/geodesic.h": "a964a747bc4f388fb3a93cc9bc379aebe4cdd78b3ee909c071be711b82db4b10",
+      "/private/tmp/waykin-geographiclib-geodesic.min.js": "06e3512904b346575f475f14d0b27ea0979dbcd2b0eddebf5f1eeefd234395b5"
+    },
+    "backend": "Pure Swift WGS84 inverse / JS 2.2.0 with matched portable primitives",
+    "primitiveCalls": {
+      "sqrt": {
+        "count": 1085042,
+        "maximumAbsoluteArgument": 1.0067394967422765
+      },
+      "sin": {
+        "count": 413312,
+        "maximumAbsoluteArgument": 3.1415926536060934
+      },
+      "cos": {
+        "count": 410731,
+        "maximumAbsoluteArgument": 3.1415926536060934
+      },
+      "atan2": {
+        "count": 432303,
+        "maximumAbsoluteArgument": 1.0000000000000002
+      }
+    },
+    "transport": "All Swift numeric inputs and outputs use exact binary64 hex strings, not JSON decimal decoding",
+    "harnessSHA256": {
+      "run.cjs": "9832a2606f471cd3f7679f270ddf5bb8da33baeab087738dea5bf46d616e211f",
+      "Probe.swift": "61e2f581098f03f348ff98bdc34369e37e89ab34c126285600b80e44a99fc291",
+      "candidate.ts": "a5b479c75a90fd32c48ab5cff7338fcf3879d995315d7699442bbfb8f2b3922a",
+      "PortableMath.swift": "33056fc714c3ad05ea5aca69e043723fca4b9780e753b174ed485f8c48d30c8b",
+      "PortableGeodesic.swift": "9f97a7fc00007262308bed0e412ac8904cdcce498b65c9f20fc1f105a40be9d7",
+      "portableMath.ts": "a95e5d0285cdd6cb29404ff294f185a91e3687a1dd0954cf2ea45d6afb2d82f1",
+      "portable_backend.cjs": "ba5f2bff1e01a9d441cb4776366ccbfb8176d88937028ab14514a61185c9ebe3"
+    },
+    "swiftSourceSHA256": "cc87ec8963dbbcb4129dfd9847f631bc9e7e42d508fcaaf6716c1e8027457218",
+    "tsSourceSHA256": "ab39f73f4c3fc8ca82bb2bc23fe5df99bafda53f41d1504437d9d22efbf8bda7",
+    "broadSHA256": "2a9a66ffe4dd9d092331e0e7914b15f9ca905d8dafb44253cd6685d7e0c7a461",
+    "thresholdSHA256": "9de96e7305eec1fe9ee8636bafe465e8f8920a466d08ffadb5998b3e74793237",
+    "swift": "Apple Swift version 6.3.2 (swiftlang-6.3.2.1.108 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0",
+    "node": "v22.23.1",
+    "clang": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.3.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "compilerFlags": "Swift: -Onone; TS: strict ES2019 CommonJS",
+    "stats": {
+      "pairs": 2704,
+      "sequences": 10752,
+      "steps": 172032,
+      "distanceExactMismatches": 0,
+      "maximumNativeJSDistanceError": 0,
+      "migrationDistanceAbove005": {
+        "broad": 0,
+        "threshold": 0,
+        "edge": 3
+      },
+      "maximumAppleCandidateError": {
+        "broad": 0.039564363093859356,
+        "threshold": 0.006458268477203433,
+        "edge": 100326.8979849033
+      },
+      "nativeJSNumericStepMismatches": 0,
+      "nativeJSDecisionStepMismatches": 0,
+      "migrationNumericStepMismatches": 88472,
+      "migrationDecisionStepMismatches": 264
+    },
+    "acceptance": "EXACT_FOR_CORPUS_ONLY",
+    "limitations": [
+      "No Lens runtime execution",
+      "Processor-level replay only; no MovementEngine, events, Bond or memory replay",
+      "Adversarial selection is not real-world incidence",
+      "No production adoption authorized"
+    ]
+  },
+  "processorOptimized": {
+    "outputDirectory": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-distance-replay-9o34ja",
+    "head": "fb9748f9bbb46d6a5553d6607ac35b800f6c7af2",
+    "dependencies": {
+      "/private/tmp/waykin-distance-prototype.VDU6NF/geodesic.c": "87a91e0e30e7db839cbd1ef5aafea77487524958070565ff9155e50e9bead550",
+      "/private/tmp/waykin-distance-prototype.VDU6NF/geodesic.h": "a964a747bc4f388fb3a93cc9bc379aebe4cdd78b3ee909c071be711b82db4b10",
+      "/private/tmp/waykin-geographiclib-geodesic.min.js": "06e3512904b346575f475f14d0b27ea0979dbcd2b0eddebf5f1eeefd234395b5"
+    },
+    "backend": "Pure Swift WGS84 inverse / JS 2.2.0 with matched portable primitives",
+    "primitiveCalls": {
+      "sqrt": {
+        "count": 1085042,
+        "maximumAbsoluteArgument": 1.0067394967422765
+      },
+      "sin": {
+        "count": 413312,
+        "maximumAbsoluteArgument": 3.1415926536060934
+      },
+      "cos": {
+        "count": 410731,
+        "maximumAbsoluteArgument": 3.1415926536060934
+      },
+      "atan2": {
+        "count": 432303,
+        "maximumAbsoluteArgument": 1.0000000000000002
+      }
+    },
+    "transport": "All Swift numeric inputs and outputs use exact binary64 hex strings, not JSON decimal decoding",
+    "harnessSHA256": {
+      "run.cjs": "9832a2606f471cd3f7679f270ddf5bb8da33baeab087738dea5bf46d616e211f",
+      "Probe.swift": "61e2f581098f03f348ff98bdc34369e37e89ab34c126285600b80e44a99fc291",
+      "candidate.ts": "a5b479c75a90fd32c48ab5cff7338fcf3879d995315d7699442bbfb8f2b3922a",
+      "PortableMath.swift": "33056fc714c3ad05ea5aca69e043723fca4b9780e753b174ed485f8c48d30c8b",
+      "PortableGeodesic.swift": "9f97a7fc00007262308bed0e412ac8904cdcce498b65c9f20fc1f105a40be9d7",
+      "portableMath.ts": "a95e5d0285cdd6cb29404ff294f185a91e3687a1dd0954cf2ea45d6afb2d82f1",
+      "portable_backend.cjs": "ba5f2bff1e01a9d441cb4776366ccbfb8176d88937028ab14514a61185c9ebe3"
+    },
+    "swiftSourceSHA256": "cc87ec8963dbbcb4129dfd9847f631bc9e7e42d508fcaaf6716c1e8027457218",
+    "tsSourceSHA256": "ab39f73f4c3fc8ca82bb2bc23fe5df99bafda53f41d1504437d9d22efbf8bda7",
+    "broadSHA256": "2a9a66ffe4dd9d092331e0e7914b15f9ca905d8dafb44253cd6685d7e0c7a461",
+    "thresholdSHA256": "9de96e7305eec1fe9ee8636bafe465e8f8920a466d08ffadb5998b3e74793237",
+    "swift": "Apple Swift version 6.3.2 (swiftlang-6.3.2.1.108 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0",
+    "node": "v22.23.1",
+    "clang": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.3.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "compilerFlags": "Swift: -O; TS: strict ES2019 CommonJS",
+    "stats": {
+      "pairs": 2704,
+      "sequences": 10752,
+      "steps": 172032,
+      "distanceExactMismatches": 0,
+      "maximumNativeJSDistanceError": 0,
+      "migrationDistanceAbove005": {
+        "broad": 0,
+        "threshold": 0,
+        "edge": 3
+      },
+      "maximumAppleCandidateError": {
+        "broad": 0.039564363093859356,
+        "threshold": 0.006458268477203433,
+        "edge": 100326.8979849033
+      },
+      "nativeJSNumericStepMismatches": 0,
+      "nativeJSDecisionStepMismatches": 0,
+      "migrationNumericStepMismatches": 88472,
+      "migrationDecisionStepMismatches": 264
+    },
+    "acceptance": "EXACT_FOR_CORPUS_ONLY",
+    "limitations": [
+      "No Lens runtime execution",
+      "Processor-level replay only; no MovementEngine, events, Bond or memory replay",
+      "Adversarial selection is not real-world incidence",
+      "No production adoption authorized"
+    ]
+  }
+}

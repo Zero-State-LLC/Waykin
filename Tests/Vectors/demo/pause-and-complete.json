@@ -1,0 +1,1764 @@
+{
+  "family" : "demo",
+  "frames" : [
+    {
+      "action" : "start",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 2.5,
+          "state" : "follow"
+        },
+        "currentAudioCue" : null,
+        "currentEvent" : null,
+        "isPaused" : false,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 0,
+          "averageSpeedMetersPerSecond" : 0,
+          "currentSpeedMetersPerSecond" : 0,
+          "distanceMeters" : 0,
+          "elapsedTime" : 0,
+          "movementState" : "idle",
+          "route" : [
+
+          ]
+        },
+        "tickIndex" : 0,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 0,
+            "activeAudioCues" : [
+
+            ],
+            "eventHistory" : [
+
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : null,
+            "lastEventElapsed" : null,
+            "lastEventElapsedByKind" : {
+
+            },
+            "lastPresentedBehavior" : null,
+            "milestoneIndex" : 0,
+            "movementSeconds" : 0,
+            "pursuitState" : "inactive",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 0,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 0,
+              "energy" : 0,
+              "familiarity" : 0,
+              "movementState" : "idle",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 0,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "pause",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 2.5,
+          "state" : "follow"
+        },
+        "currentAudioCue" : null,
+        "currentEvent" : null,
+        "isPaused" : true,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 0,
+          "averageSpeedMetersPerSecond" : 0,
+          "currentSpeedMetersPerSecond" : 0,
+          "distanceMeters" : 0,
+          "elapsedTime" : 0,
+          "movementState" : "idle",
+          "route" : [
+
+          ]
+        },
+        "tickIndex" : 0,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 0,
+            "activeAudioCues" : [
+
+            ],
+            "eventHistory" : [
+
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : null,
+            "lastEventElapsed" : null,
+            "lastEventElapsedByKind" : {
+
+            },
+            "lastPresentedBehavior" : null,
+            "milestoneIndex" : 0,
+            "movementSeconds" : 0,
+            "pursuitState" : "inactive",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 0,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 0,
+              "energy" : 0,
+              "familiarity" : 0,
+              "movementState" : "idle",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 0,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "runToEnd",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 2.5,
+          "state" : "follow"
+        },
+        "currentAudioCue" : null,
+        "currentEvent" : null,
+        "isPaused" : true,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 0,
+          "averageSpeedMetersPerSecond" : 0,
+          "currentSpeedMetersPerSecond" : 0,
+          "distanceMeters" : 0,
+          "elapsedTime" : 0,
+          "movementState" : "idle",
+          "route" : [
+
+          ]
+        },
+        "tickIndex" : 0,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 0,
+            "activeAudioCues" : [
+
+            ],
+            "eventHistory" : [
+
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : null,
+            "lastEventElapsed" : null,
+            "lastEventElapsedByKind" : {
+
+            },
+            "lastPresentedBehavior" : null,
+            "milestoneIndex" : 0,
+            "movementSeconds" : 0,
+            "pursuitState" : "inactive",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 0,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 0,
+              "energy" : 0,
+              "familiarity" : 0,
+              "movementState" : "idle",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 0,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "resume",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 2.5,
+          "state" : "follow"
+        },
+        "currentAudioCue" : null,
+        "currentEvent" : null,
+        "isPaused" : false,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 0,
+          "averageSpeedMetersPerSecond" : 0,
+          "currentSpeedMetersPerSecond" : 0,
+          "distanceMeters" : 0,
+          "elapsedTime" : 0,
+          "movementState" : "moving",
+          "route" : [
+
+          ]
+        },
+        "tickIndex" : 0,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 0,
+            "activeAudioCues" : [
+
+            ],
+            "eventHistory" : [
+
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : null,
+            "lastEventElapsed" : null,
+            "lastEventElapsedByKind" : {
+
+            },
+            "lastPresentedBehavior" : null,
+            "milestoneIndex" : 0,
+            "movementSeconds" : 0,
+            "pursuitState" : "inactive",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 0,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 0,
+              "energy" : 0,
+              "familiarity" : 0,
+              "movementState" : "idle",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 0,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "advance",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 2.5,
+          "state" : "observe"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "ambient",
+          "debugLabel" : "companionObserves",
+          "intensity" : 0.63636363636363624,
+          "kind" : "quietShift",
+          "priority" : 1,
+          "shouldFade" : true,
+          "spatialBias" : "center"
+        },
+        "currentEvent" : {
+          "debugLabel" : "companionObserves",
+          "intensity" : 0.63636363636363624,
+          "kind" : "companionObserves"
+        },
+        "isPaused" : false,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 40,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 1.3999999999999999,
+          "distanceMeters" : 56,
+          "elapsedTime" : 40,
+          "movementState" : "moving",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 1,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 0.40000000000000002,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "ambient",
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "quietShift",
+                "priority" : 1,
+                "shouldFade" : true,
+                "spatialBias" : "center"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "companionObserves",
+              "intensity" : 0.63636363636363624,
+              "kind" : "companionObserves"
+            },
+            "lastEventElapsed" : 40,
+            "lastEventElapsedByKind" : {
+              "companionObserves" : 40
+            },
+            "lastPresentedBehavior" : "observe",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 40,
+            "pursuitState" : "inactive",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 40,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.03111111111111111,
+              "movementState" : "moving",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 56,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "pause",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 2.5,
+          "state" : "observe"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "ambient",
+          "debugLabel" : "companionObserves",
+          "intensity" : 0.63636363636363624,
+          "kind" : "quietShift",
+          "priority" : 1,
+          "shouldFade" : true,
+          "spatialBias" : "center"
+        },
+        "currentEvent" : {
+          "debugLabel" : "companionObserves",
+          "intensity" : 0.63636363636363624,
+          "kind" : "companionObserves"
+        },
+        "isPaused" : true,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 40,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 0,
+          "distanceMeters" : 56,
+          "elapsedTime" : 40,
+          "movementState" : "paused",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 1,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 0.40000000000000002,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "ambient",
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "quietShift",
+                "priority" : 1,
+                "shouldFade" : true,
+                "spatialBias" : "center"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "companionObserves",
+              "intensity" : 0.63636363636363624,
+              "kind" : "companionObserves"
+            },
+            "lastEventElapsed" : 40,
+            "lastEventElapsedByKind" : {
+              "companionObserves" : 40
+            },
+            "lastPresentedBehavior" : "observe",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 40,
+            "pursuitState" : "inactive",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 40,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.03111111111111111,
+              "movementState" : "moving",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 56,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "advance",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 2.5,
+          "state" : "observe"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "ambient",
+          "debugLabel" : "companionObserves",
+          "intensity" : 0.63636363636363624,
+          "kind" : "quietShift",
+          "priority" : 1,
+          "shouldFade" : true,
+          "spatialBias" : "center"
+        },
+        "currentEvent" : {
+          "debugLabel" : "companionObserves",
+          "intensity" : 0.63636363636363624,
+          "kind" : "companionObserves"
+        },
+        "isPaused" : true,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 40,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 0,
+          "distanceMeters" : 56,
+          "elapsedTime" : 40,
+          "movementState" : "paused",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 1,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 0.40000000000000002,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "ambient",
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "quietShift",
+                "priority" : 1,
+                "shouldFade" : true,
+                "spatialBias" : "center"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "companionObserves",
+              "intensity" : 0.63636363636363624,
+              "kind" : "companionObserves"
+            },
+            "lastEventElapsed" : 40,
+            "lastEventElapsedByKind" : {
+              "companionObserves" : 40
+            },
+            "lastPresentedBehavior" : "observe",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 40,
+            "pursuitState" : "inactive",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 40,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.03111111111111111,
+              "movementState" : "moving",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 56,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "runToEnd",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 2.5,
+          "state" : "observe"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "ambient",
+          "debugLabel" : "companionObserves",
+          "intensity" : 0.63636363636363624,
+          "kind" : "quietShift",
+          "priority" : 1,
+          "shouldFade" : true,
+          "spatialBias" : "center"
+        },
+        "currentEvent" : {
+          "debugLabel" : "companionObserves",
+          "intensity" : 0.63636363636363624,
+          "kind" : "companionObserves"
+        },
+        "isPaused" : true,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 40,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 0,
+          "distanceMeters" : 56,
+          "elapsedTime" : 40,
+          "movementState" : "paused",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 1,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 0.40000000000000002,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "ambient",
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "quietShift",
+                "priority" : 1,
+                "shouldFade" : true,
+                "spatialBias" : "center"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "companionObserves",
+              "intensity" : 0.63636363636363624,
+              "kind" : "companionObserves"
+            },
+            "lastEventElapsed" : 40,
+            "lastEventElapsedByKind" : {
+              "companionObserves" : 40
+            },
+            "lastPresentedBehavior" : "observe",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 40,
+            "pursuitState" : "inactive",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 40,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.03111111111111111,
+              "movementState" : "moving",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 56,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "resume",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 2.5,
+          "state" : "observe"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "ambient",
+          "debugLabel" : "companionObserves",
+          "intensity" : 0.63636363636363624,
+          "kind" : "quietShift",
+          "priority" : 1,
+          "shouldFade" : true,
+          "spatialBias" : "center"
+        },
+        "currentEvent" : {
+          "debugLabel" : "companionObserves",
+          "intensity" : 0.63636363636363624,
+          "kind" : "companionObserves"
+        },
+        "isPaused" : false,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 40,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 0,
+          "distanceMeters" : 56,
+          "elapsedTime" : 40,
+          "movementState" : "moving",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 1,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 0.40000000000000002,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "ambient",
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "quietShift",
+                "priority" : 1,
+                "shouldFade" : true,
+                "spatialBias" : "center"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "companionObserves",
+              "intensity" : 0.63636363636363624,
+              "kind" : "companionObserves"
+            },
+            "lastEventElapsed" : 40,
+            "lastEventElapsedByKind" : {
+              "companionObserves" : 40
+            },
+            "lastPresentedBehavior" : "observe",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 40,
+            "pursuitState" : "inactive",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 40,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.03111111111111111,
+              "movementState" : "moving",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 56,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "advance",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 1.2,
+          "state" : "drawNear"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "companion",
+          "debugLabel" : "companionDrawsNear",
+          "intensity" : 0.63636363636363624,
+          "kind" : "companionNear",
+          "priority" : 2,
+          "shouldFade" : true,
+          "spatialBias" : "left"
+        },
+        "currentEvent" : {
+          "debugLabel" : "companionDrawsNear",
+          "intensity" : 0.63636363636363624,
+          "kind" : "companionDrawsNear"
+        },
+        "isPaused" : false,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 80,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 1.3999999999999999,
+          "distanceMeters" : 112,
+          "elapsedTime" : 80,
+          "movementState" : "moving",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776020000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 2,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 0.80000000000000004,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "companion",
+                "debugLabel" : "companionDrawsNear",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionNear",
+                "priority" : 2,
+                "shouldFade" : true,
+                "spatialBias" : "left"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              },
+              {
+                "debugLabel" : "companionDrawsNear",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionDrawsNear"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "companionDrawsNear",
+              "intensity" : 0.63636363636363624,
+              "kind" : "companionDrawsNear"
+            },
+            "lastEventElapsed" : 80,
+            "lastEventElapsedByKind" : {
+              "companionDrawsNear" : 80,
+              "companionObserves" : 40
+            },
+            "lastPresentedBehavior" : "drawNear",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 80,
+            "pursuitState" : "inactive",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 80,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.06222222222222222,
+              "movementState" : "moving",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 112,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "advance",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 2.5,
+          "state" : "observe"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "pursuit",
+          "debugLabel" : "distantPresence",
+          "intensity" : 0.63636363636363624,
+          "kind" : "distantFootsteps",
+          "priority" : 3,
+          "shouldFade" : false,
+          "spatialBias" : "behind"
+        },
+        "currentEvent" : {
+          "debugLabel" : "distantPresence",
+          "intensity" : 0.63636363636363624,
+          "kind" : "distantPresence"
+        },
+        "isPaused" : false,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 120,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 1.3999999999999999,
+          "distanceMeters" : 168,
+          "elapsedTime" : 120,
+          "movementState" : "moving",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776020000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776580000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 3,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 1.2000000000000002,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "pursuit",
+                "debugLabel" : "distantPresence",
+                "intensity" : 0.63636363636363624,
+                "kind" : "distantFootsteps",
+                "priority" : 3,
+                "shouldFade" : false,
+                "spatialBias" : "behind"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              },
+              {
+                "debugLabel" : "companionDrawsNear",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionDrawsNear"
+              },
+              {
+                "debugLabel" : "distantPresence",
+                "intensity" : 0.63636363636363624,
+                "kind" : "distantPresence"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "distantPresence",
+              "intensity" : 0.63636363636363624,
+              "kind" : "distantPresence"
+            },
+            "lastEventElapsed" : 120,
+            "lastEventElapsedByKind" : {
+              "companionDrawsNear" : 80,
+              "companionObserves" : 40,
+              "distantPresence" : 120
+            },
+            "lastPresentedBehavior" : "observe",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 120,
+            "pursuitState" : "noticed",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 120,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.093333333333333338,
+              "movementState" : "moving",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 168,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "advance",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 1.8,
+          "state" : "follow"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "pursuit",
+          "debugLabel" : "pursuitBegins",
+          "intensity" : 0.63636363636363624,
+          "kind" : "distantFootsteps",
+          "priority" : 3,
+          "shouldFade" : false,
+          "spatialBias" : "behind"
+        },
+        "currentEvent" : {
+          "debugLabel" : "pursuitBegins",
+          "intensity" : 0.63636363636363624,
+          "kind" : "pursuitBegins"
+        },
+        "isPaused" : false,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 160,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 1.3999999999999999,
+          "distanceMeters" : 224,
+          "elapsedTime" : 160,
+          "movementState" : "moving",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776020000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776580000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.777140000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 4,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 1.6000000000000001,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "pursuit",
+                "debugLabel" : "pursuitBegins",
+                "intensity" : 0.63636363636363624,
+                "kind" : "distantFootsteps",
+                "priority" : 3,
+                "shouldFade" : false,
+                "spatialBias" : "behind"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              },
+              {
+                "debugLabel" : "companionDrawsNear",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionDrawsNear"
+              },
+              {
+                "debugLabel" : "distantPresence",
+                "intensity" : 0.63636363636363624,
+                "kind" : "distantPresence"
+              },
+              {
+                "debugLabel" : "pursuitBegins",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitBegins"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "pursuitBegins",
+              "intensity" : 0.63636363636363624,
+              "kind" : "pursuitBegins"
+            },
+            "lastEventElapsed" : 160,
+            "lastEventElapsedByKind" : {
+              "companionDrawsNear" : 80,
+              "companionObserves" : 40,
+              "distantPresence" : 120,
+              "pursuitBegins" : 160
+            },
+            "lastPresentedBehavior" : "follow",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 160,
+            "pursuitState" : "approaching",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 160,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.12444444444444444,
+              "movementState" : "moving",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 224,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "advance",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 1.8,
+          "state" : "follow"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "pursuit",
+          "debugLabel" : "pursuitIntensifies",
+          "intensity" : 0.63636363636363624,
+          "kind" : "pursuitPressure",
+          "priority" : 4,
+          "shouldFade" : false,
+          "spatialBias" : "behind"
+        },
+        "currentEvent" : {
+          "debugLabel" : "pursuitIntensifies",
+          "intensity" : 0.63636363636363624,
+          "kind" : "pursuitIntensifies"
+        },
+        "isPaused" : false,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 200,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 1.3999999999999999,
+          "distanceMeters" : 280,
+          "elapsedTime" : 200,
+          "movementState" : "moving",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776020000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776580000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.777140000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.777700000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 5,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 2,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "pursuit",
+                "debugLabel" : "pursuitIntensifies",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitPressure",
+                "priority" : 4,
+                "shouldFade" : false,
+                "spatialBias" : "behind"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              },
+              {
+                "debugLabel" : "companionDrawsNear",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionDrawsNear"
+              },
+              {
+                "debugLabel" : "distantPresence",
+                "intensity" : 0.63636363636363624,
+                "kind" : "distantPresence"
+              },
+              {
+                "debugLabel" : "pursuitBegins",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitBegins"
+              },
+              {
+                "debugLabel" : "pursuitIntensifies",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitIntensifies"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "pursuitIntensifies",
+              "intensity" : 0.63636363636363624,
+              "kind" : "pursuitIntensifies"
+            },
+            "lastEventElapsed" : 200,
+            "lastEventElapsedByKind" : {
+              "companionDrawsNear" : 80,
+              "companionObserves" : 40,
+              "distantPresence" : 120,
+              "pursuitBegins" : 160,
+              "pursuitIntensifies" : 200
+            },
+            "lastPresentedBehavior" : "follow",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 200,
+            "pursuitState" : "close",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 200,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.15555555555555556,
+              "movementState" : "moving",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 280,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "advance",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 4,
+          "state" : "lead"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "pursuit",
+          "debugLabel" : "pursuitFades",
+          "intensity" : 0.63636363636363624,
+          "kind" : "pursuitRelease",
+          "priority" : 3,
+          "shouldFade" : true,
+          "spatialBias" : "behind"
+        },
+        "currentEvent" : {
+          "debugLabel" : "pursuitFades",
+          "intensity" : 0.63636363636363624,
+          "kind" : "pursuitFades"
+        },
+        "isPaused" : false,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 240,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 1.3999999999999999,
+          "distanceMeters" : 336,
+          "elapsedTime" : 240,
+          "movementState" : "moving",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776020000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776580000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.777140000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.777700000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.778260000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 6,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 2.3999999999999999,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "pursuit",
+                "debugLabel" : "pursuitFades",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitRelease",
+                "priority" : 3,
+                "shouldFade" : true,
+                "spatialBias" : "behind"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              },
+              {
+                "debugLabel" : "companionDrawsNear",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionDrawsNear"
+              },
+              {
+                "debugLabel" : "distantPresence",
+                "intensity" : 0.63636363636363624,
+                "kind" : "distantPresence"
+              },
+              {
+                "debugLabel" : "pursuitBegins",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitBegins"
+              },
+              {
+                "debugLabel" : "pursuitIntensifies",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitIntensifies"
+              },
+              {
+                "debugLabel" : "pursuitFades",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitFades"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "pursuitFades",
+              "intensity" : 0.63636363636363624,
+              "kind" : "pursuitFades"
+            },
+            "lastEventElapsed" : 240,
+            "lastEventElapsedByKind" : {
+              "companionDrawsNear" : 80,
+              "companionObserves" : 40,
+              "distantPresence" : 120,
+              "pursuitBegins" : 160,
+              "pursuitFades" : 240,
+              "pursuitIntensifies" : 200
+            },
+            "lastPresentedBehavior" : "lead",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 240,
+            "pursuitState" : "fading",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 240,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.18666666666666668,
+              "movementState" : "moving",
+              "pressure" : 0,
+              "sessionDistanceMeters" : 336,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "advance",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 1.2,
+          "state" : "drawNear"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "bond",
+          "debugLabel" : "bondMoment",
+          "intensity" : 0.63636363636363624,
+          "kind" : "bondMotif",
+          "priority" : 5,
+          "shouldFade" : true,
+          "spatialBias" : "center"
+        },
+        "currentEvent" : {
+          "debugLabel" : "bondMoment",
+          "intensity" : 0.63636363636363624,
+          "kind" : "bondMoment"
+        },
+        "isPaused" : false,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 280,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 1.3999999999999999,
+          "distanceMeters" : 392,
+          "elapsedTime" : 280,
+          "movementState" : "moving",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776020000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776580000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.777140000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.777700000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.778260000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.778820000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 7,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 2.7999999999999998,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "bond",
+                "debugLabel" : "bondMoment",
+                "intensity" : 0.63636363636363624,
+                "kind" : "bondMotif",
+                "priority" : 5,
+                "shouldFade" : true,
+                "spatialBias" : "center"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              },
+              {
+                "debugLabel" : "companionDrawsNear",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionDrawsNear"
+              },
+              {
+                "debugLabel" : "distantPresence",
+                "intensity" : 0.63636363636363624,
+                "kind" : "distantPresence"
+              },
+              {
+                "debugLabel" : "pursuitBegins",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitBegins"
+              },
+              {
+                "debugLabel" : "pursuitIntensifies",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitIntensifies"
+              },
+              {
+                "debugLabel" : "pursuitFades",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitFades"
+              },
+              {
+                "debugLabel" : "bondMoment",
+                "intensity" : 0.63636363636363624,
+                "kind" : "bondMoment"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "bondMoment",
+              "intensity" : 0.63636363636363624,
+              "kind" : "bondMoment"
+            },
+            "lastEventElapsed" : 280,
+            "lastEventElapsedByKind" : {
+              "bondMoment" : 280,
+              "companionDrawsNear" : 80,
+              "companionObserves" : 40,
+              "distantPresence" : 120,
+              "pursuitBegins" : 160,
+              "pursuitFades" : 240,
+              "pursuitIntensifies" : 200
+            },
+            "lastPresentedBehavior" : "drawNear",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 280,
+            "pursuitState" : "fading",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 280,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.21777777777777776,
+              "movementState" : "moving",
+              "pressure" : 0.015555555555555559,
+              "sessionDistanceMeters" : 392,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "runToEnd",
+      "ended" : null,
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 1.2,
+          "state" : "drawNear"
+        },
+        "currentAudioCue" : {
+          "cooldownGroup" : "bond",
+          "debugLabel" : "bondMoment",
+          "intensity" : 0.63636363636363624,
+          "kind" : "bondMotif",
+          "priority" : 5,
+          "shouldFade" : true,
+          "spatialBias" : "center"
+        },
+        "currentEvent" : {
+          "debugLabel" : "bondMoment",
+          "intensity" : 0.63636363636363624,
+          "kind" : "bondMoment"
+        },
+        "isPaused" : false,
+        "isRunning" : true,
+        "scenarioID" : "calmDayWalk",
+        "session" : {
+          "activeTime" : 280,
+          "averageSpeedMetersPerSecond" : 1.3999999999999999,
+          "currentSpeedMetersPerSecond" : 1.3999999999999999,
+          "distanceMeters" : 392,
+          "elapsedTime" : 280,
+          "movementState" : "moving",
+          "route" : [
+            {
+              "altitude" : 10,
+              "latitude" : 37.775460000000002,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776020000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.776580000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.777140000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.777700000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.778260000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            },
+            {
+              "altitude" : 10,
+              "latitude" : 37.778820000000003,
+              "longitude" : -122.4194,
+              "speed" : 1.3999999999999999
+            }
+          ]
+        },
+        "tickIndex" : 7,
+        "walk" : {
+          "kind" : "companionWalk",
+          "value" : {
+            "accumulatedBondProgress" : 2.7999999999999998,
+            "activeAudioCues" : [
+              {
+                "cooldownGroup" : "bond",
+                "debugLabel" : "bondMoment",
+                "intensity" : 0.63636363636363624,
+                "kind" : "bondMotif",
+                "priority" : 5,
+                "shouldFade" : true,
+                "spatialBias" : "center"
+              }
+            ],
+            "eventHistory" : [
+              {
+                "debugLabel" : "companionObserves",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionObserves"
+              },
+              {
+                "debugLabel" : "companionDrawsNear",
+                "intensity" : 0.63636363636363624,
+                "kind" : "companionDrawsNear"
+              },
+              {
+                "debugLabel" : "distantPresence",
+                "intensity" : 0.63636363636363624,
+                "kind" : "distantPresence"
+              },
+              {
+                "debugLabel" : "pursuitBegins",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitBegins"
+              },
+              {
+                "debugLabel" : "pursuitIntensifies",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitIntensifies"
+              },
+              {
+                "debugLabel" : "pursuitFades",
+                "intensity" : 0.63636363636363624,
+                "kind" : "pursuitFades"
+              },
+              {
+                "debugLabel" : "bondMoment",
+                "intensity" : 0.63636363636363624,
+                "kind" : "bondMoment"
+              }
+            ],
+            "lastBehaviorAudioElapsed" : null,
+            "lastEvent" : {
+              "debugLabel" : "bondMoment",
+              "intensity" : 0.63636363636363624,
+              "kind" : "bondMoment"
+            },
+            "lastEventElapsed" : 280,
+            "lastEventElapsedByKind" : {
+              "bondMoment" : 280,
+              "companionDrawsNear" : 80,
+              "companionObserves" : 40,
+              "distantPresence" : 120,
+              "pursuitBegins" : 160,
+              "pursuitFades" : 240,
+              "pursuitIntensifies" : 200
+            },
+            "lastPresentedBehavior" : "drawNear",
+            "milestoneIndex" : 0,
+            "movementSeconds" : 280,
+            "pursuitState" : "fading",
+            "tone" : "curious",
+            "worldState" : {
+              "activeTime" : 280,
+              "bondLevel" : 0,
+              "currentSpeedMetersPerSecond" : 1.3999999999999999,
+              "energy" : 0.63636363636363624,
+              "familiarity" : 0.21777777777777776,
+              "movementState" : "moving",
+              "pressure" : 0.015555555555555559,
+              "sessionDistanceMeters" : 392,
+              "timeContext" : "midday"
+            }
+          }
+        }
+      }
+    },
+    {
+      "action" : "end",
+      "ended" : {
+        "result" : {
+          "bondDelta" : 2,
+          "memoryText" : "Lira watched the path, drew close when a distant presence appeared, and stayed beside you until it faded.",
+          "outcome" : "COMPLETED"
+        },
+        "summary" : {
+          "activeTime" : 280,
+          "activity" : "walk",
+          "averageSpeed" : 1.3999999999999999,
+          "bondDelta" : 2,
+          "distanceMeters" : 392,
+          "duration" : 280,
+          "experience" : "companion_walk",
+          "memoryText" : "Lira watched the path, drew close when a distant presence appeared, and stayed beside you until it faded.",
+          "outcome" : "COMPLETED",
+          "variant" : "midday"
+        }
+      },
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 1.2,
+          "state" : "drawNear"
+        },
+        "currentAudioCue" : null,
+        "currentEvent" : null,
+        "isPaused" : false,
+        "isRunning" : false,
+        "scenarioID" : null,
+        "session" : null,
+        "tickIndex" : 0,
+        "walk" : null
+      }
+    },
+    {
+      "action" : "end",
+      "ended" : {
+        "result" : null,
+        "summary" : null
+      },
+      "expected" : {
+        "companionRuntime" : {
+          "relativeDistance" : 1.2,
+          "state" : "drawNear"
+        },
+        "currentAudioCue" : null,
+        "currentEvent" : null,
+        "isPaused" : false,
+        "isRunning" : false,
+        "scenarioID" : null,
+        "session" : null,
+        "tickIndex" : 0,
+        "walk" : null
+      }
+    }
+  ],
+  "schemaVersion" : 1,
+  "source" : {
+    "generatedBy" : "WaykinVectorExport",
+    "swiftTree" : "94eaeb810901d089f89d17ed631534a4b56b0da6"
+  },
+  "vectorId" : "pause-and-complete"
+}

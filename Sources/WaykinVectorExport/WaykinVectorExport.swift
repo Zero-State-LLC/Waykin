@@ -1,11 +1,13 @@
 import Foundation
 import WaykinCore
 
+// Named entry file avoids main.swift's implicit top-level entry semantics.
 @main
 struct WaykinVectorExport {
 
     // MARK: - Entry
 
+    @MainActor
     static func main() throws {
         var outDir = "Tests/Vectors"
         var treeArg: String?
@@ -47,9 +49,27 @@ struct WaykinVectorExport {
             try bytes.write(to: url)
             FileHandle.standardOutput.write(Data("wrote \(url.path)\n".utf8))
         }
+        try writeCompanionVectors(outDir: outDir, swiftTree: swiftTree)
+        try writeMovementVectors(outDir: outDir, swiftTree: swiftTree)
+        try writeExperienceVectors(outDir: outDir, swiftTree: swiftTree)
+        try writeDemoVectors(outDir: outDir, swiftTree: swiftTree)
     }
 
     static func gitTreeHash() throws -> String {
+        // HEAD's tree cannot describe dirty Swift gameplay. Refuse to stamp a
+        // misleading provenance hash before writing any family, including seeds.
+        let status = Process()
+        status.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+        status.arguments = ["git", "status", "--porcelain", "--", "Sources/WaykinCore"]
+        let changes = Pipe()
+        status.standardOutput = changes
+        try status.run()
+        status.waitUntilExit()
+        let changedFiles = changes.fileHandleForReading.readDataToEndOfFile()
+        guard status.terminationStatus == 0, changedFiles.isEmpty else {
+            throw NSError(domain: "WaykinVectorExport", code: 1, userInfo: [NSLocalizedDescriptionKey:
+                "Record Swift core changes before exporting: HEAD:Sources/WaykinCore must describe the compiled sources."])
+        }
         let p = Process()
         p.executableURL = URL(fileURLWithPath: "/usr/bin/env")
         p.arguments = ["git", "rev-parse", "HEAD:Sources/WaykinCore"]

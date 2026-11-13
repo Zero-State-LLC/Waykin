@@ -1,0 +1,73 @@
+{
+  "calls": 70442,
+  "uniqueInputs": 14075,
+  "distanceOutputsUnchangedByTracing": 2699,
+  "transport": "binary64 input/output bits; mismatched argument bits excluded and treated as harness failure",
+  "stats": {
+    "pow": {
+      "uniqueInputs": 1,
+      "exactMismatches": 0,
+      "maxAbsoluteDifference": 0
+    },
+    "sqrt": {
+      "uniqueInputs": 3933,
+      "exactMismatches": 0,
+      "maxAbsoluteDifference": 0
+    },
+    "atanh": {
+      "uniqueInputs": 1,
+      "exactMismatches": 0,
+      "maxAbsoluteDifference": 0
+    },
+    "sin": {
+      "uniqueInputs": 2473,
+      "exactMismatches": 11,
+      "maxAbsoluteDifference": 1.1102230246251565e-16
+    },
+    "cos": {
+      "uniqueInputs": 2418,
+      "exactMismatches": 11,
+      "maxAbsoluteDifference": 1.1102230246251565e-16
+    },
+    "atan2": {
+      "uniqueInputs": 5249,
+      "exactMismatches": 782,
+      "maxAbsoluteDifference": 2.220446049250313e-16
+    }
+  },
+  "transportMismatches": 0,
+  "transportExamples": [],
+  "examples": [
+    {
+      "name": "sin",
+      "args": [
+        0.6503402317857296
+      ],
+      "js": 0.6054572237157015,
+      "native": 0.6054572237157017
+    },
+    {
+      "name": "cos",
+      "args": [
+        2.1717193747901913
+      ],
+      "js": -0.5654040571289958,
+      "native": -0.5654040571289959
+    },
+    {
+      "name": "atan2",
+      "args": [
+        8.661977182490758e-8,
+        0.9999999999999962
+      ],
+      "js": 8.66197718249077e-8,
+      "native": 8.661977182490769e-8
+    }
+  ],
+  "librarySHA256": "06e3512904b346575f475f14d0b27ea0979dbcd2b0eddebf5f1eeefd234395b5",
+  "inputSHA256": "fca4f2d0b053bf6165856b5addf95e7864a7182ab7d98ca453607258cdcbfa17",
+  "probeSHA256": "8217d09f3b5d228acd5ce59d7a46092decdf26e5a0ed0093c5b57783d16b4825",
+  "runnerSHA256": "dcf0ef67cfa20bedd2135e222f3d4f5e9a5a6e747c4c2e30983450d67d685c49",
+  "node": "v22.23.1",
+  "conclusion": "Primitive differences observed; not proof that they explain every geodesic discrepancy."
+}

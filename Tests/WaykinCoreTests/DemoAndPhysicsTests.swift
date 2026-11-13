@@ -3,6 +3,29 @@ import XCTest
 
 @MainActor
 final class DemoAndPhysicsTests: XCTestCase {
+    func testRunToEndWhilePausedPreservesProgressAndResumes() throws {
+        let controller = DemoSessionController(movementEngine: MovementEngine())
+        try controller.start(scenarioID: .calmDayWalk)
+        controller.advanceOneTick()
+        controller.pause()
+        let previous = controller.companionWalkState
+        let distance = controller.movementEngine.currentSession?.distanceMeters
+
+        controller.runToEnd()
+
+        XCTAssertTrue(controller.isRunning)
+        XCTAssertTrue(controller.isPaused)
+        XCTAssertEqual(controller.tickIndex, 1)
+        XCTAssertEqual(controller.companionWalkState?.eventHistory, previous?.eventHistory)
+        XCTAssertEqual(controller.movementEngine.currentSession?.distanceMeters, distance)
+        controller.resume()
+        controller.runToEnd()
+        XCTAssertEqual(controller.tickIndex, 7)
+        XCTAssertEqual(controller.companionWalkState?.eventHistory.count, 7)
+        let (_, result, _) = controller.end()
+        XCTAssertEqual(result?.outcome, "COMPLETED")
+    }
+
     func testDemoControllerCompletesScenarios() async throws {
         let movement = MovementEngine()
         let controller = DemoSessionController(movementEngine: movement)

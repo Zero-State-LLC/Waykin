@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Swift companion parity vectors",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "family",
+    "vectorId",
+    "source",
+    "presentations",
+    "overlays",
+    "commandSteps"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "family": {
+      "const": "companion"
+    },
+    "vectorId": {
+      "const": "runtime-and-presentation"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generatedBy",
+        "swiftTree"
+      ],
+      "properties": {
+        "generatedBy": {
+          "const": "WaykinVectorExport"
+        },
+        "swiftTree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "presentations": {
+      "type": "array",
+      "minItems": 22,
+      "maxItems": 22,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "eventKind",
+          "moving",
+          "expected"
+        ],
+        "properties": {
+          "eventKind": {
+            "enum": [
+              null,
+              "companionDrawsNear",
+              "companionMovesAhead",
+              "companionObserves",
+              "distantPresence",
+              "pursuitBegins",
+              "pursuitIntensifies",
+              "pursuitFades",
+              "familiarPlaceStirs",
+              "quietInterval",
+              "bondMoment"
+            ]
+          },
+          "moving": {
+            "type": "boolean"
+          },
+          "expected": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "behavior",
+              "relativeDistance",
+              "runtimeBehavior",
+              "runtimeDistance"
+            ],
+            "properties": {
+              "behavior": {
+                "enum": [
+                  "idle",
+                  "follow",
+                  "lead",
+                  "celebrate",
+                  "observe",
+                  "drawNear",
+                  "rest"
+                ]
+              },
+              "relativeDistance": {
+                "type": "number"
+              },
+              "runtimeBehavior": {
+                "enum": [
+                  "idle",
+                  "follow",
+                  "lead",
+                  "celebrate",
+                  "observe",
+                  "drawNear",
+                  "rest"
+                ]
+              },
+              "runtimeDistance": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "overlays": {
+      "type": "array",
+      "minItems": 1295,
+      "maxItems": 1295,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "state",
+          "eventKind",
+          "pursuitState",
+          "pathRelation",
+          "pathIntegrityPressure",
+          "expected"
+        ],
+        "properties": {
+          "state": {
+            "enum": [
+              "idle",
+              "follow",
+              "lead",
+              "celebrate",
+              "observe",
+              "drawNear",
+              "rest"
+            ]
+          },
+          "eventKind": {
+            "enum": [
+              null,
+              "companionDrawsNear",
+              "companionMovesAhead",
+              "companionObserves",
+              "distantPresence",
+              "pursuitBegins",
+              "pursuitIntensifies",
+              "pursuitFades",
+              "familiarPlaceStirs",
+              "quietInterval",
+              "bondMoment"
+            ]
+          },
+          "pursuitState": {
+            "enum": [
+              "inactive",
+              "noticed",
+              "approaching",
+              "close",
+              "fading"
+            ]
+          },
+          "pathRelation": {
+            "enum": [
+              "establishing",
+              "onPath",
+              "strained",
+              "offPath",
+              "recovered"
+            ]
+          },
+          "pathIntegrityPressure": {
+            "$ref": "#/$defs/double"
+          },
+          "expected": {
+            "enum": [
+              "idle",
+              "follow",
+              "investigate",
+              "celebrate",
+              "alert"
+            ]
+          }
+        }
+      }
+    },
+    "commandSteps": {
+      "type": "array",
+      "minItems": 18,
+      "maxItems": 18,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "command",
+          "expected"
+        ],
+        "properties": {
+          "command": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "value"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "setBehavior",
+                      "showMessage"
+                    ]
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "value"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "setRelativeDistance",
+                      "setThreatLevel"
+                    ]
+                  },
+                  "value": {
+                    "$ref": "#/$defs/double"
+                  }
+                }
+              }
+            ]
+          },
+          "expected": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "state",
+              "relativeDistance"
+            ],
+            "properties": {
+              "state": {
+                "enum": [
+                  "idle",
+                  "follow",
+                  "lead",
+                  "celebrate",
+                  "observe",
+                  "drawNear",
+                  "rest"
+                ]
+              },
+              "relativeDistance": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "double": {
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "enum": [
+            "NaN",
+            "Infinity",
+            "-Infinity"
+          ]
+        }
+      ]
+    }
+  }
+}

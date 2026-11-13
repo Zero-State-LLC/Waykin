@@ -60,14 +60,8 @@ jobs:
         working-directory: packages/waykin-core-ts
         run: npm run isolation
 
-      - name: Require vectors when committed vectors exist
-        run: |
-          if compgen -G "Tests/Vectors/seed-event/*.json" > /dev/null; then
-            echo "Committed seed-event vectors found: tests will fail on missing vectors."
-            echo "WAYKIN_REQUIRE_VECTORS=1" >> "$GITHUB_ENV"
-          else
-            echo "No committed seed-event vectors; parity tests will skip them."
-          fi
+      - name: Require all parity vector families
+        run: echo "WAYKIN_REQUIRE_VECTORS=1" >> "$GITHUB_ENV"
 
       - name: Test
         working-directory: packages/waykin-core-ts
@@ -76,10 +70,29 @@ jobs:
       - name: Verify the Lens core copy is in sync
         run: bash scripts/sync_core_ts.sh --check
 
-  # Swift side: regenerate the seed-event vectors, prove they are committed and
+  # Vector generation alone does not execute Swift regression tests (#25).
+  swift-core-validation:
+    name: Swift build, regression tests and repository validation
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: |
+          brew install xcodegen
+          xcodegen --version
+      - name: Swift version
+        run: swift --version
+      - name: Build Swift package
+        run: make build
+      - name: Test Swift package
+        run: make test
+      - name: Validate repository
+        run: make validate
+
+  # Swift side: regenerate all vector families, prove they are committed and
   # fresh, and always publish them for debugging.
   swift-vectors:
-    name: Swift seed-event vectors
+    name: Swift core parity vectors
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
@@ -103,11 +116,11 @@ jobs:
           fi
           echo "No untracked files under Tests/Vectors."
 
-      - name: Upload seed-event vectors
+      - name: Upload core parity vectors
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: seed-event-vectors
+          name: core-parity-vectors
           path: Tests/Vectors
           if-no-files-found: warn
           retention-days: 7

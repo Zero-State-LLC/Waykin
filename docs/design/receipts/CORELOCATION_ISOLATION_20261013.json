@@ -1,0 +1,519 @@
+{
+  "outputDirectory": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-history-isolation-gV2ojK",
+  "inputSHA256": "ab9f9bf6b3baad8c62f34ba79f2dfb35112de3fa0a5cbfa7fdb3f83a0935bbec",
+  "target": {
+    "id": "threshold-223",
+    "family": "threshold",
+    "latitude": "bits:c054000000000000",
+    "longitude": "bits:c0667ff7ced91687",
+    "latitude2": "bits:c054000027d62be0",
+    "longitude2": "bits:c0667ff75c22f5d4"
+  },
+  "sourceHashes": {
+    "PortableMath.swift": "33056fc714c3ad05ea5aca69e043723fca4b9780e753b174ed485f8c48d30c8b",
+    "PortableGeodesic.swift": "9f97a7fc00007262308bed0e412ac8904cdcce498b65c9f20fc1f105a40be9d7",
+    "HistoryIsolationProbe.swift": "0000648c95fc251822931637324bb0431ba47487431ba9c2a80e41ffd2f87720",
+    "history_isolation.cjs": "ae0c772979a63c0553e0266e4a098b37a5e877e37c2637120564286c5972d2d6"
+  },
+  "modes": {
+    "-Onone": {
+      "apple": {
+        "alone": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "prefix": [
+          {
+            "apple": "3ff80000310bc13d",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "allPairs": [
+          {
+            "apple": "3ff80000310bc13d",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "reversed": [
+          {
+            "apple": "3ff800005e95150d",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "repeat": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ]
+      },
+      "mixed": {
+        "alone": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "prefix": [
+          {
+            "apple": "3ff80000310bc13d",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "allPairs": [
+          {
+            "apple": "3ff80000310bc13d",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "reversed": [
+          {
+            "apple": "3ff800005e95150d",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "repeat": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ]
+      },
+      "candidatePrefix": {
+        "alone": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "prefix": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "allPairs": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "reversed": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "repeat": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ]
+      }
+    },
+    "-O": {
+      "apple": {
+        "alone": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "prefix": [
+          {
+            "apple": "3ff80000310bc13d",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "allPairs": [
+          {
+            "apple": "3ff80000310bc13d",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "reversed": [
+          {
+            "apple": "3ff800005e95150d",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "repeat": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "7ff8000000000000",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ]
+      },
+      "mixed": {
+        "alone": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "prefix": [
+          {
+            "apple": "3ff80000310bc13d",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "allPairs": [
+          {
+            "apple": "3ff80000310bc13d",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "reversed": [
+          {
+            "apple": "3ff800005e95150d",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "repeat": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ]
+      },
+      "candidatePrefix": {
+        "alone": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "prefix": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "allPairs": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "reversed": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ],
+        "repeat": [
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          },
+          {
+            "apple": "3ff7ffffa1695452",
+            "candidate": "3ff7ffffa1790730",
+            "inputBits": [
+              "c054000000000000",
+              "c0667ff7ced91687",
+              "c054000027d62be0",
+              "c0667ff75c22f5d4"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "node": "v22.23.1",
+  "swift": "Apple Swift version 6.3.2 (swiftlang-6.3.2.1.108 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0",
+  "acceptance": "ISOLATION_REPRODUCED_FOR_TARGET_ONLY"
+}

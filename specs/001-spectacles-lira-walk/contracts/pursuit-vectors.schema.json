@@ -1,0 +1,1008 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Swift walk experience and pursuit parity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "family",
+    "vectorId",
+    "source",
+    "runs"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "family": {
+      "const": "pursuit"
+    },
+    "vectorId": {
+      "const": "walk-experience"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generatedBy",
+        "swiftTree"
+      ],
+      "properties": {
+        "generatedBy": {
+          "const": "WaykinVectorExport"
+        },
+        "swiftTree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "runs": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "initialPursuit",
+          "context",
+          "initialState",
+          "steps"
+        ],
+        "properties": {
+          "initialPursuit": {
+            "enum": [
+              "inactive",
+              "noticed",
+              "approaching",
+              "close",
+              "fading"
+            ]
+          },
+          "context": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "timeOfDay",
+              "activity",
+              "bondLevel",
+              "eventSeed",
+              "activityEnergyHint"
+            ],
+            "properties": {
+              "timeOfDay": {
+                "type": "string"
+              },
+              "activity": {
+                "const": "walk"
+              },
+              "bondLevel": {
+                "type": "integer"
+              },
+              "eventSeed": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]{0,19})$"
+              },
+              "activityEnergyHint": {
+                "type": "number"
+              }
+            }
+          },
+          "initialState": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "runtimeState",
+              "narrative"
+            ],
+            "properties": {
+              "runtimeState": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "kind",
+                      "value"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "const": "companionWalk"
+                      },
+                      "value": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "accumulatedBondProgress",
+                          "movementSeconds",
+                          "milestoneIndex",
+                          "tone",
+                          "worldState",
+                          "pursuitState",
+                          "lastEvent",
+                          "lastEventElapsed",
+                          "lastEventElapsedByKind",
+                          "eventHistory",
+                          "activeAudioCues",
+                          "lastPresentedBehavior",
+                          "lastBehaviorAudioElapsed"
+                        ],
+                        "properties": {
+                          "accumulatedBondProgress": {
+                            "type": "number"
+                          },
+                          "movementSeconds": {
+                            "type": "number"
+                          },
+                          "milestoneIndex": {
+                            "type": "integer"
+                          },
+                          "tone": {
+                            "type": "string"
+                          },
+                          "worldState": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "energy",
+                                  "pressure",
+                                  "familiarity",
+                                  "bondLevel",
+                                  "movementState",
+                                  "activeTime",
+                                  "timeContext",
+                                  "currentSpeedMetersPerSecond",
+                                  "sessionDistanceMeters",
+                                  "lastEventAt"
+                                ],
+                                "properties": {
+                                  "energy": {
+                                    "type": "number"
+                                  },
+                                  "pressure": {
+                                    "type": "number"
+                                  },
+                                  "familiarity": {
+                                    "type": "number"
+                                  },
+                                  "bondLevel": {
+                                    "type": "integer",
+                                    "minimum": 0
+                                  },
+                                  "movementState": {
+                                    "enum": [
+                                      "idle",
+                                      "moving",
+                                      "paused",
+                                      "stopped"
+                                    ]
+                                  },
+                                  "activeTime": {
+                                    "type": "number"
+                                  },
+                                  "timeContext": {
+                                    "enum": [
+                                      "dawn",
+                                      "morning",
+                                      "midday",
+                                      "goldenHour",
+                                      "twilight",
+                                      "night",
+                                      "deepNight"
+                                    ]
+                                  },
+                                  "currentSpeedMetersPerSecond": {
+                                    "type": "number"
+                                  },
+                                  "sessionDistanceMeters": {
+                                    "type": "number"
+                                  },
+                                  "lastEventAt": {
+                                    "oneOf": [
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "pursuitState": {
+                            "enum": [
+                              "inactive",
+                              "noticed",
+                              "approaching",
+                              "close",
+                              "fading"
+                            ]
+                          },
+                          "lastEvent": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "kind",
+                                  "intensity",
+                                  "debugLabel",
+                                  "occurredAt"
+                                ],
+                                "properties": {
+                                  "kind": {
+                                    "enum": [
+                                      "companionDrawsNear",
+                                      "companionMovesAhead",
+                                      "companionObserves",
+                                      "distantPresence",
+                                      "pursuitBegins",
+                                      "pursuitIntensifies",
+                                      "pursuitFades",
+                                      "familiarPlaceStirs",
+                                      "quietInterval",
+                                      "bondMoment"
+                                    ]
+                                  },
+                                  "intensity": {
+                                    "type": "number"
+                                  },
+                                  "debugLabel": {
+                                    "type": "string"
+                                  },
+                                  "occurredAt": {
+                                    "type": "number"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "lastEventElapsed": {
+                            "oneOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "lastEventElapsedByKind": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [],
+                            "properties": {
+                              "companionDrawsNear": {
+                                "type": "number"
+                              },
+                              "companionMovesAhead": {
+                                "type": "number"
+                              },
+                              "companionObserves": {
+                                "type": "number"
+                              },
+                              "distantPresence": {
+                                "type": "number"
+                              },
+                              "pursuitBegins": {
+                                "type": "number"
+                              },
+                              "pursuitIntensifies": {
+                                "type": "number"
+                              },
+                              "pursuitFades": {
+                                "type": "number"
+                              },
+                              "familiarPlaceStirs": {
+                                "type": "number"
+                              },
+                              "quietInterval": {
+                                "type": "number"
+                              },
+                              "bondMoment": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          "eventHistory": {
+                            "type": "array",
+                            "minItems": 0,
+                            "maxItems": 32,
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "kind",
+                                "intensity",
+                                "debugLabel",
+                                "occurredAt"
+                              ],
+                              "properties": {
+                                "kind": {
+                                  "enum": [
+                                    "companionDrawsNear",
+                                    "companionMovesAhead",
+                                    "companionObserves",
+                                    "distantPresence",
+                                    "pursuitBegins",
+                                    "pursuitIntensifies",
+                                    "pursuitFades",
+                                    "familiarPlaceStirs",
+                                    "quietInterval",
+                                    "bondMoment"
+                                  ]
+                                },
+                                "intensity": {
+                                  "type": "number"
+                                },
+                                "debugLabel": {
+                                  "type": "string"
+                                },
+                                "occurredAt": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          },
+                          "activeAudioCues": {
+                            "type": "array",
+                            "minItems": 0,
+                            "maxItems": 1,
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "kind",
+                                "intensity",
+                                "spatialBias",
+                                "priority",
+                                "cooldownGroup",
+                                "shouldFade",
+                                "debugLabel"
+                              ],
+                              "properties": {
+                                "kind": {
+                                  "enum": [
+                                    "companionNear",
+                                    "companionAhead",
+                                    "distantFootsteps",
+                                    "pursuitPressure",
+                                    "pursuitRelease",
+                                    "bondMotif",
+                                    "quietShift",
+                                    "appLaunchTheme",
+                                    "companionReveal",
+                                    "spawnTheme",
+                                    "bondMilestone"
+                                  ]
+                                },
+                                "intensity": {
+                                  "type": "number"
+                                },
+                                "spatialBias": {
+                                  "enum": [
+                                    null,
+                                    "left",
+                                    "center",
+                                    "right",
+                                    "behind"
+                                  ]
+                                },
+                                "priority": {
+                                  "type": "integer",
+                                  "minimum": 0
+                                },
+                                "cooldownGroup": {
+                                  "type": "string"
+                                },
+                                "shouldFade": {
+                                  "type": "boolean"
+                                },
+                                "debugLabel": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "lastPresentedBehavior": {
+                            "oneOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "lastBehaviorAudioElapsed": {
+                            "oneOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "narrative": {
+                "type": "array",
+                "minItems": 0,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 96,
+            "maxItems": 96,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "index",
+                "movement",
+                "expected"
+              ],
+              "properties": {
+                "index": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "movement": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "timestamp",
+                    "speed",
+                    "distanceDelta",
+                    "isMoving"
+                  ],
+                  "properties": {
+                    "timestamp": {
+                      "type": "number"
+                    },
+                    "speed": {
+                      "type": "number"
+                    },
+                    "distanceDelta": {
+                      "type": "number"
+                    },
+                    "isMoving": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "expected": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "state",
+                    "companionCommands",
+                    "audioCues",
+                    "semanticAudioCues",
+                    "narrativeEvents",
+                    "rewardEvents"
+                  ],
+                  "properties": {
+                    "state": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "runtimeState",
+                        "narrative"
+                      ],
+                      "properties": {
+                        "runtimeState": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "kind",
+                                "value"
+                              ],
+                              "properties": {
+                                "kind": {
+                                  "const": "companionWalk"
+                                },
+                                "value": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "accumulatedBondProgress",
+                                    "movementSeconds",
+                                    "milestoneIndex",
+                                    "tone",
+                                    "worldState",
+                                    "pursuitState",
+                                    "lastEvent",
+                                    "lastEventElapsed",
+                                    "lastEventElapsedByKind",
+                                    "eventHistory",
+                                    "activeAudioCues",
+                                    "lastPresentedBehavior",
+                                    "lastBehaviorAudioElapsed"
+                                  ],
+                                  "properties": {
+                                    "accumulatedBondProgress": {
+                                      "type": "number"
+                                    },
+                                    "movementSeconds": {
+                                      "type": "number"
+                                    },
+                                    "milestoneIndex": {
+                                      "type": "integer"
+                                    },
+                                    "tone": {
+                                      "type": "string"
+                                    },
+                                    "worldState": {
+                                      "oneOf": [
+                                        {
+                                          "type": "object",
+                                          "additionalProperties": false,
+                                          "required": [
+                                            "energy",
+                                            "pressure",
+                                            "familiarity",
+                                            "bondLevel",
+                                            "movementState",
+                                            "activeTime",
+                                            "timeContext",
+                                            "currentSpeedMetersPerSecond",
+                                            "sessionDistanceMeters",
+                                            "lastEventAt"
+                                          ],
+                                          "properties": {
+                                            "energy": {
+                                              "type": "number"
+                                            },
+                                            "pressure": {
+                                              "type": "number"
+                                            },
+                                            "familiarity": {
+                                              "type": "number"
+                                            },
+                                            "bondLevel": {
+                                              "type": "integer",
+                                              "minimum": 0
+                                            },
+                                            "movementState": {
+                                              "enum": [
+                                                "idle",
+                                                "moving",
+                                                "paused",
+                                                "stopped"
+                                              ]
+                                            },
+                                            "activeTime": {
+                                              "type": "number"
+                                            },
+                                            "timeContext": {
+                                              "enum": [
+                                                "dawn",
+                                                "morning",
+                                                "midday",
+                                                "goldenHour",
+                                                "twilight",
+                                                "night",
+                                                "deepNight"
+                                              ]
+                                            },
+                                            "currentSpeedMetersPerSecond": {
+                                              "type": "number"
+                                            },
+                                            "sessionDistanceMeters": {
+                                              "type": "number"
+                                            },
+                                            "lastEventAt": {
+                                              "oneOf": [
+                                                {
+                                                  "type": "number"
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "pursuitState": {
+                                      "enum": [
+                                        "inactive",
+                                        "noticed",
+                                        "approaching",
+                                        "close",
+                                        "fading"
+                                      ]
+                                    },
+                                    "lastEvent": {
+                                      "oneOf": [
+                                        {
+                                          "type": "object",
+                                          "additionalProperties": false,
+                                          "required": [
+                                            "kind",
+                                            "intensity",
+                                            "debugLabel",
+                                            "occurredAt"
+                                          ],
+                                          "properties": {
+                                            "kind": {
+                                              "enum": [
+                                                "companionDrawsNear",
+                                                "companionMovesAhead",
+                                                "companionObserves",
+                                                "distantPresence",
+                                                "pursuitBegins",
+                                                "pursuitIntensifies",
+                                                "pursuitFades",
+                                                "familiarPlaceStirs",
+                                                "quietInterval",
+                                                "bondMoment"
+                                              ]
+                                            },
+                                            "intensity": {
+                                              "type": "number"
+                                            },
+                                            "debugLabel": {
+                                              "type": "string"
+                                            },
+                                            "occurredAt": {
+                                              "type": "number"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "lastEventElapsed": {
+                                      "oneOf": [
+                                        {
+                                          "type": "number"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "lastEventElapsedByKind": {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "required": [],
+                                      "properties": {
+                                        "companionDrawsNear": {
+                                          "type": "number"
+                                        },
+                                        "companionMovesAhead": {
+                                          "type": "number"
+                                        },
+                                        "companionObserves": {
+                                          "type": "number"
+                                        },
+                                        "distantPresence": {
+                                          "type": "number"
+                                        },
+                                        "pursuitBegins": {
+                                          "type": "number"
+                                        },
+                                        "pursuitIntensifies": {
+                                          "type": "number"
+                                        },
+                                        "pursuitFades": {
+                                          "type": "number"
+                                        },
+                                        "familiarPlaceStirs": {
+                                          "type": "number"
+                                        },
+                                        "quietInterval": {
+                                          "type": "number"
+                                        },
+                                        "bondMoment": {
+                                          "type": "number"
+                                        }
+                                      }
+                                    },
+                                    "eventHistory": {
+                                      "type": "array",
+                                      "minItems": 0,
+                                      "maxItems": 32,
+                                      "items": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "kind",
+                                          "intensity",
+                                          "debugLabel",
+                                          "occurredAt"
+                                        ],
+                                        "properties": {
+                                          "kind": {
+                                            "enum": [
+                                              "companionDrawsNear",
+                                              "companionMovesAhead",
+                                              "companionObserves",
+                                              "distantPresence",
+                                              "pursuitBegins",
+                                              "pursuitIntensifies",
+                                              "pursuitFades",
+                                              "familiarPlaceStirs",
+                                              "quietInterval",
+                                              "bondMoment"
+                                            ]
+                                          },
+                                          "intensity": {
+                                            "type": "number"
+                                          },
+                                          "debugLabel": {
+                                            "type": "string"
+                                          },
+                                          "occurredAt": {
+                                            "type": "number"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "activeAudioCues": {
+                                      "type": "array",
+                                      "minItems": 0,
+                                      "maxItems": 1,
+                                      "items": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "kind",
+                                          "intensity",
+                                          "spatialBias",
+                                          "priority",
+                                          "cooldownGroup",
+                                          "shouldFade",
+                                          "debugLabel"
+                                        ],
+                                        "properties": {
+                                          "kind": {
+                                            "enum": [
+                                              "companionNear",
+                                              "companionAhead",
+                                              "distantFootsteps",
+                                              "pursuitPressure",
+                                              "pursuitRelease",
+                                              "bondMotif",
+                                              "quietShift",
+                                              "appLaunchTheme",
+                                              "companionReveal",
+                                              "spawnTheme",
+                                              "bondMilestone"
+                                            ]
+                                          },
+                                          "intensity": {
+                                            "type": "number"
+                                          },
+                                          "spatialBias": {
+                                            "enum": [
+                                              null,
+                                              "left",
+                                              "center",
+                                              "right",
+                                              "behind"
+                                            ]
+                                          },
+                                          "priority": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                          },
+                                          "cooldownGroup": {
+                                            "type": "string"
+                                          },
+                                          "shouldFade": {
+                                            "type": "boolean"
+                                          },
+                                          "debugLabel": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "lastPresentedBehavior": {
+                                      "oneOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "lastBehaviorAudioElapsed": {
+                                      "oneOf": [
+                                        {
+                                          "type": "number"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "narrative": {
+                          "type": "array",
+                          "minItems": 0,
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "companionCommands": {
+                      "type": "array",
+                      "minItems": 0,
+                      "items": {
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "kind",
+                              "value"
+                            ],
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "showMessage",
+                                  "setBehavior"
+                                ]
+                              },
+                              "value": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "kind",
+                              "value"
+                            ],
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "setRelativeDistance",
+                                  "setThreatLevel"
+                                ]
+                              },
+                              "value": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "audioCues": {
+                      "type": "array",
+                      "minItems": 0,
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "semanticAudioCues": {
+                      "type": "array",
+                      "minItems": 0,
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "kind",
+                          "intensity",
+                          "spatialBias",
+                          "priority",
+                          "cooldownGroup",
+                          "shouldFade",
+                          "debugLabel"
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "companionNear",
+                              "companionAhead",
+                              "distantFootsteps",
+                              "pursuitPressure",
+                              "pursuitRelease",
+                              "bondMotif",
+                              "quietShift",
+                              "appLaunchTheme",
+                              "companionReveal",
+                              "spawnTheme",
+                              "bondMilestone"
+                            ]
+                          },
+                          "intensity": {
+                            "type": "number"
+                          },
+                          "spatialBias": {
+                            "enum": [
+                              null,
+                              "left",
+                              "center",
+                              "right",
+                              "behind"
+                            ]
+                          },
+                          "priority": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "cooldownGroup": {
+                            "type": "string"
+                          },
+                          "shouldFade": {
+                            "type": "boolean"
+                          },
+                          "debugLabel": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "narrativeEvents": {
+                      "type": "array",
+                      "minItems": 0,
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "rewardEvents": {
+                      "type": "array",
+                      "minItems": 0,
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

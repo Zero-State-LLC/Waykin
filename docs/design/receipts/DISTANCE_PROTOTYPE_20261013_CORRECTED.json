@@ -1,0 +1,51 @@
+{
+  "head": "14e4474703dd46b9253d9a0597c7a1a3c72ecfbb",
+  "dependencies": {
+    "/private/tmp/waykin-distance-prototype.VDU6NF/geodesic.c": "87a91e0e30e7db839cbd1ef5aafea77487524958070565ff9155e50e9bead550",
+    "/private/tmp/waykin-distance-prototype.VDU6NF/geodesic.h": "a964a747bc4f388fb3a93cc9bc379aebe4cdd78b3ee909c071be711b82db4b10",
+    "/private/tmp/waykin-geographiclib-geodesic.min.js": "06e3512904b346575f475f14d0b27ea0979dbcd2b0eddebf5f1eeefd234395b5"
+  },
+  "transport": "All Swift numeric inputs and outputs use exact binary64 hex strings, not JSON decimal decoding",
+  "harnessSHA256": {
+    "run.cjs": "eae224bbe4034ea095ee46d2fdc80712dd89a60811a518c7a3a437e37f65edce",
+    "Probe.swift": "61e2f581098f03f348ff98bdc34369e37e89ab34c126285600b80e44a99fc291",
+    "candidate.ts": "a5b479c75a90fd32c48ab5cff7338fcf3879d995315d7699442bbfb8f2b3922a"
+  },
+  "swiftSourceSHA256": "cc87ec8963dbbcb4129dfd9847f631bc9e7e42d508fcaaf6716c1e8027457218",
+  "tsSourceSHA256": "ab39f73f4c3fc8ca82bb2bc23fe5df99bafda53f41d1504437d9d22efbf8bda7",
+  "broadSHA256": "2a9a66ffe4dd9d092331e0e7914b15f9ca905d8dafb44253cd6685d7e0c7a461",
+  "thresholdSHA256": "9de96e7305eec1fe9ee8636bafe465e8f8920a466d08ffadb5998b3e74793237",
+  "swift": "Apple Swift version 6.3.2 (swiftlang-6.3.2.1.108 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0",
+  "node": "v22.23.1",
+  "clang": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.3.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+  "compilerFlags": "C: -O2 -fno-fast-math -ffp-contract=off; Swift: -Onone; TS: strict ES2019 CommonJS",
+  "stats": {
+    "pairs": 2704,
+    "sequences": 10752,
+    "steps": 172032,
+    "distanceExactMismatches": 787,
+    "maximumNativeJSDistanceError": 2.120827957696747e-9,
+    "migrationDistanceAbove005": {
+      "broad": 0,
+      "threshold": 0,
+      "edge": 3
+    },
+    "maximumAppleCandidateError": {
+      "broad": 0.039564363182307716,
+      "threshold": 0.006458268477203655,
+      "edge": 100326.8979849033
+    },
+    "nativeJSNumericStepMismatches": 24136,
+    "nativeJSDecisionStepMismatches": 0,
+    "migrationNumericStepMismatches": 88472,
+    "migrationDecisionStepMismatches": 264
+  },
+  "acceptance": "EXACT_PARITY_FAILED",
+  "limitations": [
+    "Swift uses native C, not a pure-Swift transcription",
+    "No Lens runtime execution",
+    "Processor-level replay only; no MovementEngine, events, Bond or memory replay",
+    "Adversarial selection is not real-world incidence",
+    "No production adoption authorized"
+  ]
+}

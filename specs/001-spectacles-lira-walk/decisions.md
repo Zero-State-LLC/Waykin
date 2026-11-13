@@ -8,6 +8,13 @@ Status values:
 
 Each entry ends with a decision line for Danny. Gap IDs refer to `gap-audit.md`.
 
+### D-325 SPECS 27 build target
+- **Status**: accepted (user, 2026-10-13; selected “SPECS 27; update the build target” in the build session).
+- **Decision**: This Lens build targets **SPECS 27**, not Spectacles (2024). Supersedes the 2024 hardware and toolchain pins in NC-05/NC-50/NC-51 and LSB-001/003/004 for this build.
+- **Toolchain pin**: Lens Studio **5.24.1.26100516**; the checked-in SIK and SUIK package artifacts each have descriptor version **2.0.0**. SIK's observed runtime banner is **0.18.0**; do not equate descriptor versions with runtime/library release versions. SUIK's separate release identity remains `NOT_COMPUTABLE`.
+- **Evidence boundary**: This authorizes the target change, not physical compatibility, package API compatibility, or completed gameplay. Revalidate location, permissions, battery APIs, tracking, performance and publishing on SPECS 27. The old 2024 OS minimum and 45-minute runtime claim do not establish SPECS 27 behavior. No safety, privacy, determinism or parity requirement is waived.
+- **Scope**: No additional 2024-compatible artifact is required by this build. Gameplay core ownership and existing task dependencies remain unchanged.
+
 ### D-001 Time context fed to core
 - **Status**: accepted (Danny, 2026-10-11 11:03 PM PT)
 - **Context**: iOS real walks pass `"day"`, which isn't a `TimeContext`, so the core falls back to `.midday` (`WaykinApp.swift:170`, `Experiences.swift:83`).

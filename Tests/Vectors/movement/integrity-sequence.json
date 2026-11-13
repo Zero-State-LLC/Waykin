@@ -1,0 +1,938 @@
+{
+  "distanceToleranceMeters" : 0.050000000000000003,
+  "family" : "movement",
+  "schemaVersion" : 1,
+  "source" : {
+    "generatedBy" : "WaykinVectorExport",
+    "swiftTree" : "94eaeb810901d089f89d17ed631534a4b56b0da6"
+  },
+  "steps" : [
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "rejectedInvalid",
+          "timestamp" : 1000
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : null,
+        "sampleInterval" : 0
+      },
+      "index" : 0,
+      "receivedAt" : 1000,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : "NaN",
+        "longitude" : 0,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1000
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "rejectedInvalid",
+          "timestamp" : 1000
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : null,
+        "sampleInterval" : 0
+      },
+      "index" : 1,
+      "receivedAt" : 1000,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 91,
+        "longitude" : 0,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1000
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "rejectedInvalid",
+          "timestamp" : 1000
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : null,
+        "sampleInterval" : 0
+      },
+      "index" : 2,
+      "receivedAt" : 1000,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 181,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1000
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "invalid",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "rejectedInvalid",
+          "timestamp" : 1000
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : null,
+        "sampleInterval" : 0
+      },
+      "index" : 3,
+      "receivedAt" : 1000,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : "Infinity",
+        "latitude" : 0,
+        "longitude" : 0,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1000
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "invalid",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "rejectedNegativeAccuracy",
+          "timestamp" : 1000
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : null,
+        "sampleInterval" : 0
+      },
+      "index" : 4,
+      "receivedAt" : 1000,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : -1,
+        "latitude" : 0,
+        "longitude" : 0,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1000
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "poor",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "rejectedAccuracy",
+          "timestamp" : 1000
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : null,
+        "sampleInterval" : 0
+      },
+      "index" : 5,
+      "receivedAt" : 1000,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 31,
+        "latitude" : 0,
+        "longitude" : 0,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1000
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "rejectedStale",
+          "timestamp" : 1000
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : null,
+        "sampleInterval" : 0
+      },
+      "index" : 6,
+      "receivedAt" : 1016,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1000
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "rejectedInvalid",
+          "timestamp" : 1000
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : null,
+        "sampleInterval" : 0
+      },
+      "index" : 7,
+      "receivedAt" : 997,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1000
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "awaitingFreshAnchor",
+          "timestamp" : 1000
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0,
+          "speed" : 0,
+          "timestamp" : 1000
+        },
+        "sampleInterval" : 0
+      },
+      "index" : 8,
+      "receivedAt" : 1015,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1000
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "rejectedDuplicate",
+          "timestamp" : 1000
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : null,
+        "sampleInterval" : 0
+      },
+      "index" : 9,
+      "receivedAt" : 1000,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1000
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "rejectedOutOfOrder",
+          "timestamp" : 999
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : null,
+        "sampleInterval" : 0
+      },
+      "index" : 10,
+      "receivedAt" : 999,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 999
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : true,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 2.2263898158654714,
+          "disposition" : "accepted",
+          "timestamp" : 1001
+        },
+        "distanceDelta" : 2.2263898158654714,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 2.0000000000000002e-05,
+          "speed" : 2.2263898158654714,
+          "timestamp" : 1001
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 11,
+      "receivedAt" : 1001,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 2.0000000000000002e-05,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1001
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : true,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 2.2263898158654714,
+          "disposition" : "accepted",
+          "timestamp" : 1002
+        },
+        "distanceDelta" : 2.2263898158654714,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 4.0000000000000003e-05,
+          "speed" : 2.2263898158654714,
+          "timestamp" : 1002
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 12,
+      "receivedAt" : 1002,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 4.0000000000000003e-05,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1002
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : true,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 2.2263898158654714,
+          "disposition" : "accepted",
+          "timestamp" : 1003
+        },
+        "distanceDelta" : 2.2263898158654714,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 6.0000000000000002e-05,
+          "speed" : 2.2263898158654714,
+          "timestamp" : 1003
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 13,
+      "receivedAt" : 1003,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 6.0000000000000002e-05,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1003
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 1.4842598772436475,
+          "disposition" : "accepted",
+          "timestamp" : 1004
+        },
+        "distanceDelta" : 0,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 6.0000000000000002e-05,
+          "speed" : 1.4842598772436475,
+          "timestamp" : 1004
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 14,
+      "receivedAt" : 1004,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 6.0000000000000002e-05,
+        "reportedSpeedMetersPerSecond" : 0,
+        "timestamp" : 1004
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0.74212993862182375,
+          "disposition" : "accepted",
+          "timestamp" : 1005
+        },
+        "distanceDelta" : 0,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 6.0000000000000002e-05,
+          "speed" : 0.74212993862182375,
+          "timestamp" : 1005
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 15,
+      "receivedAt" : 1005,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 6.0000000000000002e-05,
+        "reportedSpeedMetersPerSecond" : 0,
+        "timestamp" : 1005
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "accepted",
+          "timestamp" : 1006
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 6.0000000000000002e-05,
+          "speed" : 0,
+          "timestamp" : 1006
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 16,
+      "receivedAt" : 1006,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 6.0000000000000002e-05,
+        "reportedSpeedMetersPerSecond" : 0,
+        "timestamp" : 1006
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0.18333333333333335,
+          "disposition" : "accepted",
+          "timestamp" : 1007
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 8.0000000000000007e-05,
+          "speed" : 0.18333333333333335,
+          "timestamp" : 1007
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 17,
+      "receivedAt" : 1007,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 10,
+        "latitude" : 0,
+        "longitude" : 8.0000000000000007e-05,
+        "reportedSpeedMetersPerSecond" : 0.55000000000000004,
+        "timestamp" : 1007
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "usable",
+          "derivedSpeedMetersPerSecond" : 0.3666666666666667,
+          "disposition" : "accepted",
+          "timestamp" : 1008
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.0001,
+          "speed" : 0.3666666666666667,
+          "timestamp" : 1008
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 18,
+      "receivedAt" : 1008,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 30,
+        "latitude" : 0,
+        "longitude" : 0.0001,
+        "reportedSpeedMetersPerSecond" : 0.55000000000000004,
+        "timestamp" : 1008
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : true,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0.55000000000000004,
+          "disposition" : "accepted",
+          "timestamp" : 1009
+        },
+        "distanceDelta" : 2.2263898158654714,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.00012,
+          "speed" : 0.55000000000000004,
+          "timestamp" : 1009
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 19,
+      "receivedAt" : 1009,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.00012,
+        "reportedSpeedMetersPerSecond" : 0.55000000000000004,
+        "timestamp" : 1009
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : true,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 1.1087966052884901,
+          "disposition" : "accepted",
+          "timestamp" : 1010
+        },
+        "distanceDelta" : 2.22638981586547,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.00013999999999999999,
+          "speed" : 1.1087966052884901,
+          "timestamp" : 1010
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 20,
+      "receivedAt" : 1010,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.00013999999999999999,
+        "reportedSpeedMetersPerSecond" : -1,
+        "timestamp" : 1010
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : true,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 1.6675932105769817,
+          "disposition" : "accepted",
+          "timestamp" : 1011
+        },
+        "distanceDelta" : 2.2263898158654745,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.00016000000000000001,
+          "speed" : 1.6675932105769817,
+          "timestamp" : 1011
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 21,
+      "receivedAt" : 1011,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.00016000000000000001,
+        "reportedSpeedMetersPerSecond" : "Infinity",
+        "timestamp" : 1011
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 11.131949079327354,
+          "disposition" : "rejectedImplausibleDisplacement",
+          "timestamp" : 1012
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : null,
+        "sampleInterval" : 0
+      },
+      "index" : 22,
+      "receivedAt" : 1012,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.00025999999999999998,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1012
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : true,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 2.2263898158654718,
+          "disposition" : "accepted",
+          "timestamp" : 1013
+        },
+        "distanceDelta" : 4.4527796317309427,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.00020000000000000001,
+          "speed" : 2.2263898158654718,
+          "timestamp" : 1013
+        },
+        "sampleInterval" : 2
+      },
+      "index" : 23,
+      "receivedAt" : 1013,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.00020000000000000001,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1013
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "awaitingFreshAnchor",
+          "timestamp" : 1029
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.01,
+          "speed" : 0,
+          "timestamp" : 1029
+        },
+        "sampleInterval" : 0
+      },
+      "index" : 24,
+      "receivedAt" : 1029,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.01,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1029
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "accepted",
+          "timestamp" : 1030
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.01,
+          "speed" : 0,
+          "timestamp" : 1030
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 25,
+      "receivedAt" : 1028,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.01,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1030
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0,
+          "disposition" : "awaitingFreshAnchor",
+          "timestamp" : 1031
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.01,
+          "speed" : 0,
+          "timestamp" : 1031
+        },
+        "sampleInterval" : 0
+      },
+      "index" : 26,
+      "receivedAt" : 1031,
+      "resetBefore" : true,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.01,
+        "reportedSpeedMetersPerSecond" : "NaN",
+        "timestamp" : 1031
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : true,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0.55000000000000004,
+          "disposition" : "accepted",
+          "timestamp" : 1032
+        },
+        "distanceDelta" : 2.2263898158653808,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.010019999999999999,
+          "speed" : 0.55000000000000004,
+          "timestamp" : 1032
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 27,
+      "receivedAt" : 1032,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.010019999999999999,
+        "reportedSpeedMetersPerSecond" : 0.55000000000000004,
+        "timestamp" : 1032
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0.40000000000000002,
+          "disposition" : "accepted",
+          "timestamp" : 1033
+        },
+        "distanceDelta" : 0,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.010019999999999999,
+          "speed" : 0.40000000000000002,
+          "timestamp" : 1033
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 28,
+      "receivedAt" : 1033,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.010019999999999999,
+        "reportedSpeedMetersPerSecond" : 0.25,
+        "timestamp" : 1033
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0.35000000000000003,
+          "disposition" : "accepted",
+          "timestamp" : 1034
+        },
+        "distanceDelta" : 0,
+        "isMoving" : true,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.010019999999999999,
+          "speed" : 0.35000000000000003,
+          "timestamp" : 1034
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 29,
+      "receivedAt" : 1034,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.010019999999999999,
+        "reportedSpeedMetersPerSecond" : 0.25,
+        "timestamp" : 1034
+      }
+    },
+    {
+      "expected" : {
+        "diagnostic" : {
+          "accumulatedDistance" : false,
+          "accuracyBucket" : "precise",
+          "derivedSpeedMetersPerSecond" : 0.25,
+          "disposition" : "accepted",
+          "timestamp" : 1035
+        },
+        "distanceDelta" : 0,
+        "isMoving" : false,
+        "point" : {
+          "altitude" : 10,
+          "latitude" : 0,
+          "longitude" : 0.010019999999999999,
+          "speed" : 0.25,
+          "timestamp" : 1035
+        },
+        "sampleInterval" : 1
+      },
+      "index" : 30,
+      "receivedAt" : 1035,
+      "resetBefore" : false,
+      "sample" : {
+        "altitude" : 10,
+        "horizontalAccuracy" : 5,
+        "latitude" : 0,
+        "longitude" : 0.010019999999999999,
+        "reportedSpeedMetersPerSecond" : 0.25,
+        "timestamp" : 1035
+      }
+    }
+  ],
+  "vectorId" : "integrity-sequence"
+}

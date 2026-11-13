@@ -64,6 +64,26 @@ Report commands, results, changed files, assumptions, and unresolved evidence. D
 
 For issue-scoped work, read canonical coordination [Issue #47](https://github.com/scrimshawlife-ctrl/Waykin/issues/47) and verify the item in [Waykin — Agent Execution](https://github.com/users/scrimshawlife-ctrl/projects/1) before editing.
 
+**Scoped exception (user-approved 2026-10-13):** For
+[`Zero-State-LLC/Waykin#23`](https://github.com/Zero-State-LLC/Waykin/issues/23),
+use that issue's execution status and claim as the live coordination authority
+while the legacy board is inaccessible. Codex owns the missing TypeScript core
+port for SPECS 27. Mirror status in `docs/collaboration/ACTIVE_WORK.md`; mark
+legacy-board synchronization pending until verified. A recorded branch/claim,
+one implementation owner, frozen paths, parity tests and all evidence gates
+remain required. This exception does not migrate or authorize other work.
+
+**Research-only coordination exception (user-approved 2026-10-13, #27):**
+Use #27's issue-local claim/status while the legacy board is inaccessible.
+Codex may repair the history-dependent migration research harness, preserving
+the original full replay and adding separate fresh-process cold/warm checks.
+This does not authorize production changes or relaxed exact-parity requirements.
+
+**Narrow Swift exception (user-approved 2026-10-13, #25):**
+`DemoSessionController.runToEnd()` must return without advancing while paused.
+Codex may add that guard and its Swift/TypeScript regression tests on the
+core-port branch. No other Swift behavior or persistence changes are authorized.
+
 - Claim `Ready` work before editing; record the agent, lane, branch, exact base SHA, intended paths, frozen paths, and dependency state.
 - Respect declared frozen paths and keep one implementation owner per issue. Review, test, and documentation work may overlap only when production paths do not.
 - Record branch and base SHA at claim time, then provide the structured handoff defined in `docs/collaboration/GITHUB_PROJECT_COORDINATION.md`.

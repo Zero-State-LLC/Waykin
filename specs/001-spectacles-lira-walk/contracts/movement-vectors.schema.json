@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Swift movement-integrity parity vectors",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "family",
+    "vectorId",
+    "source",
+    "distanceToleranceMeters",
+    "steps"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "family": {
+      "const": "movement"
+    },
+    "vectorId": {
+      "const": "integrity-sequence"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generatedBy",
+        "swiftTree"
+      ],
+      "properties": {
+        "generatedBy": {
+          "const": "WaykinVectorExport"
+        },
+        "swiftTree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "distanceToleranceMeters": {
+      "const": 0.05
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 31,
+      "maxItems": 31,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "index",
+          "resetBefore",
+          "receivedAt",
+          "sample",
+          "expected"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "resetBefore": {
+            "type": "boolean"
+          },
+          "receivedAt": {
+            "type": "number"
+          },
+          "sample": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "timestamp",
+              "latitude",
+              "longitude",
+              "altitude",
+              "horizontalAccuracy",
+              "reportedSpeedMetersPerSecond"
+            ],
+            "properties": {
+              "timestamp": {
+                "type": "number"
+              },
+              "latitude": {
+                "$ref": "#/$defs/double"
+              },
+              "longitude": {
+                "$ref": "#/$defs/double"
+              },
+              "altitude": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/double"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "horizontalAccuracy": {
+                "$ref": "#/$defs/double"
+              },
+              "reportedSpeedMetersPerSecond": {
+                "$ref": "#/$defs/double"
+              }
+            }
+          },
+          "expected": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "point",
+              "sampleInterval",
+              "distanceDelta",
+              "isMoving",
+              "diagnostic"
+            ],
+            "properties": {
+              "point": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "timestamp",
+                      "latitude",
+                      "longitude",
+                      "altitude",
+                      "speed"
+                    ],
+                    "properties": {
+                      "timestamp": {
+                        "type": "number"
+                      },
+                      "latitude": {
+                        "$ref": "#/$defs/double"
+                      },
+                      "longitude": {
+                        "$ref": "#/$defs/double"
+                      },
+                      "altitude": {
+                        "oneOf": [
+                          {
+                            "$ref": "#/$defs/double"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "speed": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "sampleInterval": {
+                "type": "number"
+              },
+              "distanceDelta": {
+                "type": "number"
+              },
+              "isMoving": {
+                "type": "boolean"
+              },
+              "diagnostic": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "timestamp",
+                  "disposition",
+                  "accuracyBucket",
+                  "derivedSpeedMetersPerSecond",
+                  "accumulatedDistance"
+                ],
+                "properties": {
+                  "timestamp": {
+                    "type": "number"
+                  },
+                  "disposition": {
+                    "enum": [
+                      "accepted",
+                      "awaitingFreshAnchor",
+                      "rejectedInvalid",
+                      "rejectedNegativeAccuracy",
+                      "rejectedAccuracy",
+                      "rejectedStale",
+                      "rejectedOutOfOrder",
+                      "rejectedDuplicate",
+                      "rejectedPaused",
+                      "rejectedStopped",
+                      "rejectedImplausibleDisplacement"
+                    ]
+                  },
+                  "accuracyBucket": {
+                    "enum": [
+                      "invalid",
+                      "precise",
+                      "usable",
+                      "poor"
+                    ]
+                  },
+                  "derivedSpeedMetersPerSecond": {
+                    "type": "number"
+                  },
+                  "accumulatedDistance": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "double": {
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "enum": [
+            "NaN",
+            "Infinity",
+            "-Infinity"
+          ]
+        }
+      ]
+    }
+  }
+}

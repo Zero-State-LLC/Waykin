@@ -1,0 +1,119 @@
+{
+  "probeSHA256": "3bcada77e36980ec25cd5438382595ed3039f90d0e1a3dd101f79ccd98fada8f",
+  "inputSHA256": "ab9f9bf6b3baad8c62f34ba79f2dfb35112de3fa0a5cbfa7fdb3f83a0935bbec",
+  "target": {
+    "id": "threshold-223",
+    "family": "threshold",
+    "latitude": "bits:c054000000000000",
+    "longitude": "bits:c0667ff7ced91687",
+    "latitude2": "bits:c054000027d62be0",
+    "longitude2": "bits:c0667ff75c22f5d4"
+  },
+  "rows": {
+    "alone": {
+      "distance": [
+        {
+          "apple": "bits:3ff7ffffa1695452",
+          "candidate": "bits:3ff7ffffa1790730",
+          "id": "threshold-223"
+        }
+      ],
+      "step12": {
+        "accumulatedDistance": false,
+        "accuracyBucket": "precise",
+        "disposition": "accepted",
+        "distanceDelta": "bits:0000000000000000",
+        "hasPoint": true,
+        "isMoving": false,
+        "sampleInterval": "bits:4000000000000000",
+        "speed": "bits:3fcfffff81e1c5c3"
+      }
+    },
+    "prefix": {
+      "distance": [
+        {
+          "apple": "bits:3ff80000310bc13d",
+          "candidate": "bits:3ff7ffffa1790730",
+          "id": "threshold-223"
+        }
+      ],
+      "step12": {
+        "accumulatedDistance": false,
+        "accuracyBucket": "precise",
+        "disposition": "accepted",
+        "distanceDelta": "bits:0000000000000000",
+        "hasPoint": true,
+        "isMoving": true,
+        "sampleInterval": "bits:4000000000000000",
+        "speed": "bits:3fd0000020b280d3"
+      }
+    },
+    "allPairs": {
+      "distance": [
+        {
+          "apple": "bits:3ff80000310bc13d",
+          "candidate": "bits:3ff7ffffa1790730",
+          "id": "threshold-223"
+        }
+      ],
+      "step12": {
+        "accumulatedDistance": false,
+        "accuracyBucket": "precise",
+        "disposition": "accepted",
+        "distanceDelta": "bits:0000000000000000",
+        "hasPoint": true,
+        "isMoving": false,
+        "sampleInterval": "bits:4000000000000000",
+        "speed": "bits:3fcfffff81e1c5c3"
+      }
+    },
+    "repeat": {
+      "distance": [
+        {
+          "apple": "bits:3ff7ffffa1695452",
+          "candidate": "bits:3ff7ffffa1790730",
+          "id": "threshold-223"
+        },
+        {
+          "apple": "bits:3ff7ffffa1695452",
+          "candidate": "bits:3ff7ffffa1790730",
+          "id": "threshold-223"
+        },
+        {
+          "apple": "bits:3ff7ffffa1695452",
+          "candidate": "bits:3ff7ffffa1790730",
+          "id": "threshold-223"
+        }
+      ],
+      "step12": {
+        "accumulatedDistance": false,
+        "accuracyBucket": "precise",
+        "disposition": "accepted",
+        "distanceDelta": "bits:0000000000000000",
+        "hasPoint": true,
+        "isMoving": false,
+        "sampleInterval": "bits:4000000000000000",
+        "speed": "bits:3fcfffff81e1c5c3"
+      }
+    },
+    "reversed": {
+      "distance": [
+        {
+          "apple": "bits:3ff800005e95150d",
+          "candidate": "bits:3ff7ffffa1790730",
+          "id": "threshold-223"
+        }
+      ],
+      "step12": {
+        "accumulatedDistance": false,
+        "accuracyBucket": "precise",
+        "disposition": "accepted",
+        "distanceDelta": "bits:0000000000000000",
+        "hasPoint": true,
+        "isMoving": false,
+        "sampleInterval": "bits:4000000000000000",
+        "speed": "bits:3fcfffff81e1c5c3"
+      }
+    }
+  }
+}

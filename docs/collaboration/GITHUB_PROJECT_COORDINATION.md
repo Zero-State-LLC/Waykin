@@ -2,7 +2,38 @@
 
 [Waykin — Agent Execution](https://github.com/users/scrimshawlife-ctrl/projects/1) is Project #1 and the sole live workflow-state authority. [Issue #47](https://github.com/scrimshawlife-ctrl/Waykin/issues/47) defines the coordination contract. This document and `ACTIVE_WORK.md` are repository-readable protocol and snapshot surfaces; repository product and architecture documents retain their precedence.
 
+## Scoped issue-local coordination — 2026-10-13
+
+The user authorized Codex to take over the missing SPECS 27 TypeScript core
+port and update Kanban/repository docs. For
+[`Zero-State-LLC/Waykin#23`](https://github.com/Zero-State-LLC/Waykin/issues/23)
+only, the issue's execution table and structured claim replace the legacy
+board as live workflow authority while that board is inaccessible. This is
+an explicit exception to the board prerequisite, not a claim that Project #1
+was updated or that the port is complete.
+
+Current status: **In Progress**, owner **Codex (/root)**, lane **IMPLEMENT**.
+The structured claim on #23 records branch `codex/23-specs27-core-port`, base
+SHA and intended/frozen paths. The companion slice is implemented locally;
+complete port and parity acceptance remain open.
+`ACTIVE_WORK.md` is the repository-readable Kanban snapshot. Legacy board sync
+is **PENDING / NOT_COMPUTABLE** until a live read-back confirms it. Reconcile
+only this item when access returns; preserve unrelated board values.
+
+Parity, validation, one-owner and physical-evidence rules are unchanged.
+Missing compiler dependencies and the Swift sandbox restriction block test
+execution, not ownership authorization. They must remain visible and must
+not be converted into passing evidence. All other items retain the existing
+Project #1 protocol below.
+
 ## Fields
+
+User-approved extension (2026-10-13): #27 also uses issue-local coordination
+for the bounded research-harness repair. Owner Codex (/root), lane IMPLEMENT,
+branch `codex/23-specs27-core-port`, base
+`c353b7f9d6ac7f36e7b9ba1a13633155c0413ba7`. Preserve the full historical replay;
+separate cold/warm lifecycle histories. Production stays frozen. Legacy board
+sync is pending for both #23 and #27; all other items retain Project #1 authority.
 
 | Field | Meaning |
 |---|---|

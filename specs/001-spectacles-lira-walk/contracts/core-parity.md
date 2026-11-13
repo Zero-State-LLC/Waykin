@@ -20,11 +20,23 @@
 
 ## Consuming vectors (TypeScript)
 
-- `test/parity.test.ts` walks `Tests/Vectors/**/*.json` and validates each file against the schema.
-- For each file, the test does the following:
+- `test/parity.test.ts` reads the seed-event family. Separate read-only
+  `companionParity`, `movementParity`, `experienceParity` and `demoParity`
+  tests validate and replay their family schemas. `vectorInventory.test.ts`
+  requires all six families; missing fixtures fail rather than skip.
+- For each seed-event file, the test does the following:
   1. Constructs the configuration and generator from `seed`.
   2. Checks `rngStream` against a fresh RNG.
   3. Replays `steps` in order and asserts `expected` exactly.
+
+Other families replay companion commands/presentations, sequential movement
+integrity inputs, walk updates, finish/identity cases and demo control frames.
+The demo projection excludes generated IDs and event wall-clock fields;
+gameplay measurements and state decisions remain compared. Authored exporters
+and replay readers alone do not establish parity: actual Swift generation,
+freshness and successful replay are required. As of the live 2026-10-13
+validation, all six families are generated deterministically, but movement
+derived-speed parity fails. See `CORE_PORT_20261013_LIVE_PARITY.md`.
 
 ## Parity rules
 
@@ -40,7 +52,7 @@
 10. **State update**: Update state only on emit: `lastGeneratedAtElapsed = elapsed` and `lastFiredAtElapsedByKind[kind] = elapsed`.
 11. **Event**: `intensity = max(state.energy, state.pressure)` compares exactly as doubles. `debugLabel = kind`.
 12. **Clamp**: `clamped01` maps non-finite values to 0 and then applies `min(1, max(0, x))`.
-13. **Floating point**: Comparisons use IEEE 754 doubles in both languages. Don't apply epsilon or rounding.
+13. **Floating point**: Comparisons use IEEE 754 doubles in both languages. Don't apply epsilon or rounding, except the explicitly approved D-100 distance bound (±0.05 m). Derived speed and state decisions currently remain exact. The observed spherical/CoreLocation mismatch requires a decision; propagation of distance tolerance into speed has been recommended but not approved.
 
 ## Isolation
 

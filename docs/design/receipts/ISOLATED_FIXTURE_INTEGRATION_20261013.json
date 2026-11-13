@@ -1,0 +1,621 @@
+{
+  "integration": {
+    "base": "6b83cd55f482e53445547999dc2cf78a255850b8",
+    "outputDirectory": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m",
+    "node": "v22.23.1",
+    "stages": [
+      {
+        "label": "git-init",
+        "command": [
+          "git",
+          "init",
+          "-q"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "label": "git-stage-core",
+        "command": [
+          "git",
+          "add",
+          "Sources/WaykinCore"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "label": "git-record-core",
+        "command": [
+          "git",
+          "-c",
+          "user.name=Waykin Research",
+          "-c",
+          "user.email=research@example.invalid",
+          "-c",
+          "commit.gpgsign=false",
+          "commit",
+          "-q",
+          "-m",
+          "Isolated candidate source provenance"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "label": "swift-tree",
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD:Sources/WaykinCore"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "e5cd8a2a01b38d62286ce9c77246a446a7ab608c250b83a7a0e37f36a5bceb10"
+      },
+      {
+        "label": "ts-typecheck",
+        "command": [
+          "npm",
+          "run",
+          "typecheck"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "1b79f12846654fdce037b3d907363205afbde825cb4c89f8011c552d4505023b"
+      },
+      {
+        "label": "ts-lens-typecheck",
+        "command": [
+          "npm",
+          "run",
+          "typecheck:lens"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "5fe7c90c6403d2b2cef4b192082c938cf6557d187f74cc2880d19c83fc7e2818"
+      },
+      {
+        "label": "ts-isolation",
+        "command": [
+          "npm",
+          "run",
+          "isolation"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "961e68bab692e8b9125346faa34730feaa1c737c7e20c76464c73e9322804270"
+      },
+      {
+        "label": "swift-tests",
+        "command": [
+          "swift",
+          "test",
+          "--jobs",
+          "2"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "aa3ba4f05beb70cc2400c4d592db80d0a2b14ae3cc68d48dea71c391646135f5"
+      },
+      {
+        "label": "export-debug-first",
+        "command": [
+          "swift",
+          "run",
+          "--jobs",
+          "2",
+          "-c",
+          "debug",
+          "waykin-vectors",
+          "--out",
+          "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/debug-first",
+          "--tree",
+          "ac745215859cc8284f0d9ee4151c042f598d904e"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "fb339de6e9399c204ca63e570d9e8a7370cf326e59b3ac0d022d8ed06df92b9f"
+      },
+      {
+        "label": "ts-tests-debug-first",
+        "command": [
+          "npm",
+          "test"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts",
+        "status": 1,
+        "signal": null,
+        "logSHA256": "485de923a6bee4ad5fed6d361ec96dea57651c2dfd9927c7ee9119e7196cfe21"
+      },
+      {
+        "label": "family-replay-debug-first",
+        "command": [
+          "node",
+          "--test",
+          "build/test/parity.test.js",
+          "build/test/companionParity.test.js",
+          "build/test/demoParity.test.js",
+          "build/test/experienceParity.test.js",
+          "build/test/movementParity.test.js",
+          "build/test/vectorInventory.test.js"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "fa8ea25b5a3fe534d33736ce6a144aede087f5fdc8e1eb835b416176252312a3"
+      },
+      {
+        "label": "exact-movement-debug-first",
+        "command": [
+          "node",
+          "/Users/appliedalchemylabs/Documents/Codex/2026-10-12/s/Waykin/scripts/research/distance-prototype/verify_exact_fixture.mjs",
+          "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts/build/src/movementIntegrity.js",
+          "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/debug-first/movement/integrity-sequence.json"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "27515fc5403935a3024404d30c18009f3c105a68c302b0663769853758eaba04"
+      },
+      {
+        "label": "export-debug-repeat",
+        "command": [
+          "swift",
+          "run",
+          "--jobs",
+          "2",
+          "-c",
+          "debug",
+          "waykin-vectors",
+          "--out",
+          "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/debug-repeat",
+          "--tree",
+          "ac745215859cc8284f0d9ee4151c042f598d904e"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "69afc48e2ba7f0646e6541eafce6779390ce3ee3142ba71de58bd0b6381c1160"
+      },
+      {
+        "label": "ts-tests-debug-repeat",
+        "command": [
+          "npm",
+          "test"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts",
+        "status": 1,
+        "signal": null,
+        "logSHA256": "a099f04e65a4861da280dc3a45e479739d8091e95987718aae84c051bd9e6da6"
+      },
+      {
+        "label": "family-replay-debug-repeat",
+        "command": [
+          "node",
+          "--test",
+          "build/test/parity.test.js",
+          "build/test/companionParity.test.js",
+          "build/test/demoParity.test.js",
+          "build/test/experienceParity.test.js",
+          "build/test/movementParity.test.js",
+          "build/test/vectorInventory.test.js"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "4a5445139c13dd737d06f348ad7a17d411c3b83d47d2072140a00c5802b52ff0"
+      },
+      {
+        "label": "exact-movement-debug-repeat",
+        "command": [
+          "node",
+          "/Users/appliedalchemylabs/Documents/Codex/2026-10-12/s/Waykin/scripts/research/distance-prototype/verify_exact_fixture.mjs",
+          "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts/build/src/movementIntegrity.js",
+          "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/debug-repeat/movement/integrity-sequence.json"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "27515fc5403935a3024404d30c18009f3c105a68c302b0663769853758eaba04"
+      },
+      {
+        "label": "export-release",
+        "command": [
+          "swift",
+          "run",
+          "--jobs",
+          "2",
+          "-c",
+          "release",
+          "waykin-vectors",
+          "--out",
+          "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/release",
+          "--tree",
+          "ac745215859cc8284f0d9ee4151c042f598d904e"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "2262c6a5d9a706f2663c326c411b460530a2495d1f4e66ad7a009d2cb639e6a9"
+      },
+      {
+        "label": "ts-tests-release",
+        "command": [
+          "npm",
+          "test"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts",
+        "status": 1,
+        "signal": null,
+        "logSHA256": "ddefd03631fd9a5b7d8c37f5d475da24d07e1d4328090cf09ee89292b3318b13"
+      },
+      {
+        "label": "family-replay-release",
+        "command": [
+          "node",
+          "--test",
+          "build/test/parity.test.js",
+          "build/test/companionParity.test.js",
+          "build/test/demoParity.test.js",
+          "build/test/experienceParity.test.js",
+          "build/test/movementParity.test.js",
+          "build/test/vectorInventory.test.js"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "6f87d9879c7119b3e22e307d8aad889813a9c8856c152f4d91f6dd8b5ee53236"
+      },
+      {
+        "label": "exact-movement-release",
+        "command": [
+          "node",
+          "/Users/appliedalchemylabs/Documents/Codex/2026-10-12/s/Waykin/scripts/research/distance-prototype/verify_exact_fixture.mjs",
+          "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate/packages/waykin-core-ts/build/src/movementIntegrity.js",
+          "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/release/movement/integrity-sequence.json"
+        ],
+        "cwd": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-fixture-integration-pVKh6m/candidate",
+        "status": 0,
+        "signal": null,
+        "logSHA256": "27515fc5403935a3024404d30c18009f3c105a68c302b0663769853758eaba04"
+      }
+    ],
+    "sourceHashes": {
+      "Demo/main.swift": "e3e10c24a252ea7a4d4fb240a5dbffa1f22a04e485b1d5f74b115601fd1acde6",
+      "Package.swift": "40501dda515dedb483d8cdc1e8871c1e401101aea909daf516591a4d714ddd64",
+      "Sources/WaykinCore/Activity/ActivityEnrichment.swift": "c151267701148e346f6d916217b8d56ffe25fe1a2dc2372db3ba7f923cd78589",
+      "Sources/WaykinCore/Diagnostics/AudioPlaybackDiagnostic.swift": "a2dc1229b75b4a8c332078c0b96f2920bc195d600d0c58656019dcb4d087bb56",
+      "Sources/WaykinCore/Diagnostics/FieldTestReceipt.swift": "d4acfcfa1c711e902add1dfd74e1b3d6d319afcebd0105521f4d3941f460c537",
+      "Sources/WaykinCore/Diagnostics/FieldTestReceiptStore.swift": "eb574ec542cf33ee4a99b75c1dc241ce9e336e094f38bc37d0e22dc9b16d48d1",
+      "Sources/WaykinCore/Domain/Models.swift": "0d21ac61ab6cc6af2ff1242d1c7fefbd563a9f8a5debc8e65e86c1e1d1483568",
+      "Sources/WaykinCore/Engines/AudioExperienceLayer.swift": "2963814ce3fba017a7bed12d660f07d9c41dc9f869d21efb8f664dbf56cac93b",
+      "Sources/WaykinCore/Engines/CompanionPresentationMatrix.swift": "54844d6126482abb4546fd6886ab5c92db4cadd7e1dc138dbf703c571a9c9c32",
+      "Sources/WaykinCore/Engines/CompanionRuntime.swift": "109a2d1db24aae4bdd42b729951bf818fc0768b59f38adcde9a9f9dfd8451745",
+      "Sources/WaykinCore/Engines/DemoSessionController.swift": "3a79c9a93835e3095dee219b6d771516fab6538fc69463705f0e7d4a8622d0ca",
+      "Sources/WaykinCore/Engines/MemoryEngine.swift": "faaf05f52946b0b028f6c7b0bfba9ac08ae310bd9c0b998f3a95ed2a995149ae",
+      "Sources/WaykinCore/Engines/MovementEngine.swift": "66fbaff176cd3a0100a256a0af8c9afb4b26a25fa4334d392fbae5e8dcfd75c7",
+      "Sources/WaykinCore/Engines/RecommendationEngine.swift": "162a250196f9544d6caeafb9c83587f0e513dcc3f630e70026b5ede867893d49",
+      "Sources/WaykinCore/Engines/WorldEventGenerator.swift": "d322cec072c35c94795c53a53f41857db11dbdf0fd72701373be99729443ccc8",
+      "Sources/WaykinCore/Experiences/ExperienceProtocol.swift": "eb3899b464efd49cff0900d4e5e3e14a2d76240721e27eaa57f7d622d54f029a",
+      "Sources/WaykinCore/Experiences/Experiences.swift": "3949c4802911559b75c16c1a199832ce0645f73a906e3dbe86b4fea5204f2dbf",
+      "Sources/WaykinCore/Location/MovementIntegrity.swift": "cc87ec8963dbbcb4129dfd9847f631bc9e7e42d508fcaaf6716c1e8027457218",
+      "Sources/WaykinCore/Location/RealLocationProvider.swift": "4d5844ef1c67b2c04cd805a80cbb533a77c3d02691dbb5b7b0e901798f87513d",
+      "Sources/WaykinCore/Path/PathAudioCoupling.swift": "8cf2b303cc0824fd7a960a51d6bc68cd35f8f552652d4887972eba20adf4b81a",
+      "Sources/WaykinCore/Path/PathProgressEngine.swift": "8206ae1e58195898f113f2af9abaf7834d193fc7ed25dcf2e1f6ae4af3c4deaf",
+      "Sources/WaykinCore/Path/WalkPathCopy.swift": "0278188fc52a30387cce16cea64d3bd761667b7d4b2d8a2fbf7667b0e7cfa524",
+      "Sources/WaykinCore/Persistence/InMemoryPersistenceRepository.swift": "e8fab85c7977e09cac2c3b84c0d960330f66e2e562a7c0eb9c15c0ecb6baa02c",
+      "Sources/WaykinCore/Persistence/PersistenceRecovery.swift": "fbc44abd0c2197fe6546ce70ff15588ba3963edd94557a41e57082ab1e0f2f67",
+      "Sources/WaykinCore/Persistence/PersistenceRepositories.swift": "372975fdf68df3a72a72e81472517fb758e1305ce03901aca2c9a51fca5b4f7c",
+      "Sources/WaykinCore/Persistence/PersistenceStore.swift": "76dd77a4e276c9c42fe27d1c3f47dbaee7dc3124519f967a28db8dade350e121",
+      "Sources/WaykinCore/Persistence/WaykinPersistenceActor.swift": "2b33538f9697f988f0a53c2566b9108adbabf2077cd0d8bd889d98186e43a9b5",
+      "Sources/WaykinCore/Presentation/ARPresentationContracts.swift": "9e35d0b5da719612296d6ba3d65857b71aecf1de74d6ff164edc5f8e72a336c8",
+      "Sources/WaykinCore/Presentation/SpatialIntent.swift": "92b5b553a3bd56268810733d6ad4a4b5b43975bee9d7cbc5ca02d322cd4cf6dc",
+      "Sources/WaykinVectorExport/CompanionVectors.swift": "711808fa13293dbf5dae0d966b5bbab6714eb9a1ffdcb21029ad6d88c23f7674",
+      "Sources/WaykinVectorExport/DemoVectors.swift": "420f42ebdced8c55a7aedbff5a7d8a0c88207d9b86b3cede89966ba3dfbe0ccd",
+      "Sources/WaykinVectorExport/ExperienceVectors.swift": "26b420dd69c045d0dbd235e22323a939f8ef5c6483fff7dfdf3857aa85e210cd",
+      "Sources/WaykinVectorExport/MovementVectors.swift": "d2657be9b14550f8c42d905bb0ce75095e4e51352f4512ea1a8acb48f91e89f1",
+      "Sources/WaykinVectorExport/WaykinVectorExport.swift": "a4ebe7136111c012f337a80f6bba74e4d32d9451aff877a2180a24c5b748a65a",
+      "Tests/Vectors/bond-memory/finish-and-identity.json": "d4606561b0025bfb5caebc61d4f7d75a333b89613cfb899e7d66dab3781770fc",
+      "Tests/Vectors/companion/runtime-and-presentation.json": "bbba9a66eb32f063868bb384c9afe9e739d2d524ad63bfbd9d99b8b172d40022",
+      "Tests/Vectors/demo/pause-and-complete.json": "a163d438c4884279f32f165c6d782e196b4666ca6f032c8bb0ff8f9c11dedcef",
+      "Tests/Vectors/movement/integrity-sequence.json": "b6ee35496d392678a599c9246149693591f2e872e0e233a1e143c8acc7a260ed",
+      "Tests/Vectors/pursuit/walk-experience.json": "35dd4fc1024f86f0803e093cb18833b30534a0af29264a150155f8ccb95f949c",
+      "Tests/Vectors/seed-event/allowed-kinds.json": "10f77c7db53d3d1c1e98ec6018e4508d5292ed181f44c793e19e7b78d9d14a5c",
+      "Tests/Vectors/seed-event/cooldown-boundary.json": "334a4ed2aa9e8c5f617795cc60107399ee6cd6e991f9336567fdbda3022476bf",
+      "Tests/Vectors/seed-event/external-last-fire.json": "d4acf2d27e7c914397965d71c3cdf4db5d9f10ef40ddb464824f5c77efed5f0f",
+      "Tests/Vectors/seed-event/movement-states.json": "48c13692b7913bbd9705715124c0c44b203e57567976e0034eb277a0ce5ece90",
+      "Tests/Vectors/seed-event/non-finite-elapsed.json": "3dd092587c8a347d5ae4bdfa5bf1198b13c0a31bdb6610c6a23b90b26db88229",
+      "Tests/Vectors/seed-event/seed-12345-default-walk.json": "d0e40179e11bc09ab36c81c9395aaf2ceb9726a6123453a34d4e15568d7de171",
+      "Tests/Vectors/seed-event/seed-max-uint64.json": "3cb91f8c177268ed294661c4b66c1d14f36e97b05aeb8fa86c08d049ac782045",
+      "Tests/Vectors/seed-event/seed-zero-default-rules.json": "b18b709e54f81dd482da4e5def48337caaeac1644321990a024f205f249cd155",
+      "Tests/Vectors/seed-event/tick-spacing-boundary.json": "e2243a8e88db43869295af4b924265afcf604a1f976e456e9ebba13a808c4999",
+      "Tests/Vectors/seed-event/weight-boundary-pick.json": "4c37f860363ba70e1e444008fa25fb8a73224d7e2a2dfd7c53b63c6e981076f6",
+      "Tests/Vectors/seed-event/weight-boundary.json": "5fb582402d1a2827d567df214252b38343abf36d36c85e8088f5129eb29a1ec3",
+      "Tests/WaykinCoreTests/ARPresentationContractTests.swift": "29c9bd0c12ba9618a20cdec7a306ff6f4d756f8b444e743adecc1346fe7d4f84",
+      "Tests/WaykinCoreTests/ActivityEnrichmentTests.swift": "c498cda333a898169066b02e664b8e02d8eab19e083cc41291f77ce9e0948c40",
+      "Tests/WaykinCoreTests/CompanionPresentationMatrixTests.swift": "34486677695dc3b497440621da411b00da5ec2216541e9c6e9b1d02359c62ba9",
+      "Tests/WaykinCoreTests/CompletedSessionPersistenceTests.swift": "d4a81c81189af13978682fa3b790c435fe9b3ce476994e533fa55ce1020b168e",
+      "Tests/WaykinCoreTests/DemoAndPhysicsTests.swift": "83d4f5aca3fe3149c74ee2168a1fba56ba22bff5cd6bbe792278239a16e276d6",
+      "Tests/WaykinCoreTests/ExperienceTests.swift": "c84611d505ef299b06ac9b677e680b9363a88bdca3938f5a157e42b3166f02e5",
+      "Tests/WaykinCoreTests/FieldTestReceiptTests.swift": "763beeb01daf64c283353ca1a0608fc947c0ec8d48aaeab448466e64d1413ec4",
+      "Tests/WaykinCoreTests/LocationValidationTests.swift": "b3a69c193b257d6fbde8c1ce3655d6729f5943335d04ed1459f6acd34215e13f",
+      "Tests/WaykinCoreTests/MovementTests.swift": "32c4fccf408b879addc7923f2bf7aaf99368d4ce5426bf4a1fb9594842fc249f",
+      "Tests/WaykinCoreTests/PathAudioCouplingTests.swift": "83e1f15e505ca056a1d767cb5a7102c9a5d33181ed6d03606dc3dc1a3ba52db7",
+      "Tests/WaykinCoreTests/PathProgressEngineTests.swift": "c6de0f765f8ba6fddc74df95ba5c0ceb6574c951b390314d82742fd46a919df0",
+      "Tests/WaykinCoreTests/PersistenceLifecycleTests.swift": "b536abd3415e7bc29ea8bc595a7d4d6ea6fdf3f7e110438ac83a23e9a604549d",
+      "Tests/WaykinCoreTests/PersistenceReopenTests.swift": "4f69397cd7879bc0cc01626ed379c22dc233440078071d580838b4232ba1436d",
+      "Tests/WaykinCoreTests/PersistenceRepositoryTests.swift": "787669f126d2ba53a262a7cda4558dbf6bea707ad4d68657b9e15f2a7a0bcaf5",
+      "Tests/WaykinCoreTests/SoloMVPVerticalSliceTests.swift": "5d80b423d674663ff96656af739d8828f784f1b3c528bd076a7f6412cbaf50a8",
+      "Tests/WaykinCoreTests/WalkPathCopyTests.swift": "10dd3d5d71abeb35f23a35a99574004212595bb69045ebd80505181c9c7f2826",
+      "Tests/WaykinCoreTests/WorldEventCadenceTests.swift": "b0aee5444301a0f2f4f8277f2cf9dd1ef35298fa104ee68ae491f7d09d65b400",
+      "Tests/WaykinCoreTests/WorldEventSalvageTests.swift": "d89a5a05e61593e1f1f56f5b81924fffddabefc0ae05722b1c27657ea9103200",
+      "Tests/WaykinCoreTests/WorldEventWeightTuneTests.swift": "5aa3430bc9a4315d57b47cda4c61630e076ec0e827c11b73c2842df5017abe5c",
+      "packages/waykin-core-ts/package-lock.json": "361e12d587219d49f525e82c977a35f7c99add5ad7d85dc2af44932934c53b3c",
+      "packages/waykin-core-ts/package.json": "3fa380a11156efcf38f2c719c4fe7671e407fd2c7b1602c24d2f025fe1eadcb2",
+      "packages/waykin-core-ts/scripts/check-isolation.mjs": "2cd9eb9bdb1716581d395901bf370248bfd7b0048ab640c68f68160f694d4334",
+      "packages/waykin-core-ts/src/audioCue.ts": "bc5e7604098262ac30943ac21a215cbc43fead0e27b2bbcc34dcca8c8e6f916f",
+      "packages/waykin-core-ts/src/audioExperience.ts": "bdeafa010fab6fc47902968f44714ad7158333d4c217ea2a608990ee6c2e5609",
+      "packages/waykin-core-ts/src/companionIdentity.ts": "586abe1e8d4d924ee17abb18e10b26ab1ce1b4ed0715acb81ee1fece23646806",
+      "packages/waykin-core-ts/src/companionRuntime.ts": "85c80bb661222e5f2886cebc31afd8a42c9507324c91457df846b759ae070ec7",
+      "packages/waykin-core-ts/src/demoSession.ts": "830e18b4d3b4d8e09e213244fb54d45c0004b4fd73bae5dc442571241df0607a",
+      "packages/waykin-core-ts/src/experience.ts": "3625bdba98e9532ae99faf009623fa69443e798f54d26afc75ef96078db64cbf",
+      "packages/waykin-core-ts/src/index.ts": "f033d2907c16053c293461b3be8e2d43a2227663688021f185afc16c4f4dee70",
+      "packages/waykin-core-ts/src/movementEngine.ts": "bca919f471449f21f05869b2f7c085c800f98b65568284683c11b42dfa3629d3",
+      "packages/waykin-core-ts/src/movementIntegrity.ts": "ab39f73f4c3fc8ca82bb2bc23fe5df99bafda53f41d1504437d9d22efbf8bda7",
+      "packages/waykin-core-ts/src/path.ts": "fe9a02602c7fd865c529610e364f97f9499c66829c1bf9038252f78926a88aa0",
+      "packages/waykin-core-ts/src/rng.ts": "ad5d5b8bd89f507be0ef941be6bf7664e53fbac934cc333a2cb42517dba66f09",
+      "packages/waykin-core-ts/src/uint64.ts": "e41616b7206283bd1cbb2dfa53fec0b0f8fd9494868304ed401543b5d0c7b290",
+      "packages/waykin-core-ts/src/worldEventGenerator.ts": "4e8525c2a22375fd7815d7b5267315341835ed4e6446f645b0c2baf5a306c6e9",
+      "packages/waykin-core-ts/src/worldState.ts": "2b1be98d5390731706f5169dbb155eabae236ed5ed5602fbcd9ede228e5c3709",
+      "packages/waykin-core-ts/test/audioExperience.test.ts": "e859d937636cc1ba31047f26698afad3b5d7547e92b050a271d2c6d3c1792997",
+      "packages/waykin-core-ts/test/companion.test.ts": "ff58923debec49eca9c94e03a396e19a0e0588699a380ce32514714cda1cc155",
+      "packages/waykin-core-ts/test/companionIdentity.test.ts": "702adebfe75b09469f1c5a6b1c8d84fbd5a8f2079feaec6d3a88f63b82190b9a",
+      "packages/waykin-core-ts/test/companionParity.test.ts": "16c333e01893ed2017710c5f03aaf597418bf7628a70af5869b565ba71b24cb2",
+      "packages/waykin-core-ts/test/demoParity.test.ts": "d1db3cc9f5d5e6604a529008be472db1a9d96034c32e690298e7be919e5a2453",
+      "packages/waykin-core-ts/test/demoSession.test.ts": "259586c4faa142c33d4ac3be264c983dd10bbcd88dad67160aeb31d90750dadd",
+      "packages/waykin-core-ts/test/experience.test.ts": "a2a23926e1e6869122b9120498e7fc05e7e53a425aa43b71374f341788e628fd",
+      "packages/waykin-core-ts/test/experienceParity.test.ts": "519806d31b3ef69a7e897d80fd24cf2d546c6c3dbcb02f4795c0a2f592d4dab7",
+      "packages/waykin-core-ts/test/familySchema.test.ts": "aaef394684745eafb5c0e20e4e981ecd6555ac1a04e903bb49fe6fcbf9c4b1a5",
+      "packages/waykin-core-ts/test/familySchema.ts": "28e16478aaf6d18641a0698e1db7c4faa447ebe9224969b84af892320b4f3113",
+      "packages/waykin-core-ts/test/movement.test.ts": "b6ff21fc736d0341e99dc36d56573a7e4c2c34f834b863e912942a3973687848",
+      "packages/waykin-core-ts/test/movementParity.test.ts": "96c1e8e18a68c3a35d70a796f5b319615142bee0ef166a14fa71f61d6515eb1d",
+      "packages/waykin-core-ts/test/parity.test.ts": "02948003d7bd5e65b293a19f5be3a8e52f194900e9cb57923c7869357cfad84d",
+      "packages/waykin-core-ts/test/path.test.ts": "575a9e65829e8ff4669e936bce092b840abc5ed97a91db6255ce976e240a899d",
+      "packages/waykin-core-ts/test/publicSurface.test.ts": "1489a2fb6390c71f6e820053496b5199eb194ffd06fdc61d3ac9ffa9db6f4101",
+      "packages/waykin-core-ts/test/schema.ts": "f8619702378599d6734ffe297d4a5711c287b07e52cb80f632beb53e4156caf2",
+      "packages/waykin-core-ts/test/uint64.test.ts": "4ca6396a1b2b8aacbc81f48bc23c74c59c26125d8c4bf586e20f64ffd3bac600",
+      "packages/waykin-core-ts/test/unit.test.ts": "de943c635a69a219237b6de084ecabad37cad3ef78f6e6dbb5a13d73a2d64224",
+      "packages/waykin-core-ts/test/vectorInventory.test.ts": "a1d39073b63ac3c919e6f9e72e5e1301ed9b1aa6ad1fec6d5c99976d96717d89",
+      "packages/waykin-core-ts/tsconfig.build.json": "be0311403f78ac6253788717d3cf520fa434d0c800be43b8bfa34a2f98b12195",
+      "packages/waykin-core-ts/tsconfig.json": "789f6067b5238aca9bc0e2c1e672e043ff0cce0c2682c392485ff1467cb40427",
+      "packages/waykin-core-ts/tsconfig.lens.json": "af7180b606006a451f53627eb36d8f001913b3e64574b1c8d9a82853f704c285",
+      "specs/001-spectacles-lira-walk/contracts/bond-memory-vectors.schema.json": "57ef0e627367af2b49a7e5041c6b45808342693b1d8d96a355db38047a3be07b",
+      "specs/001-spectacles-lira-walk/contracts/companion-vectors.schema.json": "4e561ad33b0d1076c7f0d3b9edf91397886d044eda5fdf9250af520988110e96",
+      "specs/001-spectacles-lira-walk/contracts/core-parity.md": "d3ff0b1f73ec46732b3adcebcd34d0dea5c9ccae37842bf5396718aa6b808b80",
+      "specs/001-spectacles-lira-walk/contracts/demo-vectors.schema.json": "685d79c11542f797313222e075f4383fe0bc3ea50aaf078dc0122b2871dd9b48",
+      "specs/001-spectacles-lira-walk/contracts/movement-vectors.schema.json": "d2964bece0a5e353196e9fef9f0bb9461e0c44aba3060d53ce0ad1fa5396da8b",
+      "specs/001-spectacles-lira-walk/contracts/pursuit-vectors.schema.json": "a848447d8459bb72bcc830ee1534f4f86e4105246a34de8a5ffc12dbcbe06f59",
+      "specs/001-spectacles-lira-walk/contracts/seed-event-vectors.schema.json": "0fafa52dd54350fe7a694f753d3753a171775f82d65baaa5653c95c7968b3edc"
+    },
+    "researchHashes": {
+      "PortableMath.swift": "33056fc714c3ad05ea5aca69e043723fca4b9780e753b174ed485f8c48d30c8b",
+      "PortableGeodesic.swift": "9f97a7fc00007262308bed0e412ac8904cdcce498b65c9f20fc1f105a40be9d7",
+      "portableMath.ts": "a95e5d0285cdd6cb29404ff294f185a91e3687a1dd0954cf2ea45d6afb2d82f1",
+      "portableGeodesic.ts": "7a8cb655f9eb559d17b1f50a8860ab89f65ddaa87aa8286736a80f4b9f00f34c",
+      "test_fixture_integration.cjs": "65b9cc3bea54885d237f96952626811b4af815e78dc4a3e81c2fcd4926e22035",
+      "verify_exact_fixture.mjs": "dc50d4ed1b92578bbf3a7b9ba3b59138d9b85e2a798b6a10003fa1bc15ce9c5b"
+    },
+    "acceptance": "FAILED_EXISTING_UNIT_TESTS",
+    "limitations": [
+      "Research candidate integration only; no canonical fixture replacement",
+      "No Lens/device execution or production adoption",
+      "Existing fixture coverage is not complete gameplay coverage"
+    ],
+    "temporaryCoreHashes": {
+      "Activity/ActivityEnrichment.swift": "c151267701148e346f6d916217b8d56ffe25fe1a2dc2372db3ba7f923cd78589",
+      "Diagnostics/AudioPlaybackDiagnostic.swift": "a2dc1229b75b4a8c332078c0b96f2920bc195d600d0c58656019dcb4d087bb56",
+      "Diagnostics/FieldTestReceipt.swift": "d4acfcfa1c711e902add1dfd74e1b3d6d319afcebd0105521f4d3941f460c537",
+      "Diagnostics/FieldTestReceiptStore.swift": "eb574ec542cf33ee4a99b75c1dc241ce9e336e094f38bc37d0e22dc9b16d48d1",
+      "Domain/Models.swift": "0d21ac61ab6cc6af2ff1242d1c7fefbd563a9f8a5debc8e65e86c1e1d1483568",
+      "Engines/AudioExperienceLayer.swift": "2963814ce3fba017a7bed12d660f07d9c41dc9f869d21efb8f664dbf56cac93b",
+      "Engines/CompanionPresentationMatrix.swift": "54844d6126482abb4546fd6886ab5c92db4cadd7e1dc138dbf703c571a9c9c32",
+      "Engines/CompanionRuntime.swift": "109a2d1db24aae4bdd42b729951bf818fc0768b59f38adcde9a9f9dfd8451745",
+      "Engines/DemoSessionController.swift": "3a79c9a93835e3095dee219b6d771516fab6538fc69463705f0e7d4a8622d0ca",
+      "Engines/MemoryEngine.swift": "faaf05f52946b0b028f6c7b0bfba9ac08ae310bd9c0b998f3a95ed2a995149ae",
+      "Engines/MovementEngine.swift": "66fbaff176cd3a0100a256a0af8c9afb4b26a25fa4334d392fbae5e8dcfd75c7",
+      "Engines/RecommendationEngine.swift": "162a250196f9544d6caeafb9c83587f0e513dcc3f630e70026b5ede867893d49",
+      "Engines/WorldEventGenerator.swift": "d322cec072c35c94795c53a53f41857db11dbdf0fd72701373be99729443ccc8",
+      "Experiences/ExperienceProtocol.swift": "eb3899b464efd49cff0900d4e5e3e14a2d76240721e27eaa57f7d622d54f029a",
+      "Experiences/Experiences.swift": "3949c4802911559b75c16c1a199832ce0645f73a906e3dbe86b4fea5204f2dbf",
+      "Location/MovementIntegrity.swift": "9a76e5bdc33de2a3b3631bf2a47a3eb4e7f772fc8069a2b96cfb9ad567e97417",
+      "Location/RealLocationProvider.swift": "4d5844ef1c67b2c04cd805a80cbb533a77c3d02691dbb5b7b0e901798f87513d",
+      "Path/PathAudioCoupling.swift": "8cf2b303cc0824fd7a960a51d6bc68cd35f8f552652d4887972eba20adf4b81a",
+      "Path/PathProgressEngine.swift": "8206ae1e58195898f113f2af9abaf7834d193fc7ed25dcf2e1f6ae4af3c4deaf",
+      "Path/WalkPathCopy.swift": "0278188fc52a30387cce16cea64d3bd761667b7d4b2d8a2fbf7667b0e7cfa524",
+      "Persistence/InMemoryPersistenceRepository.swift": "e8fab85c7977e09cac2c3b84c0d960330f66e2e562a7c0eb9c15c0ecb6baa02c",
+      "Persistence/PersistenceRecovery.swift": "fbc44abd0c2197fe6546ce70ff15588ba3963edd94557a41e57082ab1e0f2f67",
+      "Persistence/PersistenceRepositories.swift": "372975fdf68df3a72a72e81472517fb758e1305ce03901aca2c9a51fca5b4f7c",
+      "Persistence/PersistenceStore.swift": "76dd77a4e276c9c42fe27d1c3f47dbaee7dc3124519f967a28db8dade350e121",
+      "Persistence/WaykinPersistenceActor.swift": "2b33538f9697f988f0a53c2566b9108adbabf2077cd0d8bd889d98186e43a9b5",
+      "PortableGeodesic.swift": "9f97a7fc00007262308bed0e412ac8904cdcce498b65c9f20fc1f105a40be9d7",
+      "PortableMath.swift": "33056fc714c3ad05ea5aca69e043723fca4b9780e753b174ed485f8c48d30c8b",
+      "Presentation/ARPresentationContracts.swift": "9e35d0b5da719612296d6ba3d65857b71aecf1de74d6ff164edc5f8e72a336c8",
+      "Presentation/SpatialIntent.swift": "92b5b553a3bd56268810733d6ad4a4b5b43975bee9d7cbc5ca02d322cd4cf6dc"
+    },
+    "swiftTree": "ac745215859cc8284f0d9ee4151c042f598d904e",
+    "swiftTestsSummary": [
+      "\t Executed 134 tests, with 0 failures (0 unexpected) in 0.439 (0.459) seconds",
+      "\t Executed 134 tests, with 0 failures (0 unexpected) in 0.439 (0.460) seconds"
+    ],
+    "fullSuites": [
+      {
+        "mode": "debug-first",
+        "tests": 85,
+        "pass": 83,
+        "fail": 2,
+        "skipped": 0,
+        "failures": [
+          "not ok 38 - rejected points do not replace anchor; NaN speed derives from distance",
+          "  error: '3.9776679180178767 != 4'",
+          "not ok 41 - session lifecycle rejects invalid transitions and retains diagnostics after end",
+          "  error: '3.9776679180178767 != 4'"
+        ]
+      },
+      {
+        "mode": "debug-repeat",
+        "tests": 85,
+        "pass": 83,
+        "fail": 2,
+        "skipped": 0,
+        "failures": [
+          "not ok 38 - rejected points do not replace anchor; NaN speed derives from distance",
+          "  error: '3.9776679180178767 != 4'",
+          "not ok 41 - session lifecycle rejects invalid transitions and retains diagnostics after end",
+          "  error: '3.9776679180178767 != 4'"
+        ]
+      },
+      {
+        "mode": "release",
+        "tests": 85,
+        "pass": 83,
+        "fail": 2,
+        "skipped": 0,
+        "failures": [
+          "not ok 38 - rejected points do not replace anchor; NaN speed derives from distance",
+          "  error: '3.9776679180178767 != 4'",
+          "not ok 41 - session lifecycle rejects invalid transitions and retains diagnostics after end",
+          "  error: '3.9776679180178767 != 4'"
+        ]
+      }
+    ],
+    "fixtureHashes": {
+      "bond-memory/finish-and-identity.json": "d37f7534cda103766664bbb1a08ccbcbf3a39c55eb8b7343ed78974063c40134",
+      "companion/runtime-and-presentation.json": "0120578c809fcf8fae412b56975c04e02fa11c309aa093eaeea77fe386d508fd",
+      "demo/pause-and-complete.json": "94735b6021396d79330b1a3408d097855c0273a6a4f48d803d9c5adb767c79e4",
+      "movement/integrity-sequence.json": "985b37596146efc37ee8777aaed1773af8e83e72afaa97af2884006703f474f7",
+      "pursuit/walk-experience.json": "d0c858ea36cd0b3ef3929bb46722467faaba2fc4470cd3470576f9c2da25efd2",
+      "seed-event/allowed-kinds.json": "ad5c3120aab3b53260dad34af268ee36d449bab1c439e6146a7d12142133019f",
+      "seed-event/cooldown-boundary.json": "5dc67878aad75e5dc43e9e6619ecb3f826bff4e4b26a95e796ee02672e2cce09",
+      "seed-event/external-last-fire.json": "7eced0e2ba93f9a0c91c6762efc4575d1e53be795df915f3e80f38a2640a0429",
+      "seed-event/movement-states.json": "3b989321753ac4ebe7f6dc89e84eca94fa20c41f6822d55d69e94677a90cab88",
+      "seed-event/non-finite-elapsed.json": "cb2a69caf29619f00317a10e4d269071b097d2661c6495f2a0fc4e22a9c7a789",
+      "seed-event/seed-12345-default-walk.json": "21524c0f6133bd3e032ae56fe3207cdcec73e8035d8550a93b28311a929331e4",
+      "seed-event/seed-max-uint64.json": "803709895543837513470f031340e4838de07592f2502009572c9548c2130de2",
+      "seed-event/seed-zero-default-rules.json": "aa564bd7d3d5f6b1b7cf0a6628d93842485367f6ac54d22f42e1d348057a867e",
+      "seed-event/tick-spacing-boundary.json": "5c8c03b09ca25ccfac7c476e8acf4b37f97415fe6b3ce93b18faa72062538eba",
+      "seed-event/weight-boundary-pick.json": "fb8145536eee8848a6bbb2acae475a8f7e5db4c64e703e30bd6241895f49f9c6",
+      "seed-event/weight-boundary.json": "9fd7b88150fb1ca2976d423498e92ee37baf127d6d807f72fb95047153927e86"
+    },
+    "exportRuns": [
+      "debug-first",
+      "debug-repeat",
+      "release"
+    ],
+    "fixturePayloadChanges": [],
+    "fixtureReplay": "PASS_ALL_SIX_FAMILIES",
+    "exactMovement": "PASS_WITHOUT_DISTANCE_TOLERANCE",
+    "frozenFilesUnchanged": true
+  },
+  "distance": {
+    "outputDirectory": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-portable-geodesic-l2lyU1",
+    "cases": 42864,
+    "inputSHA256": "478bfbcace12289d9e933ef84cc70668c11d25b5e5ef1826b2832747fd8afe1a",
+    "node": "v22.23.1",
+    "swift": "Apple Swift version 6.3.2 (swiftlang-6.3.2.1.108 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0",
+    "sourceHashes": {
+      "PortableMath.swift": "33056fc714c3ad05ea5aca69e043723fca4b9780e753b174ed485f8c48d30c8b",
+      "portableMath.ts": "a95e5d0285cdd6cb29404ff294f185a91e3687a1dd0954cf2ea45d6afb2d82f1",
+      "portableGeodesic.ts": "7a8cb655f9eb559d17b1f50a8860ab89f65ddaa87aa8286736a80f4b9f00f34c",
+      "PortableGeodesic.swift": "9f97a7fc00007262308bed0e412ac8904cdcce498b65c9f20fc1f105a40be9d7",
+      "PortableGeodesicProbe.swift": "a4a6e0df89a37ccf8d5337135fee734ff24807e9ada2370875d8bc8cf64d2f69",
+      "portable_backend.cjs": "ba5f2bff1e01a9d441cb4776366ccbfb8176d88937028ab14514a61185c9ebe3",
+      "test_portable_geodesic.cjs": "700d592b27d35049e353b58de86004a56ccb5ce0e5784bf74d28fe77ef0db399"
+    },
+    "maximumDeviationFromUnmodifiedJS": 7.450580596923828e-9,
+    "modes": {
+      "-Onone": {
+        "exactMismatches": 0
+      },
+      "-O": {
+        "exactMismatches": 0
+      }
+    },
+    "primitiveCalls": {
+      "sqrt": {
+        "count": 1025648,
+        "maximumAbsoluteArgument": 24.513491855273646
+      },
+      "sin": {
+        "count": 231471,
+        "maximumAbsoluteArgument": 3.1415926536060934
+      },
+      "cos": {
+        "count": 250527,
+        "maximumAbsoluteArgument": 3.1415926536060934
+      },
+      "atan2": {
+        "count": 282239,
+        "maximumAbsoluteArgument": 1.0000000000000002
+      },
+      "cbrt": {
+        "count": 415,
+        "maximumAbsoluteArgument": 2.9154378722846657
+      }
+    },
+    "standalone": {
+      "exactMismatches": 0,
+      "outputSHA256": "d9b993aec907ef74b7d3664a8e7e22e10c8222c32b16e8bb2f8e05578774e5c5",
+      "dependencies": [
+        "portableMath.ts"
+      ],
+      "compilation": "strict + noUncheckedIndexedAccess, ES2019 target/library, CommonJS"
+    },
+    "optimizationMismatches": 0,
+    "acceptance": "EXACT_FOR_CORPUS_ONLY"
+  },
+  "processor": {
+    "outputDirectory": "/var/folders/5v/pc971cjj2g11dntwbdyhrg180000gn/T/waykin-selfcontained-processor-vszBlp",
+    "head": "6b83cd55f482e53445547999dc2cf78a255850b8",
+    "sequences": 10752,
+    "steps": 172032,
+    "exactMismatchSteps": 0,
+    "acceptance": "EXACT_FOR_CORPUS_ONLY",
+    "sourceHashes": {
+      "portableMath.ts": "a95e5d0285cdd6cb29404ff294f185a91e3687a1dd0954cf2ea45d6afb2d82f1",
+      "portableGeodesic.ts": "7a8cb655f9eb559d17b1f50a8860ab89f65ddaa87aa8286736a80f4b9f00f34c",
+      "test_selfcontained_processor.cjs": "e4205ca33e372c1246d83ea13375a6e9de790c3e3b7dc200b3e9c1b0f47d7fa8"
+    },
+    "processorSHA256": "ab39f73f4c3fc8ca82bb2bc23fe5df99bafda53f41d1504437d9d22efbf8bda7",
+    "swiftInputSHA256": "ab9f9bf6b3baad8c62f34ba79f2dfb35112de3fa0a5cbfa7fdb3f83a0935bbec",
+    "swiftOutputSHA256": "59306a64a938fd7f85eefb6d80879174673645afe1c51713f82356602592eaa4",
+    "compiler": "strict + noUncheckedIndexedAccess, ES2019 target/library, empty ambient type roots",
+    "node": "v22.23.1",
+    "limitations": [
+      "Recorded Swift baseline validated against full-replay receipt; no Swift rerun in this command",
+      "No Lens execution or production adoption",
+      "Processor projections, not full experience state"
+    ]
+  },
+  "typeFix": {
+    "emittedJSIdenticalIgnoringComments": true,
+    "compiledSHA256": "3694e95861352f01da37dc8c1271f93d0359a9897acb7db16465efbe71ab0d87",
+    "previousSourceCommit": "6b83cd55f482e53445547999dc2cf78a255850b8"
+  },
+  "lens": {
+    "status": "NOT_COMPUTABLE",
+    "reason": "Lens knowledge-base login requirement reproduced after user continue; Lens-side work stopped"
+  }
+}
